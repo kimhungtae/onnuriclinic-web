@@ -1,0 +1,19 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/", "destination": "/onnuri_clinic (3)_mobile.html" },
+    { "source": "/index.html", "destination": "/onnuri_clinic (3)_mobile.html" },
+    { "source": "/api/chat", "destination": "https://YOUR_SUPABASE_PROJECT_REF.supabase.co/functions/v1/chat" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
+      ]
+    }
+  ]
+}
