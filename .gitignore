@@ -1,0 +1,29 @@
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs / Backups
+*.log
+*.bak
+*~
+
+# Local credentials (안전을 위해)
+.env
+.env.local
+
+# Local automation scripts (PAT 포함되므로 절대 푸시 금지)
+setup.bat
+push.bat
+cleanup.bat
+migrate.bat
+
+# Logs
+migrate_log.txt
+*.log
