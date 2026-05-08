@@ -1,0 +1,20 @@
+============================================ 
+  Onnuri - Diagnostic Push 
+  2026-05-08 17:52:12.17 
+============================================ 
+ 
+--- 0. Cleaning git lock files --- 
+Removed test_write_check.txt 
+Lock cleanup done. 
+ 
+--- 1. Sync mobile from index --- 
+        1개 파일이 복사되었습니다.
+ 
+--- 2. git status BEFORE add --- 
+M  index.html
+M  "onnuri_clinic (3)_mobile.html"
+AD test_write_check.txt
+?? push_log.txt
+?? unlock_and_push.bat
+ 
+--- 3. git add -A --- 
