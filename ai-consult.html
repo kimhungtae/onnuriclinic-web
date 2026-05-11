@@ -194,7 +194,10 @@
   }
   .btn-share:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); }
   .btn-kakao { background: #FEE500; color: #3C1E1E; }
-  .btn-copy { background: var(--primary); color: white; }
+  .btn-naver { background: #03c75a; color: white; font-weight: 700; }
+  .btn-naver:hover { background: #02a64a; }
+  .btn-copy { background: var(--primary); color: white; display: none; }
+  .btn-copy.admin-visible { display: block; }
   .btn-reset { background: white; color: var(--text-soft); border: 1.5px solid var(--border); }
   .toast {
     position: fixed;
@@ -266,6 +269,7 @@
       </div>
       <div class="share-area" id="shareArea">
         <button class="btn-share btn-kakao" id="kakaoBtn">카톡으로 공유</button>
+        <a class="btn-share btn-naver" id="naverBtn" href="https://m.search.naver.com/search.naver?query=%EC%98%A8%EB%88%84%EB%A6%AC%ED%95%9C%EC%9D%98%EC%9B%90+%EC%88%98%EC%9B%90+%EA%B6%8C%EC%84%A0%EB%8F%99" target="_blank" rel="noopener noreferrer" style="text-decoration:none;text-align:center;display:inline-flex;align-items:center;justify-content:center;">📅 네이버 예약</a>
         <button class="btn-share btn-copy" id="copyBtn">결과 복사</button>
         <button class="btn-share btn-reset" id="resetBtn">새 상담</button>
       </div>
@@ -601,10 +605,23 @@ document.getElementById('copyBtn').addEventListener('click', async () => {
   if (!shareText) return;
   try {
     await navigator.clipboard.writeText(shareText);
-    showToast('클립보드에 복사되었습니다');
+    showToast('클립보드에 복사되었습니다 (관리자)');
   } catch (err) {
     fallbackCopy(shareText);
   }
+});
+// 관리자 모드: URL에 ?admin 또는 #admin 있으면 결과 복사 버튼 노출
+(function () {
+  const isAdmin = /[?&]admin\b/.test(location.search) || /#admin\b/.test(location.hash);
+  if (isAdmin) {
+    const copyBtn = document.getElementById('copyBtn');
+    if (copyBtn) copyBtn.classList.add('admin-visible');
+    console.log('[관리자 모드] 결과 복사 버튼 활성화됨');
+  }
+})();
+// 네이버 예약 버튼 클릭 시 살짝 안내 (선택)
+document.getElementById('naverBtn').addEventListener('click', () => {
+  showToast('네이버 예약창으로 이동합니다', 1800);
 });
 document.getElementById('resetBtn').addEventListener('click', () => {
   conversation.innerHTML = '';
