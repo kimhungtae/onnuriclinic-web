@@ -26,3 +26,8 @@ migrate.bat
 
 # Logs / temp
 migrate_log.txt
+push_log.txt
+push_history.txt
+unlock_and_push.bat
+test_write_check.txt
+*.log
