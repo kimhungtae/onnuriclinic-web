@@ -111,6 +111,13 @@ section{padding:90px 80px;}
 
 /* CONSULT */
 .consult{background:var(--warm);}
+.ai-consult-cta{display:block;background:linear-gradient(135deg,#4a7c59 0%,#5e9670 100%);color:white;padding:44px 32px;border-radius:24px;text-decoration:none;text-align:center;box-shadow:0 10px 30px rgba(74,124,89,0.25);transition:transform 0.2s,box-shadow 0.2s;}
+.ai-consult-cta:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(74,124,89,0.32);}
+.ai-cta-icon{font-size:52px;margin-bottom:14px;}
+.ai-cta-title{font-size:24px;font-weight:700;margin-bottom:10px;font-family:'Nanum Myeongjo',serif;}
+.ai-cta-desc{font-size:14px;opacity:0.92;line-height:1.7;margin-bottom:24px;}
+.ai-cta-btn{display:inline-block;background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);padding:12px 28px;border-radius:30px;font-size:15px;font-weight:600;border:1px solid rgba(255,255,255,0.3);}
+@media (max-width:640px){.ai-consult-cta{padding:32px 22px;border-radius:18px;}.ai-cta-icon{font-size:42px;}.ai-cta-title{font-size:20px;}.ai-cta-desc{font-size:13px;}.ai-cta-btn{font-size:14px;padding:10px 22px;}}
 .chat-wrap{max-width:720px;margin:48px auto 0;background:white;border-radius:24px;box-shadow:0 8px 40px rgba(74,124,89,0.12);overflow:hidden;border:1px solid rgba(74,124,89,0.15);}
 .chat-header{background:var(--green);padding:18px 24px;display:flex;align-items:center;gap:12px;color:white;}
 .chat-avatar{width:40px;height:40px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;}
@@ -905,41 +912,18 @@ body.booking-open{overflow:hidden;}
 
 <!-- CONSULT -->
 <section class="consult" id="consult">
-  <div style="text-align:center;margin-bottom:48px;">
+  <div style="text-align:center;margin-bottom:40px;">
     <div class="section-tag">AI 진료 상담</div>
-    <h2 class="section-title">궁금하신 점을 물어보세요</h2>
-    <p class="section-sub">한방 치료에 대한 일반적인 궁금증을 AI가 안내해 드립니다.<br>구체적인 증상 상담은 전화 또는 내원을 권장드립니다.</p>
+    <h2 class="section-title">AI 한방 상담</h2>
+    <p class="section-sub">증상을 입력하시면 한방적 관점의 안내와 가정 관리 요령을 받아보실 수 있어요.<br>두통 · 소화불량 · 불면증 등 <strong>15가지 주요 증상</strong>별 맞춤 안내가 준비되어 있습니다.</p>
   </div>
-  <div class="chat-wrap">
-    <div class="chat-header">
-      <div class="chat-avatar">🌿</div>
-      <div>
-        <div style="font-weight:700;font-size:15px;">온누리 AI 상담</div>
-        <div style="font-size:12px;opacity:0.8;">● 온라인 · 한방 건강 안내</div>
-      </div>
-    </div>
-    <div class="chat-messages" id="chatMessages">
-      <div class="msg">
-        <div class="msg-avatar">🌿</div>
-        <div>
-          <div class="msg-bubble">안녕하세요! 온누리한의원 AI 상담 도우미입니다 😊<br><br>한방 치료나 진료 분야에 대해 궁금하신 점을 편하게 물어보세요.</div>
-          <div class="msg-time">온누리 AI</div>
-        </div>
-      </div>
-    </div>
-    <div class="chat-quick" id="quickBtns">
-      <button class="quick-btn" onclick="sendQuick('추나치료가 뭔가요?')">추나치료가 뭔가요?</button>
-      <button class="quick-btn" onclick="sendQuick('자동차보험 치료 되나요?')">자동차보험 치료 되나요?</button>
-      <button class="quick-btn" onclick="sendQuick('공진단은 어떤 효능인가요?')">공진단 효능이 궁금해요</button>
-      <button class="quick-btn" onclick="sendQuick('불면증에 한방 치료가 효과 있나요?')">불면증 한방 치료</button>
-      <button class="quick-btn" onclick="sendQuick('추나요법으로 어떤 통증 질환을 치료할 수 있나요?')">추나요법 통증 질환</button>
-      <button class="quick-btn" onclick="sendQuick('교통사고 후 한의원 치료는 어떻게 받을 수 있나요?')">교통사고 치료 안내</button>
-      <button class="quick-btn" onclick="sendQuick('두통 이명 어지럼증에 한방 치료가 효과 있나요?')">두통·이명·어지럼 치료</button>
-    </div>
-    <div class="chat-input-wrap">
-      <input class="chat-input" id="chatInput" type="text" placeholder="궁금하신 점을 입력하세요..." maxlength="200" onkeydown="if(event.key==='Enter') sendMessage()" />
-      <button class="chat-send" onclick="sendMessage()">전송 ➤</button>
-    </div>
+  <div style="max-width:680px;margin:0 auto;padding:0 16px;">
+    <a href="ai-consult.html" class="ai-consult-cta">
+      <div class="ai-cta-icon">🌿</div>
+      <div class="ai-cta-title">AI 한방 상담 시작하기</div>
+      <div class="ai-cta-desc">두통 · 소화불량 · 불면증 · 어깨결림 · 허리통증 · 비염<br>생리통 · 만성피로 · 변비 · 갱년기 등 15가지 증상</div>
+      <span class="ai-cta-btn">증상 입력하고 안내받기 →</span>
+    </a>
   </div>
   <p class="disclaimer">⚠️ AI 상담은 일반적인 한방 정보 안내 목적이며, 의료적 진단이나 처방을 대체하지 않습니다.</p>
 </section>
