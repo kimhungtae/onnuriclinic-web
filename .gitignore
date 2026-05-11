@@ -24,6 +24,5 @@ push.bat
 cleanup.bat
 migrate.bat
 
-# Logs
+# Logs / temp
 migrate_log.txt
-*.log
