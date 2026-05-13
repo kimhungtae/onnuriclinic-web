@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1080" height="1080" viewBox="0 0 680 680" xmlns="http://www.w3.org/2000/svg">
+<title>온누리한의원 공식 홈페이지 안내 배너 (정사각형)</title>
+<desc>네이버 블로그 대표이미지 적합 1:1 비율</desc>
+<rect width="680" height="680" fill="#faf6ef" rx="20"/>
+<rect x="22" y="22" width="636" height="636" fill="none" stroke="#2d5a3d" stroke-width="0.6" rx="14" opacity="0.35"/>
+<text x="340" y="430" font-family="'Nanum Myeongjo', 'Batang', serif" font-size="320" fill="#b8860b" opacity="0.05" text-anchor="middle" font-weight="700">韓</text>
+<g transform="translate(340, 110)">
+<circle cx="0" cy="0" r="55" fill="#f5efe2" stroke="#2d5a3d" stroke-width="2"/>
+<circle cx="0" cy="0" r="48" fill="none" stroke="#b8860b" stroke-width="0.6" opacity="0.5"/>
+<g transform="translate(0,-25)">
+<path d="M-20,9 C-25,-2 -11,-13 -2,-7 C-4,-15 7,-15 9,-5 C18,-13 28,-2 20,7 C13,13 -8,15 -20,9 Z" fill="#4a7c59"/>
+<path d="M-13,4 Q-6,-2 0,-4" stroke="#1e3d29" stroke-width="0.8" fill="none"/>
+<path d="M0,-4 Q7,-2 13,4" stroke="#1e3d29" stroke-width="0.8" fill="none"/>
+<path d="M-2,-7 L-2,9" stroke="#1e3d29" stroke-width="0.6" fill="none"/>
+</g>
+<text x="0" y="8" text-anchor="middle" font-family="'Nanum Myeongjo', 'Batang', serif" font-size="14" fill="#1e3d29" font-weight="700">온누리</text>
+<text x="0" y="26" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="7" fill="#6b5d4a" letter-spacing="2" font-weight="500">ORIENTAL MEDICINE</text>
+</g>
+<text x="340" y="225" text-anchor="middle" font-family="'Nanum Myeongjo', 'Batang', 'Noto Serif KR', serif" font-size="46" fill="#1e3d29" font-weight="700">온누리한의원</text>
+<line x1="280" y1="245" x2="400" y2="245" stroke="#b8860b" stroke-width="1.2"/>
+<circle cx="340" cy="245" r="3" fill="#b8860b"/>
+<text x="340" y="272" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#6b5d4a" letter-spacing="3.5" font-weight="500">수원 권선동 · 30년 임상</text>
+<g transform="translate(110, 305)">
+<rect x="0" y="0" width="180" height="42" fill="#ffffff" stroke="#4a7c59" stroke-width="1.2" rx="21"/>
+<circle cx="22" cy="21" r="7" fill="#4a7c59"/>
+<text x="22" y="25" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="10" fill="#ffffff" font-weight="700">AI</text>
+<text x="105" y="26" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#1e3d29" font-weight="500">한방 상담 가능</text>
+</g>
+<g transform="translate(390, 305)">
+<rect x="0" y="0" width="180" height="42" fill="#ffffff" stroke="#03c75a" stroke-width="1.2" rx="21"/>
+<circle cx="22" cy="21" r="9" fill="#03c75a"/>
+<text x="22" y="25" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="11" fill="#ffffff" font-weight="700">N</text>
+<text x="108" y="26" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#1e3d29" font-weight="500">네이버 예약 가능</text>
+</g>
+<g transform="translate(250, 365)">
+<rect x="0" y="0" width="180" height="42" fill="#ffffff" stroke="#b8860b" stroke-width="1.2" rx="21"/>
+<text x="22" y="28" text-anchor="middle" font-family="'Nanum Myeongjo', 'Batang', serif" font-size="16" fill="#b8860b" font-weight="700">道</text>
+<text x="108" y="26" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#1e3d29" font-weight="500">진심을 담은 진료</text>
+</g>
+<rect x="100" y="445" width="480" height="100" fill="#2d5a3d" rx="16"/>
+<text x="340" y="478" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="11" fill="#faf6ef" letter-spacing="3" opacity="0.85" font-weight="500">공식 홈페이지</text>
+<text x="340" y="518" text-anchor="middle" font-family="'Nanum Myeongjo', 'Batang', 'Noto Serif KR', serif" font-size="32" fill="#ffffff" font-weight="700">onnuriclinic.com</text>
+<g transform="translate(150, 590)">
+<path d="M0,2 C0,1 1,0 2,0 L4,0 L5,2 L4,3 L3,5 C5,7 7,9 9,10 L11,9 L12,8 L14,8 C15,8 16,9 16,10 C16,12 14,14 12,14 C7,14 0,7 0,2 Z" fill="#2d5a3d"/>
+</g>
+<text x="172" y="601" font-family="'Malgun Gothic', sans-serif" font-size="13" fill="#2c2416" font-weight="500">031-223-1075</text>
+<text x="280" y="601" font-family="'Malgun Gothic', sans-serif" font-size="13" fill="#6b5d4a">·  경기 수원시 권선구 덕영대로1201번길 8 (3층)</text>
+<text x="340" y="635" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="10" fill="#6b5d4a" letter-spacing="2" opacity="0.7">ONNURI ORIENTAL MEDICINE  ·  SUWON</text>
+</svg>
