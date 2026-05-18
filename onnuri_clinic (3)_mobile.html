@@ -985,7 +985,7 @@ body.booking-open{overflow:hidden;}
       <p>편하신 방법으로 예약·상담하실 수 있습니다</p>
     </div>
     <div class="booking-list">
-      <a href="https://m.search.naver.com/search.naver?query=%EC%98%A8%EB%88%84%EB%A6%AC%ED%95%9C%EC%9D%98%EC%9B%90+%EC%88%98%EC%9B%90+%EA%B6%8C%EC%84%A0%EB%8F%99" target="_blank" rel="noopener" class="booking-card naver" id="bookingNaver">
+      <a href="https://booking.naver.com/booking/13/bizes/642068" target="_blank" rel="noopener" class="booking-card naver" id="bookingNaver">
         <span class="booking-card-icon">🟢</span>
         <span class="booking-card-text">
           <span class="booking-card-name">네이버 예약 / 검색</span>
@@ -1597,7 +1597,7 @@ function hnRenderResult(){
     ? '중등도 증상으로 한방 진료를 권장드립니다. 체질 진단 후 맞춤 치료가 효과적입니다.'
     : '증상이 심한 편으로 빠른 내원과 적극적인 한방 치료를 권장드립니다.';
   const advice = c.advice[tier];
-  const naverUrl = 'https://m.search.naver.com/search.naver?query=%EC%98%A8%EB%88%84%EB%A6%AC%ED%95%9C%EC%9D%98%EC%9B%90+%EC%88%98%EC%9B%90+%EA%B6%8C%EC%84%A0%EB%8F%99';
+  const naverUrl = 'https://booking.naver.com/booking/13/bizes/642068';
   const summaryLine = (hnState.info.gender||'')+' '+(hnState.info.age||'');
   hnEl('hnBody').innerHTML = `
     <div class="hn-result">

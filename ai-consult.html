@@ -88,23 +88,53 @@
     border-color: var(--primary);
     transform: translateY(-1px);
   }
+  .input-section {
+    margin-top: 18px;
+    padding: 16px;
+    background: linear-gradient(135deg, #f4ead4 0%, #fff8e7 100%);
+    border: 2px solid var(--accent);
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(184, 134, 11, 0.15);
+  }
+  .input-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 10px;
+  }
+  .input-label .label-icon { font-size: 18px; }
+  .input-label .label-badge {
+    margin-left: auto;
+    font-size: 11px;
+    background: var(--accent);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
   .input-area { display: flex; gap: 8px; align-items: flex-end; }
   .input-wrapper { flex: 1; position: relative; }
   textarea {
     width: 100%;
-    min-height: 60px;
+    min-height: 80px;
     max-height: 160px;
-    padding: 12px 14px;
-    border: 1.5px solid var(--border);
+    padding: 14px 16px;
+    border: 2px solid var(--primary-light);
     border-radius: 12px;
-    font-size: 15px;
+    font-size: 16px;
     font-family: inherit;
     resize: vertical;
-    background: var(--bg);
+    background: white;
     color: var(--text);
-    transition: border-color 0.18s;
+    transition: border-color 0.18s, box-shadow 0.18s;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.04);
   }
-  textarea:focus { outline: none; border-color: var(--primary); background: white; }
+  textarea::placeholder { color: #8a7c64; opacity: 1; }
+  textarea:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 3px rgba(45, 90, 61, 0.15); }
   .btn-send {
     background: var(--primary);
     color: white;
@@ -261,15 +291,22 @@
           어떤 증상이 있으신가요? 위의 빠른 선택 버튼을 누르시거나, 아래에 직접 증상을 적어주세요. 예) "두통이 심해요", "잠이 잘 안 와요"
         </div>
       </div>
-      <div class="input-area" style="margin-top: 18px;">
-        <div class="input-wrapper">
-          <textarea id="userInput" placeholder="증상을 입력해주세요... (예: 어깨가 자주 뭉치고 두통이 있어요)"></textarea>
+      <div class="input-section">
+        <div class="input-label">
+          <span class="label-icon">✍️</span>
+          <span>증상을 직접 입력하세요</span>
+          <span class="label-badge">여기에 입력</span>
         </div>
-        <button class="btn-send" id="sendBtn">상담하기</button>
+        <div class="input-area">
+          <div class="input-wrapper">
+            <textarea id="userInput" placeholder="예) 어깨가 자주 뭉치고 두통이 있어요"></textarea>
+          </div>
+          <button class="btn-send" id="sendBtn">상담하기</button>
+        </div>
       </div>
       <div class="share-area" id="shareArea">
         <button class="btn-share btn-kakao" id="kakaoBtn">카톡으로 공유</button>
-        <a class="btn-share btn-naver" id="naverBtn" href="https://m.search.naver.com/search.naver?query=%EC%98%A8%EB%88%84%EB%A6%AC%ED%95%9C%EC%9D%98%EC%9B%90+%EC%88%98%EC%9B%90+%EA%B6%8C%EC%84%A0%EB%8F%99" target="_blank" rel="noopener noreferrer" style="text-decoration:none;text-align:center;display:inline-flex;align-items:center;justify-content:center;">📅 네이버 예약</a>
+        <a class="btn-share btn-naver" id="naverBtn" href="https://booking.naver.com/booking/13/bizes/642068" target="_blank" rel="noopener noreferrer" style="text-decoration:none;text-align:center;display:inline-flex;align-items:center;justify-content:center;">📅 네이버 예약</a>
         <button class="btn-share btn-copy" id="copyBtn">결과 복사</button>
         <button class="btn-share btn-reset" id="resetBtn">새 상담</button>
       </div>
