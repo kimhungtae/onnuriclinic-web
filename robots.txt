@@ -1,0 +1,94 @@
+# 온누리한의원 robots.txt
+# https://onnuriclinic.com
+
+# 모든 일반 검색엔진 크롤러 허용
+User-agent: *
+Allow: /
+Disallow: /functions/
+Disallow: /migrations/
+Disallow: /*.bat$
+Disallow: /banner-preview.html
+
+# Google
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-Mobile
+Allow: /
+
+# Google Extended (Bard, Gemini용 크롤러)
+User-agent: Google-Extended
+Allow: /
+
+# 네이버
+User-agent: Yeti
+Allow: /
+
+User-agent: Yeti-Mobile
+Allow: /
+
+# 다음/카카오
+User-agent: Daumoa
+Allow: /
+
+# Bing
+User-agent: bingbot
+Allow: /
+
+# ---- AI / LLM 크롤러 (명시적 허용) ----
+
+# OpenAI ChatGPT
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic Claude
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+# CommonCrawl (대부분의 LLM이 학습에 사용)
+User-agent: CCBot
+Allow: /
+
+# Meta AI / FacebookBot
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Bytedance / Tiktok / Doubao
+User-agent: Bytespider
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
+# Sitemap 위치
+Sitemap: https://onnuriclinic.com/sitemap.xml

@@ -1,0 +1,57 @@
+# sasang-platform — GitHub Actions CI
+#
+# 사용처: 새 프로젝트의 `.github/workflows/ci.yml` 로 저장
+#
+# 실행 시점: push, pull_request (main 브랜치 대상)
+# 검증 항목: lint, typecheck, test, build
+#
+# Vercel 자체가 build를 다시 하므로 CI에서 빌드 실패하면 배포도 막힘.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Unit tests
+        run: npm test -- --run
+
+      - name: Build
+        env:
+          # 빌드 단계에서 필요한 dummy 환경변수
+          TURSO_DATABASE_URL: file:./db/test.db
+          TURSO_AUTH_TOKEN: dummy
+          AUTH_SECRET: dummy-secret-for-build-only
+          AUTH_URL: http://localhost:3000
+          RESEND_API_KEY: dummy
+          RESEND_FROM: test@example.com
+          SITE_PASSWORD: dummy
+          ADMIN_EMAIL: test@example.com
+          SITE_MODE: internal
+        run: npm run build
