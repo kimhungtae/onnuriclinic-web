@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>온누리 한의원 — 사상체질 진료 통합 홈</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --taeum:#2D7D46; --taeum-l:#E8F5EC; --taeum-bg:#F4FBF6;
+  --soyang:#D4691E; --soyang-l:#FDF1E5;
+  --gold:#C49A3F; --gold-l:#FEF9E6;
+  --hot:#C9302C; --hot-l:#FBE4E1;
+  --ink:#1a1a1a; --sub:#555; --line:#d5d5d5;
+  --bg:#faf8f3; --serif:'Noto Serif KR',serif; --sans:'Noto Sans KR',sans-serif;
+  --pale:#f7f5f0; --txt3:#9c9590; --bg2:#f1ede4;
+}
+html{font-size:16px;}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-text-size-adjust:100%;}
+
+.wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px;}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:24px 28px;box-shadow:0 2px 12px rgba(0,0,0,.05);}
+
+.safety-banner{background:#fdf3f3;border:1px solid #e3b9b9;color:#8a3a3a;font-size:.75rem;
+  padding:8px 14px;border-radius:6px;text-align:center;margin-bottom:14px;line-height:1.5;}
+
+.head{border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:16px;}
+.h-top{display:flex;justify-content:space-between;align-items:baseline;}
+.clinic{font-size:.72rem;letter-spacing:1.5px;color:var(--sub);}
+.ver{font-size:.68rem;color:var(--gold);font-weight:700;letter-spacing:1px;}
+.h-title{font-family:var(--serif);font-size:1.4rem;font-weight:700;margin-top:6px;}
+.h-sub{font-size:.78rem;color:var(--sub);margin-top:6px;}
+
+/* 세션 카드 */
+.session-card{background:var(--pale);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-bottom:18px;}
+.sc-row{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;font-size:.86rem;margin-bottom:8px;}
+.sc-lbl{font-size:.66rem;color:var(--sub);letter-spacing:1px;}
+.sc-name{font-weight:700;font-size:.98rem;}
+.flow{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0;align-items:center;}
+.flow-step{font-size:.72rem;padding:3px 10px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--sub);}
+.flow-step.done{background:var(--taeum-l);border-color:var(--taeum);color:var(--taeum);font-weight:600;}
+.flow-step.next{background:var(--gold-l);border-color:var(--gold);color:#8a6f1f;font-weight:700;}
+.next-line{font-size:.84rem;margin-top:4px;}
+.next-line b{color:#8a6f1f;}
+.sc-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+
+/* 모듈 행 */
+.mod-list{display:flex;flex-direction:column;gap:10px;}
+.mod{display:flex;align-items:center;gap:13px;border:1px solid var(--line);border-radius:8px;padding:13px 15px;background:#fff;}
+.mod.next{border-color:var(--gold);border-width:2px;background:var(--gold-l);}
+.mod.done{background:var(--taeum-bg);}
+.mod-no{width:30px;height:30px;border-radius:50%;background:var(--bg2);color:var(--sub);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.86rem;flex-shrink:0;}
+.mod.done .mod-no{background:var(--taeum);color:#fff;}
+.mod.next .mod-no{background:var(--gold);color:#fff;}
+.mod-main{flex:1;min-width:0;}
+.mod-name{font-weight:700;font-size:.92rem;}
+.mod-name .mod-stat{font-size:.66rem;font-weight:700;margin-left:7px;padding:1px 7px;border-radius:3px;vertical-align:middle;}
+.stat-done{background:var(--taeum);color:#fff;}
+.stat-next{background:var(--gold);color:#fff;}
+.stat-wait{background:var(--bg2);color:var(--txt3);}
+.mod-sub{font-size:.72rem;color:var(--sub);margin-top:1px;}
+.mod-summary{font-size:.74rem;color:var(--ink);margin-top:4px;}
+.mod-summary.empty{color:var(--txt3);}
+.btn{padding:8px 15px;border-radius:6px;font-size:.8rem;font-family:inherit;cursor:pointer;border:1.5px solid;white-space:nowrap;}
+.btn-dark{background:var(--ink);color:#fff;border-color:var(--ink);}
+.btn-line{background:#fff;color:var(--ink);border-color:var(--line);}
+.btn-gold{background:var(--gold);color:#fff;border-color:var(--gold);}
+.btn-sm{padding:5px 10px;font-size:.72rem;}
+.btn:hover{opacity:.88;}
+.btn-line:hover{background:var(--bg2);opacity:1;}
+
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;}
+
+/* 임상 시험 기록 (W5) */
+.trial-sec{margin-top:22px;border-top:2px solid var(--ink);padding-top:14px;}
+.trial-head{font-family:var(--serif);font-size:1rem;font-weight:700;margin-bottom:4px;}
+.trial-count{font-size:.7rem;color:var(--gold);font-weight:700;margin-left:6px;}
+.trial-intro{font-size:.74rem;color:var(--sub);margin-bottom:12px;}
+.trial-form{background:var(--pale);border:1px solid var(--line);border-radius:8px;padding:13px 15px;margin-bottom:14px;}
+.tf-lbl{font-size:.72rem;font-weight:600;color:var(--sub);margin-bottom:6px;}
+.agree-btns{display:flex;gap:7px;flex-wrap:wrap;}
+.agree-btn{padding:6px 13px;border:1.5px solid var(--line);background:#fff;font-size:.78rem;
+  font-family:inherit;cursor:pointer;border-radius:5px;}
+.agree-btn:hover{border-color:var(--ink);}
+.agree-btn.on{font-weight:700;color:#fff;}
+.agree-btn.on.agree{background:var(--taeum);border-color:var(--taeum);}
+.agree-btn.on.partial{background:var(--gold);border-color:var(--gold);}
+.agree-btn.on.disagree{background:var(--hot);border-color:var(--hot);}
+.trial-memo{width:100%;border:1px solid var(--line);border-radius:6px;padding:8px 10px;
+  font-family:inherit;font-size:.8rem;min-height:54px;resize:vertical;background:#fff;color:var(--ink);}
+.trial-memo:focus{outline:none;border-color:var(--taeum);}
+.trial-empty{font-size:.76rem;color:var(--txt3);padding:8px 0;}
+.trial-list-head{display:flex;justify-content:space-between;align-items:center;
+  font-size:.74rem;font-weight:600;color:var(--sub);margin:6px 0 8px;}
+.trial-list{display:flex;flex-direction:column;gap:8px;}
+.trial-item{border:1px solid var(--line);border-radius:6px;padding:9px 12px;background:#fff;}
+.ti-top{display:flex;gap:8px;align-items:center;font-size:.82rem;}
+.ti-date{font-size:.7rem;color:var(--txt3);}
+.ti-agree{font-size:.66rem;font-weight:700;padding:1px 7px;border-radius:3px;}
+.ti-agree.agree{background:var(--taeum-l);color:var(--taeum);}
+.ti-agree.partial{background:var(--gold-l);color:#8a6f1f;}
+.ti-agree.disagree{background:var(--hot-l);color:var(--hot);}
+.ti-del{margin-left:auto;font-size:.68rem;color:var(--txt3);background:none;border:none;
+  cursor:pointer;text-decoration:underline;font-family:inherit;}
+.ti-flow{font-size:.74rem;color:var(--sub);margin-top:3px;}
+.ti-memo{font-size:.76rem;margin-top:4px;padding:5px 8px;background:var(--pale);border-radius:4px;line-height:1.55;}
+
+.foot{margin-top:20px;padding-top:14px;border-top:1px solid var(--line);}
+.safe-notes{font-size:.74rem;color:#7a6a3a;line-height:1.75;background:var(--gold-l);border-radius:6px;padding:9px 13px;}
+.source{font-size:.7rem;color:var(--txt3);margin-top:8px;text-align:right;}
+
+@media print{
+  @page{margin:14mm;}
+  body{background:#fff;}
+  .no-print{display:none!important;}
+  .wrap{max-width:100%;padding:0;}
+  .card{border:none;box-shadow:none;padding:0;}
+  .mod,.session-card,.foot,.trial-item{break-inside:avoid;}
+}
+@media(max-width:520px){
+  .mod{flex-wrap:wrap;}
+  .mod-main{flex-basis:100%;order:2;}
+}
+/* ── 접수 대기 환자 (W6 대기열) ── */
+.queue-sec{margin-top:16px;border:1px solid var(--gold);border-radius:9px;
+  background:var(--gold-l,#FEF9E6);padding:13px 15px;}
+.queue-sec.empty{background:var(--pale,#f7f5f0);border-color:var(--line);}
+.queue-head{font-family:var(--serif);font-weight:700;font-size:1rem;color:var(--ink);
+  display:flex;align-items:center;gap:9px;}
+.queue-count{font-size:.74rem;font-weight:500;background:var(--gold);color:#fff;
+  padding:2px 9px;border-radius:10px;}
+.queue-sec.empty .queue-count{background:#b9b2a6;}
+.queue-empty{font-size:.82rem;color:var(--sub);margin-top:7px;line-height:1.6;}
+.queue-list{margin-top:10px;display:flex;flex-direction:column;gap:7px;}
+.q-item{background:#fff;border:1px solid var(--line);border-radius:7px;
+  padding:9px 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.q-main{flex:1;min-width:170px;}
+.q-who{font-weight:700;font-size:.92rem;color:var(--ink);}
+.q-summ{font-size:.76rem;color:var(--sub);margin-top:2px;}
+/* ── 저장된 진료 기록 ── */
+.chart-sec{margin-top:16px;border:1px solid var(--line);border-radius:8px;background:#fff;}
+.cl-head{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;cursor:pointer;font-family:var(--serif);font-weight:700;font-size:.95rem;color:var(--ink);}
+.cl-head:hover{background:var(--pale);}
+.cl-count{background:var(--gold);color:#fff;font-size:.7rem;padding:1px 9px;border-radius:9px;margin-left:5px;font-weight:500;font-family:var(--sans);}
+.cl-toggle{font-size:.76rem;color:var(--sub);font-weight:400;font-family:var(--sans);}
+.cl-list{border-top:1px solid var(--line);padding:10px 12px;display:flex;flex-direction:column;gap:6px;}
+.cl-item{display:flex;align-items:center;gap:9px;padding:9px 12px;border:1px solid var(--line);border-radius:7px;flex-wrap:wrap;background:#fff;}
+.cl-main{flex:1;min-width:180px;}
+.cl-who{font-size:.88rem;color:var(--ink);display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;}
+.cl-date{font-size:.72rem;color:var(--txt3);font-weight:400;}
+.cl-summ{font-size:.76rem;color:var(--sub);margin-top:3px;line-height:1.55;}
+.cl-foot{display:flex;justify-content:flex-end;margin-top:4px;}
+/* ── 자가설문 결과 카드 ── */
+.result-card{border:2px solid var(--ink);border-radius:9px;padding:15px 17px;margin-bottom:18px;background:#fff;}
+.rc-head{font-family:var(--serif);font-weight:700;font-size:1.02rem;}
+.rc-sub{font-size:.7rem;font-weight:400;color:var(--sub);margin-left:7px;}
+.rc-hero{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:11px 0 13px;}
+.rc-type{font-family:var(--serif);font-weight:700;font-size:1.8rem;color:var(--ink);line-height:1.1;}
+.rc-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.rc-tag{font-size:.75rem;padding:3px 11px;border-radius:11px;background:var(--bg2);color:var(--sub);font-weight:600;}
+.rc-tag.conf-high{background:var(--taeum-l);color:var(--taeum);}
+.rc-tag.conf-low{background:var(--hot-l);color:var(--hot);}
+.sr-bars{display:flex;flex-direction:column;gap:5px;}
+.sr-bar{display:flex;align-items:center;gap:9px;}
+.sr-bn{font-size:.79rem;width:48px;flex-shrink:0;color:var(--sub);}
+.sr-track{flex:1;height:15px;background:var(--bg2);border-radius:8px;overflow:hidden;}
+.sr-fill{display:block;height:100%;border-radius:8px;}
+.sr-ty{background:#C0392B;} .sr-te{background:#2D7D46;}
+.sr-sy{background:#D4691E;} .sr-se{background:#2E5C8A;}
+.sr-pct{font-size:.79rem;width:58px;text-align:right;color:var(--sub);flex-shrink:0;}
+.sr-pct.top{font-weight:700;color:var(--ink);}
+.rc-when{font-size:.72rem;color:var(--txt3);margin-top:9px;}
+.rc-note{font-size:.74rem;color:var(--sub);margin-top:9px;background:var(--pale);border-radius:6px;padding:8px 11px;line-height:1.6;}
+.rc-toggle{margin-top:10px;font-family:var(--sans);font-size:.82rem;font-weight:600;
+  background:var(--bg2);color:var(--ink);border:1px solid var(--line);border-radius:7px;
+  padding:9px 13px;cursor:pointer;width:100%;text-align:left;}
+.rc-toggle:hover{background:var(--gold-l);}
+.ans-log{margin-top:8px;border:1px solid var(--line);border-radius:7px;overflow:hidden;}
+.ans-sec{background:var(--bg2);font-weight:700;font-size:.81rem;padding:7px 11px;color:var(--ink);}
+.ans-note{font-weight:400;font-size:.68rem;color:var(--sub);}
+.ans-row{padding:8px 12px;border-top:1px solid var(--line);font-size:.79rem;}
+.ans-q{color:var(--sub);line-height:1.55;}
+.ans-a{margin-top:3px;font-weight:600;color:var(--ink);line-height:1.55;}
+.ans-a::before{content:"\2192 ";color:var(--gold);}
+</style>
+</head>
+<body>
+<div id="wrap" class="wrap"></div>
+<script>
+/* ═══════════════════════════════════════════════════
+   온누리 사상체질 진료 통합 홈 (W4 + W5 시험 기록)
+   A·C·D·E 4모듈 진입 + 세션 진행 표시 + 자동 분기 + 임상시험 기록
+   onnuri_session(현재 환자) · onnuri_trial_log(시험 기록 누적, 별도 키)
+   vanilla JS · 외부 라이브러리 0개
+═══════════════════════════════════════════════════ */
+
+const MODULES = [
+  { key:'A', no:1, name:'자가 설문',  sub:'환자 체질 자가 응답 (25문항)',
+    file:'온누리_사상체질_감별설문지_v24.html', sk:'moduleA' },
+  { key:'C', no:2, name:'정밀 시진 (C-1)', sub:'태음 ↔ 소양 변별',
+    file:'온누리_정밀시진_C1_v1.html', sk:'moduleC' },
+  { key:'D', no:3, name:'기능 검사', sub:'맥진·복진·반응·약물시험',
+    file:'온누리_기능검사_D_v1.html', sk:'moduleD' },
+  { key:'E', no:4, name:'처방 추천', sub:'주소증 기반 추천 처방',
+    file:'온누리_처방추천_E_v1.html', sk:'moduleE' },
+];
+const CONST_LABEL  = { taeum:'태음인', soyang:'소양인', taeyang:'태양인', soeum:'소음인', retest:'재시험 필요',
+                       ty:'태양인', te:'태음인', sy:'소양인', se:'소음인' };
+const HANYUL_LABEL = { cold:'한증', hot:'열증', mixed:'한열 협잡' };
+const YANGYIN_LABEL= { yang:'양형', yin:'음형', none:'—' };
+const CONF_LABEL   = { high:'높음', medium:'보통', mid:'보통', low:'낮음' };
+const VERDICT_LABEL= { taeum:'태음인 확정', soyang:'소양인 확정', pending:'보류' };
+const FIT_LABEL    = { fit:'적합', unfit:'부적합', incomplete:'미완료' };
+const AGREE_LABEL  = { agree:'직관과 일치', partial:'부분 일치', disagree:'불일치' };
+
+let session = JSON.parse(localStorage.getItem('onnuri_session') || '{}');
+let trialLog = JSON.parse(localStorage.getItem('onnuri_trial_log') || '[]');
+let chartLog = JSON.parse(localStorage.getItem('onnuri_chart_log') || '[]');  // 완료된 진료 기록
+let trialMemo = '';
+let trialAgreement = '';
+let showChartLog = false;     // 저장된 진료 기록 펼침 여부
+let intakeQueue = [];        // 접수실에서 자가설문을 마친 대기 환자 (서버 /api/intake)
+let queueServerOk = true;    // 서버 대기열 조회 성공 여부
+let showAnswers = false;     // 자가설문 응답 자세히 보기 펼침 여부
+
+function esc(s){
+  return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function fmtPct(v){
+  if (v === null || v === undefined || isNaN(v)) return '—';
+  v = Number(v);
+  return (v <= 1 ? Math.round(v*100) : Math.round(v)) + '%';
+}
+
+/* ── 자동 분기 (cowork_spec §F-2 / PHASE1A §W4) ── */
+function recommendedNext(s){
+  if (!s.moduleA) return 'A';
+  if (s.moduleE) return 'done';
+  if (s.moduleD){
+    const d = s.moduleD;
+    if (d.finalConstitution === 'retest') return 'C';
+    if (d.drugTrial && d.drugTrial.fitness === 'unfit') return 'C';
+    return 'E';
+  }
+  if (s.moduleC){
+    if (s.moduleC.verdict === 'pending') return 'D';
+    return 'E';
+  }
+  const conf = s.moduleA.result && s.moduleA.result.confidence;
+  if (conf === 'high') return 'E';
+  return 'C';
+}
+
+/* ── 모듈별 요약 ── */
+function moduleSummary(key){
+  if (key === 'A'){
+    const a = session.moduleA;
+    if (!a || !a.result) return null;
+    const p = a.result.pcts || {};
+    const conf = CONF_LABEL[a.result.confidence] || a.result.confidence || '—';
+    return '태음 ' + fmtPct(p.te) + ' / 소양 ' + fmtPct(p.sy) + ' · 신뢰도 ' + esc(conf);
+  }
+  if (key === 'C'){
+    const c = session.moduleC;
+    if (!c) return null;
+    return (VERDICT_LABEL[c.verdict] || c.verdict || '—') + (c.reason ? ' · ' + esc(c.reason) : '');
+  }
+  if (key === 'D'){
+    const d = session.moduleD;
+    if (!d) return null;
+    const bits = [ CONST_LABEL[d.finalConstitution] || d.finalConstitution || '—',
+                   HANYUL_LABEL[d.finalHanyul] || d.finalHanyul || '—' ];
+    if (d.finalConstitution === 'taeum') bits.push(YANGYIN_LABEL[d.finalYangYin] || '—');
+    let s = bits.join(' · ');
+    if (d.drugTrial && d.drugTrial.fitness) s += ' · 약물시험 ' + (FIT_LABEL[d.drugTrial.fitness] || '');
+    return s;
+  }
+  if (key === 'E'){
+    const e = session.moduleE;
+    if (!e || !e.selected) return null;
+    return e.selected.prescription ? '처방: ' + esc(e.selected.prescription) : '처방 미선택';
+  }
+  return null;
+}
+function patientLabel(){
+  const p = session.patient || {};
+  if (!p.name) return '신규 / 환자 정보 미입력';
+  const bits = [ esc(p.name) ];
+  if (p.gender) bits.push(esc(p.gender));
+  if (p.age) bits.push(esc(String(p.age)) + '세');
+  return bits.join(' · ');
+}
+
+/* ── 임상 시험 기록 ── */
+function snapshotSession(){
+  const s = session, snap = { patient: s.patient || {} };
+  if (s.moduleA && s.moduleA.result){
+    const r = s.moduleA.result;
+    snap.moduleA = { top:r.top, pcts:r.pcts || {}, confidence:r.confidence };
+  }
+  if (s.moduleC) snap.moduleC = { verdict:s.moduleC.verdict, reason:s.moduleC.reason };
+  if (s.moduleD) snap.moduleD = {
+    finalConstitution:s.moduleD.finalConstitution, finalHanyul:s.moduleD.finalHanyul,
+    finalYangYin:s.moduleD.finalYangYin, drugFitness:(s.moduleD.drugTrial || {}).fitness,
+  };
+  if (s.moduleE && s.moduleE.selected) snap.moduleE = { prescription:s.moduleE.selected.prescription };
+  return snap;
+}
+function trialFlowText(r){
+  const a = r.moduleA || {}, c = r.moduleC || {}, d = r.moduleD || {}, e = r.moduleE || {};
+  const bits = [];
+  if (a.pcts) bits.push('A 태음' + fmtPct(a.pcts.te) + '/소양' + fmtPct(a.pcts.sy));
+  if (c.verdict) bits.push('C ' + (VERDICT_LABEL[c.verdict] || c.verdict));
+  if (d.finalConstitution) bits.push('D ' + (CONST_LABEL[d.finalConstitution] || d.finalConstitution)
+    + (d.drugFitness ? '/' + (FIT_LABEL[d.drugFitness] || '') : ''));
+  if (e.prescription) bits.push('E ' + e.prescription);
+  return bits.join(' · ') || '진행 기록 없음';
+}
+function csvCell(v){
+  v = String(v == null ? '' : v);
+  return /[",\n]/.test(v) ? '"' + v.replace(/"/g,'""') + '"' : v;
+}
+
+/* ── 렌더 ── */
+function trialSection(){
+  const canRecord = !!session.moduleA;
+  let form;
+  if (canRecord){
+    const ab = function(v,label){
+      return '<button class="agree-btn' + (trialAgreement===v ? ' on '+v : '') + '" '
+        + 'onclick="setAgreement(\'' + v + '\')">' + label + '</button>';
+    };
+    form = '<div class="trial-form">'
+      + '<div class="tf-lbl">현재 환자 — 도구 결과와 원장 직관 비교</div>'
+      + '<div class="agree-btns">' + ab('agree','직관과 일치') + ab('partial','부분 일치') + ab('disagree','불일치') + '</div>'
+      + '<div class="tf-lbl" style="margin-top:9px">관찰 메모 (어긋난 점·처방 추천 평가·UX 비고)</div>'
+      + '<textarea class="trial-memo" oninput="onTrialMemo(this.value)" '
+      +   'placeholder="예: 도구는 태음 한증 추천, 원장 판단은 소양. 약물 시험 반응으로 재확인 필요. / 칩에 ‘불면’ 항목 추가 요망...">' + esc(trialMemo) + '</textarea>'
+      + '<button class="btn btn-dark" style="margin-top:9px" onclick="saveTrial()">＋ 이 환자 시험 기록 저장</button>'
+      + '</div>';
+  } else {
+    form = '<div class="trial-empty">기록할 세션이 없습니다 — 환자가 자가설문(A) 이상 진행되면 기록할 수 있습니다.</div>';
+  }
+  let list;
+  if (trialLog.length){
+    list = trialLog.slice().reverse().map(function(r){
+      const agCls = r.agreement || '';
+      const agTxt = AGREE_LABEL[r.agreement] || '';
+      const p = r.patient || {};
+      return '<div class="trial-item">'
+        + '<div class="ti-top"><b>' + esc(p.name || '(이름 없음)') + '</b>'
+        +   '<span class="ti-date">' + esc(r.date) + '</span>'
+        +   (agTxt ? '<span class="ti-agree ' + agCls + '">' + esc(agTxt) + '</span>' : '')
+        +   '<button class="ti-del no-print" onclick="deleteTrial(' + r.id + ')">삭제</button></div>'
+        + '<div class="ti-flow">' + esc(trialFlowText(r)) + '</div>'
+        + (r.memo ? '<div class="ti-memo">' + esc(r.memo) + '</div>' : '')
+        + '</div>';
+    }).join('');
+  } else {
+    list = '<div class="trial-empty">저장된 시험 기록이 없습니다.</div>';
+  }
+  return '<div class="trial-sec">'
+    + '<div class="trial-head">■ 임상 시험 기록 <span class="trial-count">W5 · ' + trialLog.length + '건</span></div>'
+    + '<div class="trial-intro">환자별 진료 결과와 원장 직관 차이를 누적 기록합니다. '
+    +   '5~10명 모이면 CSV로 내보내 매칭 가중치·UX 조정에 활용하세요.</div>'
+    + form
+    + '<div class="trial-list-head"><span>저장된 기록 (' + trialLog.length + '건)</span>'
+    +   '<span class="no-print"><button class="btn btn-line btn-sm" onclick="exportTrialCSV()">CSV 내보내기</button> '
+    +   '<button class="btn btn-line btn-sm" onclick="clearTrialLog()">전체 삭제</button></span></div>'
+    + '<div class="trial-list">' + list + '</div>'
+    + '</div>';
+}
+
+/* ── 저장된 진료 기록 (chartLog) — 불러오기·삭제 ── */
+function chartLogSection(){
+  if (!chartLog.length) return '';
+  let listHtml = '';
+  if (showChartLog){
+    const items = chartLog.slice().reverse().map(function(r){
+      const p = r.patient || {};
+      const a = r.moduleA || {};
+      // 새 포맷(result 객체) + 옛 포맷(top 평면) 모두 처리
+      const aRes = a.result || a;
+      const top = aRes.top;
+      const conf = aRes.confidence;
+      const hy = a.hanyul || r.hanyul;
+      const who = [esc(p.name || '(이름 없음)'),
+                   esc(p.gender || ''),
+                   p.age ? esc(String(p.age)) + '세' : ''].filter(Boolean).join(' · ');
+      let summ = '';
+      if (top) summ += (CONST_LABEL[top] || top);
+      if (hy)  summ += (summ ? ' · ' : '') + (HANYUL_LABEL[hy] || hy);
+      if (conf) summ += (summ ? ' · ' : '') + '신뢰도 ' + (CONF_LABEL[conf] || conf);
+      if (!summ) summ = '(요약 없음)';
+      const e = r.moduleE || {};
+      const rxLine = (e.selected && e.selected.prescription)
+        ? String(e.selected.prescription).split('\n')[0].slice(0, 50) : '';
+      const sid = esc(String(r.id));
+      return '<div class="cl-item">'
+        + '<div class="cl-main">'
+        +   '<div class="cl-who"><b>' + who + '</b>'
+        +     '<span class="cl-date">' + esc(r.date || '') + '</span></div>'
+        +   '<div class="cl-summ">' + esc(summ) + (rxLine ? '<br>처방: ' + esc(rxLine) : '') + '</div>'
+        + '</div>'
+        + '<button class="btn btn-gold btn-sm" onclick="loadChartRecord(\'' + sid + '\')">불러오기</button>'
+        + '<button class="btn btn-line btn-sm" onclick="deleteChartRecord(\'' + sid + '\')">삭제</button>'
+        + '</div>';
+    }).join('');
+    listHtml = '<div class="cl-list">' + items
+      + '<div class="cl-foot"><button class="btn btn-line btn-sm" onclick="clearChartLog()">전체 삭제</button></div>'
+      + '</div>';
+  }
+  return '<div class="chart-sec no-print">'
+    + '<div class="cl-head" onclick="toggleChartLog()">'
+    +   '<span>📋 저장된 진료 기록 <span class="cl-count">' + chartLog.length + '건</span></span>'
+    +   '<span class="cl-toggle">' + (showChartLog ? '▴ 접기' : '▾ 펼치기') + '</span>'
+    + '</div>'
+    + listHtml
+    + '</div>';
+}
+
+/* ── 자가설문 결과 카드 (현재 환자의 모듈 A 결과를 크게 표시) ── */
+function surveyResultCard(){
+  const a = session.moduleA;
+  if (!a || !a.result) return '';
+  const r = a.result;
+  const p = r.pcts || {};
+  const topName = CONST_LABEL[r.top] || r.top || '—';
+  const conf = CONF_LABEL[r.confidence] || r.confidence || '—';
+  const hy = HANYUL_LABEL[a.hanyul] || a.hanyul || '';
+  const bars = ['ty','te','sy','se'].map(function(t){
+    let v = Number(p[t]); if (isNaN(v)) v = 0;
+    const isTop = (t === r.top);
+    return '<div class="sr-bar">'
+      + '<span class="sr-bn">' + esc(CONST_LABEL[t] || t) + '</span>'
+      + '<span class="sr-track"><span class="sr-fill sr-' + t + '" '
+      +   'style="width:' + Math.max(2, Math.min(100, v)) + '%"></span></span>'
+      + '<span class="sr-pct' + (isTop ? ' top' : '') + '">' + v + '%' + (isTop ? '  ✓' : '') + '</span>'
+      + '</div>';
+  }).join('');
+  let when = '';
+  try {
+    if (a.completedAt) when = new Date(a.completedAt).toLocaleString('ko-KR',
+      { month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit' });
+  } catch(e){}
+  // 설문 응답 상세 (접수실에서 환자가 답한 내용)
+  const log = a.answers;
+  let answerBlock = '';
+  if (log && log.length){
+    let n = 0;
+    log.forEach(function(s){ n += (s.items || []).length; });
+    answerBlock = '<button class="rc-toggle" onclick="toggleAnswers()">'
+      + (showAnswers ? '▴  설문 응답 접기'
+                     : '▾  설문 응답 자세히 보기 — 전체 ' + n + '문항') + '</button>';
+    if (showAnswers){
+      answerBlock += '<div class="ans-log">' + log.map(function(s){
+        return '<div class="ans-sec">' + esc(s.section)
+          + (s.note ? ' <span class="ans-note">' + esc(s.note) + '</span>' : '') + '</div>'
+          + (s.items || []).map(function(it){
+              return '<div class="ans-row">'
+                + '<div class="ans-q">' + esc(it.n) + '. ' + esc(it.q) + '</div>'
+                + '<div class="ans-a">' + esc(it.a) + '</div></div>';
+            }).join('');
+      }).join('') + '</div>';
+    }
+  }
+  return '<div class="result-card">'
+    + '<div class="rc-head">자가설문 결과<span class="rc-sub">접수실에서 환자가 작성</span></div>'
+    + '<div class="rc-hero">'
+    +   '<div class="rc-type">' + esc(topName) + '</div>'
+    +   '<div class="rc-tags">'
+    +     '<span class="rc-tag conf-' + esc(r.confidence || '') + '">신뢰도 ' + esc(conf) + '</span>'
+    +     (hy ? '<span class="rc-tag">' + esc(hy) + '</span>' : '')
+    +   '</div>'
+    + '</div>'
+    + '<div class="sr-bars">' + bars + '</div>'
+    + (when ? '<div class="rc-when">접수실 작성: ' + esc(when) + '</div>' : '')
+    + '<div class="rc-note">※ 접수실 자가설문 결과입니다. 환자가 답한 문항별 응답은 '
+    +   '아래 <b>"설문 응답 자세히 보기"</b>에서 확인하세요. '
+    +   '("자가 설문" 모듈을 열면 빈 설문이 새로 시작되므로, 확인은 이 카드에서 합니다.)</div>'
+    + answerBlock
+    + '</div>';
+}
+
+/* ── 접수 대기 환자 (접수실 자가설문 → 서버 대기열) ── */
+function queueSection(){
+  if (!queueServerOk){
+    return '<div class="queue-sec empty no-print">'
+      + '<div class="queue-head">접수 대기 환자 <span class="queue-count">서버 미연결</span></div>'
+      + '<div class="queue-empty">대기열은 서버 모드에서만 표시됩니다. 주소창이 '
+      + '<b>http://localhost:8000</b> 인지 확인하세요. (바탕화면 "온누리 사상체질" 바로가기)</div>'
+      + '</div>';
+  }
+  if (!intakeQueue.length){
+    return '<div class="queue-sec empty no-print">'
+      + '<div class="queue-head">접수 대기 환자 <span class="queue-count">0명</span></div>'
+      + '<div class="queue-empty">접수실·검사실에서 자가설문을 마친 환자가 여기에 표시됩니다. '
+      + '<button class="btn btn-line btn-sm" onclick="reload()">새로고침</button></div>'
+      + '</div>';
+  }
+  const items = intakeQueue.slice().reverse().map(function(r){
+    const p = r.patient || {};
+    const a = r.moduleA || {};
+    const res = a.result || {};
+    const who = [esc(p.name || '(이름 미입력)'),
+                 esc(p.gender || ''),
+                 p.age ? esc(String(p.age)) + '세' : ''].filter(Boolean).join(' · ');
+    const aSumm = res.top
+      ? (CONST_LABEL[res.top] || res.top) + ' 우세 · 신뢰도 ' + (CONF_LABEL[res.confidence] || res.confidence || '—')
+      : '설문 결과 없음';
+    let t = '';
+    try { t = r.submittedAt ? new Date(r.submittedAt).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}) : ''; } catch(e){}
+    const sid = esc(String(r.id));
+    return '<div class="q-item">'
+      + '<div class="q-main"><div class="q-who">' + who + '</div>'
+      +   '<div class="q-summ">' + esc(aSumm) + (t ? ' · 접수 ' + esc(t) : '') + '</div></div>'
+      + '<button class="btn btn-gold btn-sm" onclick="startIntakePatient(\'' + sid + '\')">진료 시작</button>'
+      + '<button class="btn btn-line btn-sm" onclick="deleteIntake(\'' + sid + '\')">삭제</button>'
+      + '</div>';
+  }).join('');
+  return '<div class="queue-sec no-print">'
+    + '<div class="queue-head">접수 대기 환자 <span class="queue-count">' + intakeQueue.length + '명</span>'
+    +   '<button class="btn btn-line btn-sm" style="margin-left:auto" onclick="reload()">새로고침</button></div>'
+    + '<div class="queue-list">' + items + '</div>'
+    + '</div>';
+}
+
+function render(){
+  const next = recommendedNext(session);
+  const hasSession = !!(session.moduleA || session.patient || session.moduleC || session.moduleD || session.moduleE);
+
+  const flow = MODULES.map(function(m){
+    const done = !!session[m.sk];
+    const cls = done ? 'done' : (next===m.key ? 'next' : '');
+    return '<span class="flow-step ' + cls + '">' + m.key + (done ? ' ✓' : '') + '</span>';
+  }).join('<span style="color:#bbb">→</span>');
+
+  const nextLabel = next === 'done'
+    ? '모든 단계 완료 — 처방 확정·인쇄'
+    : (function(){ const m = MODULES.filter(function(x){return x.key===next;})[0];
+        return m ? m.no + '. ' + m.name : ''; })();
+
+  const rows = MODULES.map(function(m){
+    const done = !!session[m.sk];
+    const isNext = next === m.key;
+    const cls = done ? 'done' : (isNext ? 'next' : '');
+    const stat = done ? '<span class="mod-stat stat-done">완료</span>'
+              : isNext ? '<span class="mod-stat stat-next">권장 다음</span>'
+              : '<span class="mod-stat stat-wait">대기</span>';
+    const summ = moduleSummary(m.key);
+    return '<div class="mod ' + cls + '">'
+      + '<div class="mod-no">' + m.no + '</div>'
+      + '<div class="mod-main">'
+      +   '<div class="mod-name">' + esc(m.name) + stat + '</div>'
+      +   '<div class="mod-sub">' + esc(m.sub) + '</div>'
+      +   (summ ? '<div class="mod-summary">' + summ + '</div>'
+             : '<div class="mod-summary empty">미진행</div>')
+      + '</div>'
+      + '<button class="btn ' + (isNext?'btn-gold':done?'btn-line':'btn-dark') + '" '
+      +   'onclick="openModule(\'' + m.key + '\')">' + (done ? '다시 열기' : '열기') + '</button>'
+      + '</div>';
+  }).join('');
+
+  document.getElementById('wrap').innerHTML =
+    '<div class="safety-banner no-print">본 도구는 임상 의사결정 지원 도구이며 의료기기가 아닙니다. '
+    + '최종 진단·처방은 원장님이 환자를 직접 확인하고 결정합니다.</div>'
+    + '<div class="card">'
+    + '<div class="head"><div class="h-top"><span class="clinic">온누리 한의원</span>'
+    +   '<span class="ver">v1 · 통합 홈</span></div>'
+    +   '<div class="h-title">사상체질 진료 통합 — 자가설문·정밀시진·기능검사·처방추천</div>'
+    +   '<div class="h-sub">한 환자의 진료 흐름을 한 곳에서. 각 모듈은 같은 세션(onnuri_session)을 공유합니다.</div></div>'
+    + '<div class="session-card">'
+    +   '<div class="sc-row"><span class="sc-lbl">현재 세션</span>'
+    +     '<span class="sc-name">' + patientLabel() + '</span></div>'
+    +   '<div class="flow">' + flow + '</div>'
+    +   (hasSession
+        ? '<div class="next-line">권장 다음 단계: <b>' + esc(nextLabel) + '</b></div>'
+        : '<div class="next-line">진행 중인 세션이 없습니다. 접수 대기 환자를 선택하거나 아래 "새 환자"로 진행하세요.</div>')
+    +   (hasSession
+        ? '<div class="sc-actions no-print">'
+        +   '<button class="btn btn-dark btn-sm" onclick="completePatient()">✓ 진료 완료 · 저장</button>'
+        +   '<button class="btn btn-line btn-sm" onclick="deletePatient()">✕ 현재 환자 삭제</button>'
+        + '</div>' : '')
+    + '</div>'
+    + surveyResultCard()
+    + queueSection()
+    + '<div class="mod-list">' + rows + '</div>'
+    + '<div class="actions no-print">'
+    +   '<button class="btn btn-dark" onclick="newPatientDirect()">＋ 새 환자 (원장 직접 입력)</button>'
+    +   '<button class="btn btn-line" onclick="newPatient()">＋ 새 환자 (자가설문부터)</button>'
+    +   '<button class="btn btn-line" onclick="printAll()">진료 흐름 인쇄</button>'
+    + '</div>'
+    + chartLogSection()
+    + trialSection()
+    + '<div class="foot"><div class="safe-notes">'
+    +   '<div>※ 한 가지 증상의 호전만으로 체질·처방을 확정하지 않습니다 (안준철)</div>'
+    +   '<div>※ 체질과 한열은 항상 전제로 하고 약물 적합성을 확인합니다 (안준철)</div>'
+    + '</div><div class="source">온누리 한의원 사상체질 진료 시스템 · Phase 1a</div></div>'
+    + '</div>';
+}
+
+/* ── 이벤트 ── */
+function openModule(key){
+  const m = MODULES.filter(function(x){ return x.key === key; })[0];
+  if (m) location.href = m.file;
+}
+function newPatient(){
+  if (!confirm('새 환자를 시작합니다 — 자가설문(모듈 A)부터 진행. 현재 세션은 초기화됩니다.\n(저장하려면 먼저 "진료 완료·저장"을 누르세요.)')) return;
+  localStorage.removeItem('onnuri_session');
+  session = {};
+  location.href = MODULES[0].file;
+}
+function newPatientDirect(){
+  const has = !!(session.moduleA || session.patient || session.moduleC || session.moduleD || session.moduleE);
+  if (has && !confirm('현재 세션을 정리하고 새 환자를 직접 입력합니다.\n(필요하면 먼저 "진료 완료·저장" 또는 "환자 삭제"를 사용하세요.)')) return;
+  const name = (prompt('환자 이름:', '') || '').trim();
+  if (!name) return;
+  const gender = (prompt('성별 (남/여):', '') || '').trim();
+  const age = (prompt('나이:', '') || '').trim();
+  localStorage.removeItem('onnuri_session');
+  session = { patient: { name:name, gender:gender, age:age } };
+  localStorage.setItem('onnuri_session', JSON.stringify(session));
+  render();
+  alert('"' + name + '" 환자로 시작합니다. 정밀시진/기능검사/처방추천 중 원하는 모듈에서 "열기"를 누르세요.');
+}
+function completePatient(){
+  if (!(session.patient || session.moduleA)){ alert('완료할 세션이 없습니다.'); return; }
+  const nm = (session.patient && session.patient.name) || '(이름 없음)';
+  if (!confirm('"' + nm + '" 환자의 진료를 완료하고 진료 기록에 저장합니다. 진행할까요?\n(저장 후 화면이 초기화됩니다.)')) return;
+  // 전체 세션을 깊은 복사로 저장 — 나중에 "불러오기"로 완전 복원 가능
+  let snap;
+  try { snap = JSON.parse(JSON.stringify(session)); } catch(e){ snap = {}; }
+  snap.id = Date.now();
+  snap.date = new Date().toLocaleDateString('ko-KR');
+  snap.completedAt = Date.now();
+  chartLog.push(snap);
+  localStorage.setItem('onnuri_chart_log', JSON.stringify(chartLog));
+  localStorage.removeItem('onnuri_session');
+  session = {};
+  render();
+  alert('진료 기록에 저장되었습니다. (총 ' + chartLog.length + '건)');
+}
+function toggleChartLog(){ showChartLog = !showChartLog; render(); }
+function loadChartRecord(id){
+  const r = chartLog.filter(function(x){ return String(x.id) === String(id); })[0];
+  if (!r){ alert('기록을 찾을 수 없습니다.'); return; }
+  const has = !!(session.moduleA || session.patient || session.moduleC || session.moduleD || session.moduleE);
+  if (has && !confirm('현재 세션을 종료하고 저장된 진료 기록을 불러옵니다. 진행할까요?\n(저장하려면 먼저 "진료 완료·저장"을 사용하세요.)')) return;
+  // 메타 필드 제외하고 세션으로 복원
+  let restored;
+  try { restored = JSON.parse(JSON.stringify(r)); } catch(e){ restored = {}; }
+  delete restored.id; delete restored.date; delete restored.completedAt;
+  // 옛 snapshotSession 포맷(moduleA에 top/pcts 평면) 호환 — result 객체로 감싸기
+  if (restored.moduleA && restored.moduleA.top && !restored.moduleA.result){
+    restored.moduleA = {
+      result: { top: restored.moduleA.top, pcts: restored.moduleA.pcts || {}, confidence: restored.moduleA.confidence },
+      hanyul: restored.hanyul || null,
+      completedAt: r.completedAt
+    };
+    delete restored.hanyul;
+  }
+  session = restored;
+  localStorage.setItem('onnuri_session', JSON.stringify(session));
+  render();
+  const nm = (session.patient && session.patient.name) || '환자';
+  alert('"' + nm + '" 진료 기록을 불러왔습니다.');
+}
+function deleteChartRecord(id){
+  const r = chartLog.filter(function(x){ return String(x.id) === String(id); })[0];
+  if (!r) return;
+  const nm = (r.patient && r.patient.name) || '(이름 없음)';
+  if (!confirm('"' + nm + '" 진료 기록을 삭제할까요?\n되돌릴 수 없습니다.')) return;
+  chartLog = chartLog.filter(function(x){ return String(x.id) !== String(id); });
+  localStorage.setItem('onnuri_chart_log', JSON.stringify(chartLog));
+  render();
+}
+function clearChartLog(){
+  if (!chartLog.length){ alert('삭제할 기록이 없습니다.'); return; }
+  if (!confirm('저장된 진료 기록 ' + chartLog.length + '건을 모두 삭제하시겠습니까? 되돌릴 수 없습니다.')) return;
+  chartLog = [];
+  localStorage.setItem('onnuri_chart_log', JSON.stringify(chartLog));
+  render();
+}
+function deletePatient(){
+  if (!(session.patient || session.moduleA || session.moduleC || session.moduleD || session.moduleE)){
+    alert('삭제할 세션이 없습니다.'); return;
+  }
+  const nm = (session.patient && session.patient.name) || '현재 세션';
+  if (!confirm('"' + nm + '"을(를) 저장 없이 삭제합니다. 진행할까요?\n(저장하려면 대신 "진료 완료·저장"을 사용하세요.)')) return;
+  localStorage.removeItem('onnuri_session');
+  session = {};
+  render();
+}
+function endSession(){ deletePatient(); }   // 호환용 alias
+function printAll(){ window.print(); }
+
+function setAgreement(v){ trialAgreement = (trialAgreement === v ? '' : v); render(); }
+function onTrialMemo(v){ trialMemo = v; }
+function saveTrial(){
+  if (!session.moduleA){ alert('자가설문(모듈 A) 이상 진행된 세션이 있어야 기록할 수 있습니다.'); return; }
+  if (!trialAgreement && !trialMemo.trim()
+      && !confirm('평가·메모 없이 저장하시겠습니까?')) return;
+  trialLog.push(Object.assign({
+    id: Date.now(),
+    date: new Date().toLocaleDateString('ko-KR'),
+    agreement: trialAgreement,
+    memo: trialMemo.trim(),
+  }, snapshotSession()));
+  localStorage.setItem('onnuri_trial_log', JSON.stringify(trialLog));
+  trialMemo = ''; trialAgreement = '';
+  render();
+  alert('시험 기록에 저장되었습니다. (총 ' + trialLog.length + '건)');
+}
+function deleteTrial(id){
+  if (!confirm('이 시험 기록을 삭제하시겠습니까?')) return;
+  trialLog = trialLog.filter(function(r){ return r.id !== id; });
+  localStorage.setItem('onnuri_trial_log', JSON.stringify(trialLog));
+  render();
+}
+function clearTrialLog(){
+  if (!trialLog.length){ alert('삭제할 기록이 없습니다.'); return; }
+  if (!confirm('시험 기록 ' + trialLog.length + '건을 모두 삭제하시겠습니까? 되돌릴 수 없습니다.')) return;
+  trialLog = [];
+  localStorage.setItem('onnuri_trial_log', JSON.stringify(trialLog));
+  render();
+}
+function exportTrialCSV(){
+  if (!trialLog.length){ alert('저장된 시험 기록이 없습니다.'); return; }
+  const head = ['번호','날짜','환자명','성별','나이','A우세체질','A신뢰도',
+                'C판정','C사유','D체질','D한열','D음양형','D약물시험','E선택처방','원장평가','관찰메모'];
+  const rows = trialLog.map(function(r,i){
+    const p=r.patient||{}, a=r.moduleA||{}, c=r.moduleC||{}, d=r.moduleD||{}, e=r.moduleE||{};
+    return [ i+1, r.date, p.name||'', p.gender||'', p.age||'',
+      CONST_LABEL[a.top]||a.top||'', CONF_LABEL[a.confidence]||a.confidence||'',
+      VERDICT_LABEL[c.verdict]||c.verdict||'', c.reason||'',
+      CONST_LABEL[d.finalConstitution]||d.finalConstitution||'',
+      HANYUL_LABEL[d.finalHanyul]||d.finalHanyul||'',
+      YANGYIN_LABEL[d.finalYangYin]||d.finalYangYin||'',
+      FIT_LABEL[d.drugFitness]||d.drugFitness||'',
+      e.prescription||'', AGREE_LABEL[r.agreement]||r.agreement||'', r.memo||''
+    ].map(csvCell).join(',');
+  });
+  const csv = '﻿' + [head.join(','), rows.join('\n')].join('\n');
+  const blob = new Blob([csv], { type:'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '온누리_사상체질_임상시험기록_' + new Date().toLocaleDateString('ko-KR').replace(/[.\s]/g,'') + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ── 접수 대기열 (서버 /api/intake) ── */
+function fetchQueue(cb){
+  try {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/intake', true);
+    xhr.timeout = 4000;
+    xhr.onreadystatechange = function(){
+      if (xhr.readyState !== 4) return;
+      if (xhr.status === 200){
+        try { intakeQueue = JSON.parse(xhr.responseText) || []; } catch(e){ intakeQueue = []; }
+        queueServerOk = true;
+      } else { intakeQueue = []; queueServerOk = false; }
+      if (cb) cb();
+    };
+    xhr.onerror   = function(){ intakeQueue = []; queueServerOk = false; if (cb) cb(); };
+    xhr.ontimeout = function(){ intakeQueue = []; queueServerOk = false; if (cb) cb(); };
+    xhr.send();
+  } catch(e){ intakeQueue = []; queueServerOk = false; if (cb) cb(); }
+}
+function removeIntake(id, cb){
+  try {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/intake/remove?id=' + encodeURIComponent(id), true);
+    xhr.onreadystatechange = function(){ if (xhr.readyState === 4 && cb) cb(); };
+    xhr.onerror = function(){ if (cb) cb(); };
+    xhr.send();
+  } catch(e){ if (cb) cb(); }
+}
+function startIntakePatient(id){
+  const r = intakeQueue.filter(function(x){ return String(x.id) === String(id); })[0];
+  if (!r){ alert('대기 목록에서 찾을 수 없습니다. 새로고침합니다.'); reload(); return; }
+  const hasSession = !!(session.moduleA || session.moduleC || session.moduleD || session.moduleE);
+  if (hasSession && !confirm('진행 중인 세션이 있습니다. 이 환자로 교체할까요?\n(기존 세션은 종료되며, 시험 기록은 보존됩니다.)')) return;
+  session = { patient: r.patient || {}, moduleA: r.moduleA || null };
+  localStorage.setItem('onnuri_session', JSON.stringify(session));
+  removeIntake(id, function(){ reload(); });
+}
+function deleteIntake(id){
+  if (!confirm('이 접수 대기 환자를 목록에서 삭제할까요?')) return;
+  removeIntake(id, function(){ reload(); });
+}
+
+function toggleAnswers(){ showAnswers = !showAnswers; render(); }
+
+/* ── 진입점 ── */
+function reload(){
+  session = JSON.parse(localStorage.getItem('onnuri_session') || '{}');
+  trialLog = JSON.parse(localStorage.getItem('onnuri_trial_log') || '[]');
+  fetchQueue(render);
+}
+window.addEventListener('pageshow', reload);
+reload();
+</script>
+</body>
+</html>

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>처방 추천 모듈 Mockup (MVP)</title>
+<style>
+  :root{
+    --taeum: #2D7D46;
+    --taeum-l: #E8F5EC;
+    --taeum-bg: #F4FBF6;
+    --soyang: #D4691E;
+    --soyang-l: #FDF1E5;
+    --gold: #C49A3F;
+    --crimson: #c9302c;
+    --ink: #1a1a1a;
+    --sub: #555;
+    --line: #d5d5d5;
+    --pale: #f7f5f0;
+    --bg: #faf8f3;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family: 'Noto Sans KR', -apple-system, sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    padding:24px;
+    line-height:1.5;
+  }
+  .wrap{max-width:1100px;margin:0 auto;background:#fff;border:1px solid var(--line);padding:28px 32px}
+
+  /* 헤더 */
+  .head{
+    border-bottom:2px solid var(--ink);
+    padding-bottom:14px;
+    margin-bottom:20px;
+  }
+  .h-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:6px;
+  }
+  .clinic{font-size:12px;color:var(--sub);letter-spacing:1px}
+  .step-no{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:1.5px}
+  .h-title{font-size:22px;font-weight:700;margin-top:4px}
+  .h-sub{font-size:13px;color:var(--sub);margin-top:6px}
+
+  /* 환자 요약 카드 */
+  .patient-card{
+    background:linear-gradient(to right, var(--taeum-bg), #fff);
+    border:1px solid var(--line);
+    border-left:4px solid var(--taeum);
+    padding:14px 18px;
+    margin-bottom:20px;
+  }
+  .pc-row{
+    display:flex;
+    gap:24px;
+    align-items:baseline;
+    flex-wrap:wrap;
+    font-size:13px;
+  }
+  .pc-label{
+    font-size:10px;
+    color:var(--sub);
+    letter-spacing:1px;
+    margin-right:4px;
+  }
+  .pc-value{font-weight:600}
+  .pc-type{color:var(--taeum);font-size:15px}
+  .pc-chip{
+    display:inline-block;
+    padding:2px 8px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    font-size:11px;
+    margin-right:4px;
+    margin-top:4px;
+  }
+  .pc-chip.heat{background:#fbe4e1;border-color:#e8c0bc;color:#c9302c}
+  .pc-chip.cold{background:#e1ebfb;border-color:#bcd1ea;color:#2E5C8A}
+  .pc-chip.yang{background:#fff4d6;border-color:#e8d896;color:#a07600}
+
+  /* 주소증 입력란 */
+  .input-section{
+    margin-bottom:20px;
+    border:1px solid var(--line);
+    padding:14px 16px;
+    background:#fafafa;
+  }
+  .input-section .is-title{
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:10px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .is-title .num{
+    background:var(--ink);
+    color:#fff;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:10px;
+  }
+  .symptom-chips{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    margin-bottom:10px;
+  }
+  .sym-chip{
+    padding:5px 11px;
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:14px;
+    font-size:12px;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .sym-chip.active{
+    background:var(--taeum);
+    color:#fff;
+    border-color:var(--taeum);
+  }
+  .free-input{
+    width:100%;
+    border:1px solid var(--line);
+    padding:8px 10px;
+    font-family:inherit;
+    font-size:12px;
+    min-height:40px;
+    resize:vertical;
+    background:#fff;
+  }
+
+  /* 추천 처방 영역 */
+  .rx-section-title{
+    font-size:15px;
+    font-weight:700;
+    padding:12px 0 10px;
+    border-bottom:2px solid var(--ink);
+    margin-bottom:14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .rx-section-title .pill{
+    background:var(--taeum);
+    color:#fff;
+    padding:3px 10px;
+    border-radius:3px;
+    font-size:11px;
+    font-weight:600;
+  }
+  .rx-section-title .sub{
+    font-size:12px;
+    color:var(--sub);
+    font-weight:400;
+    margin-left:auto;
+  }
+
+  /* 처방 카드 */
+  .rx-card{
+    border:1px solid var(--line);
+    margin-bottom:14px;
+    background:#fff;
+  }
+  .rx-card.top{border-color:var(--taeum);border-width:2px}
+
+  .rx-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 16px;
+    border-bottom:1px solid var(--line);
+    background:#fafafa;
+  }
+  .rx-card.top .rx-head{background:var(--taeum-l)}
+
+  .rx-rank{
+    background:#888;
+    color:#fff;
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:700;
+    flex-shrink:0;
+  }
+  .rx-card.top .rx-rank{background:var(--taeum)}
+
+  .rx-name{
+    font-size:16px;
+    font-weight:700;
+  }
+  .rx-name .ko-name{
+    font-size:11px;
+    color:var(--sub);
+    font-weight:400;
+    margin-left:6px;
+  }
+  .rx-match{
+    margin-left:auto;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:11px;
+    color:var(--sub);
+  }
+  .match-bar{
+    width:60px;
+    height:6px;
+    background:#e0e0e0;
+    border-radius:3px;
+    overflow:hidden;
+  }
+  .match-bar > div{
+    height:100%;
+    background:var(--taeum);
+  }
+
+  .rx-body{padding:14px 16px}
+  .rx-section{
+    margin-bottom:11px;
+    font-size:12px;
+    line-height:1.65;
+  }
+  .rx-section:last-child{margin-bottom:0}
+  .rx-section .rs-lbl{
+    display:inline-block;
+    font-size:10px;
+    font-weight:700;
+    color:var(--gold);
+    letter-spacing:1px;
+    background:#fef9e8;
+    padding:2px 7px;
+    border-radius:2px;
+    margin-right:6px;
+    vertical-align:middle;
+  }
+  .rx-section .rs-lbl.warn{
+    color:var(--crimson);
+    background:#fbe4e1;
+  }
+  .rx-section .rs-lbl.signal{
+    color:#2E5C8A;
+    background:#e1ebfb;
+  }
+
+  /* 가감약 */
+  .gamga{
+    background:#f7f5f0;
+    padding:8px 11px;
+    border-radius:3px;
+    font-size:11px;
+    margin-top:6px;
+  }
+  .gamga .gm-title{
+    font-size:10px;
+    color:var(--sub);
+    margin-bottom:3px;
+  }
+  .gamga code{
+    font-family:inherit;
+    color:var(--ink);
+  }
+
+  /* 컨트롤 */
+  .rx-foot{
+    padding:10px 16px;
+    border-top:1px solid var(--line);
+    background:#fafafa;
+    display:flex;
+    gap:8px;
+    align-items:center;
+  }
+  .rx-btn{
+    padding:6px 14px;
+    font-size:12px;
+    font-family:inherit;
+    border:1px solid var(--line);
+    background:#fff;
+    cursor:pointer;
+    border-radius:2px;
+  }
+  .rx-btn.primary{
+    background:var(--ink);
+    color:#fff;
+    border-color:var(--ink);
+  }
+  .rx-source{
+    margin-left:auto;
+    font-size:10px;
+    color:var(--sub);
+  }
+
+  /* 안내문 */
+  .caveat{
+    background:#fff8e8;
+    border:1px solid #e9d896;
+    border-radius:3px;
+    padding:11px 14px;
+    margin-top:20px;
+    margin-bottom:20px;
+    font-size:11px;
+    color:#5a4d20;
+    line-height:1.7;
+  }
+  .caveat b{color:#8a6f1f}
+
+  /* 최종 처방 영역 */
+  .final-rx{
+    margin-top:24px;
+    border:2px solid var(--ink);
+    background:#fafaf7;
+    padding:18px;
+  }
+  .final-title{
+    font-size:14px;
+    font-weight:700;
+    margin-bottom:14px;
+    padding-bottom:8px;
+    border-bottom:1px solid var(--line);
+  }
+  .final-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:12px;
+  }
+  .final-box{
+    background:#fff;
+    border:1px solid var(--line);
+    padding:11px 14px;
+  }
+  .fb-lbl{
+    font-size:10px;
+    color:var(--sub);
+    letter-spacing:1px;
+    margin-bottom:6px;
+  }
+  .fb-val{font-size:13px;font-weight:600;color:var(--taeum)}
+
+  .memo{
+    width:100%;
+    border:1px solid var(--line);
+    padding:8px 10px;
+    font-family:inherit;
+    font-size:12px;
+    min-height:50px;
+    resize:vertical;
+    background:#fff;
+    margin-top:8px;
+  }
+  .final-btns{
+    display:flex;
+    gap:8px;
+    margin-top:14px;
+  }
+  .f-btn{
+    padding:10px 20px;
+    font-size:13px;
+    font-weight:600;
+    border:1.5px solid var(--ink);
+    background:#fff;
+    cursor:pointer;
+    font-family:inherit;
+    border-radius:2px;
+  }
+  .f-btn.go{background:var(--ink);color:#fff}
+
+  /* 푸터 */
+  .ft{
+    margin-top:24px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+    font-size:11px;
+    color:var(--sub);
+    display:flex;
+    justify-content:space-between;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 헤더 -->
+  <div class="head">
+    <div class="h-top">
+      <div class="clinic">온누리한의원 · 사상체질 감별 시스템</div>
+      <div class="step-no">STEP 6 · 추천 처방</div>
+    </div>
+    <div class="h-title">처방 추천 모듈</div>
+    <div class="h-sub">체질·한열·음양형이 확정된 환자에게 주소증 기반 추천 처방을 제시합니다. 최종 결정은 원장님이 합니다.</div>
+  </div>
+
+  <!-- 환자 요약 (이전 단계에서 자동 전달) -->
+  <div class="patient-card">
+    <div class="pc-row" style="margin-bottom:8px">
+      <div>
+        <span class="pc-label">확정 체질</span>
+        <span class="pc-value pc-type">태음인</span>
+      </div>
+      <div>
+        <span class="pc-label">한열</span>
+        <span class="pc-chip cold">한증 (寒)</span>
+      </div>
+      <div>
+        <span class="pc-label">음양형</span>
+        <span class="pc-chip yang">양형 (양허)</span>
+      </div>
+      <div>
+        <span class="pc-label">감별 근거</span>
+        <span style="font-size:11px;color:var(--sub)">정밀시진 + 기능검사 + 태음조위탕 7일 시험 (대변/수면/피로 3/4 호전)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 주소증 입력 -->
+  <div class="input-section">
+    <div class="is-title">
+      <span class="num">1</span>
+      주소증 입력 (3개까지 선택 또는 자유 기재)
+    </div>
+
+    <div style="font-size:11px;color:var(--sub);margin-bottom:8px">▣ 자주 쓰는 주소증 (체질·한열에 맞게 자동 필터링됨)</div>
+    <div class="symptom-chips">
+      <button class="sym-chip active">만성 비염</button>
+      <button class="sym-chip active">식적 · 더부룩</button>
+      <button class="sym-chip active">변비 경향</button>
+      <button class="sym-chip">기침 가래</button>
+      <button class="sym-chip">피로 / 보약</button>
+      <button class="sym-chip">감기 후 회복</button>
+      <button class="sym-chip">불면 / 심계</button>
+      <button class="sym-chip">관절통 / 부종</button>
+      <button class="sym-chip">사경증 · 두통</button>
+      <button class="sym-chip">코피</button>
+      <button class="sym-chip">땀 많음</button>
+      <button class="sym-chip">소화불량 (어지러움 동반)</button>
+    </div>
+
+    <div style="font-size:11px;color:var(--sub);margin-bottom:6px">▣ 추가 자유 기재 · 부소증 · 특이사항</div>
+    <textarea class="free-input" placeholder="예: 45세 남, 5년 이상 환절기마다 비염 악화. 식사 후 2~3시간 더부룩. 대변은 2일에 1번. 운동 부족...">45세 남, 환절기마다 비염 악화. 식후 2~3시간 더부룩. 대변 2일에 1회. 어깨 결림 가끔 동반.</textarea>
+  </div>
+
+  <!-- 추천 처방 헤더 -->
+  <div class="rx-section-title">
+    <span class="pill">추천 처방</span>
+    태음인 한증 양형 + 비병 · 식적 · 변비 경향
+    <span class="sub">총 3개 처방 매칭됨</span>
+  </div>
+
+  <!-- 처방 1순위 -->
+  <div class="rx-card top">
+    <div class="rx-head">
+      <div class="rx-rank">1</div>
+      <div class="rx-name">태음조위탕 <span class="ko-name">太陰調胃湯</span></div>
+      <div class="rx-match">
+        매칭도 <div class="match-bar"><div style="width:92%"></div></div> 92%
+      </div>
+    </div>
+    <div class="rx-body">
+      <div class="rx-section">
+        <span class="rs-lbl">추천 근거</span>
+        태음인 한증의 <b>위완수한증·중기 회복</b>의 핵심 처방. 비병(소화불량·더부룩)·식적·소장허한·한습곤비에 두루 적합. 환절기 비염의 외감 동반 시에도 1차 선택지.
+      </div>
+      <div class="rx-section">
+        <span class="rs-lbl warn">주의</span>
+        마황 함유 → 음허·심계·불면자에게 부적합. 본 환자는 양형이라 사용 가능. 술 많이 마시는 환자엔 대황 3푼 가미 고려.
+      </div>
+      <div class="rx-section">
+        <span class="rs-lbl signal">부적합 시그널</span>
+        복용 후 불면·심계·구갈·피부건조 발생 시 → 음형으로 재평가, 음허 동반 가능성. 갈근조위탕 또는 음형 처방으로 전환.
+      </div>
+      <div class="gamga">
+        <div class="gm-title">▣ 본 케이스 가감 (안준철 임상례 기반)</div>
+        <code>태음조위탕 + 갈근 2돈, 승마 1돈 (비병·표열 겸함) / 산약·연자육 각 2돈 (보비·보신, 변비 경향 대응)</code>
+      </div>
+    </div>
+    <div class="rx-foot">
+      <button class="rx-btn primary">이 처방으로 선택</button>
+      <button class="rx-btn">구성 상세</button>
+      <button class="rx-btn">유사 처방 비교</button>
+      <span class="rx-source">안준철 강의록 · 사상임상의학회</span>
+    </div>
+  </div>
+
+  <!-- 처방 2순위 -->
+  <div class="rx-card">
+    <div class="rx-head">
+      <div class="rx-rank">2</div>
+      <div class="rx-name">마황의이인탕 <span class="ko-name">麻黃薏苡仁湯</span></div>
+      <div class="rx-match">
+        매칭도 <div class="match-bar"><div style="width:74%"></div></div> 74%
+      </div>
+    </div>
+    <div class="rx-body">
+      <div class="rx-section">
+        <span class="rs-lbl">추천 근거</span>
+        태음인 한자 풍한습비증의 기본방. 비염이 <b>관절통·어깨결림</b>을 동반하고 환절기·습한 날씨에 악화되는 경우 적합. 본 환자의 어깨 결림 동반 소견과 부합.
+      </div>
+      <div class="rx-section">
+        <span class="rs-lbl warn">주의</span>
+        마황 함유 → 음허·심계자 부적합. 식적·변비가 주증이면 1순위 선택. 풍한습비증이 비염보다 우세할 때 우선 선택.
+      </div>
+      <div class="rx-section">
+        <span class="rs-lbl signal">부적합 시그널</span>
+        설사 빈발 또는 무기력 → 의이인 감량 또는 태음조위탕으로 전환.
+      </div>
+    </div>
+    <div class="rx-foot">
+      <button class="rx-btn primary">이 처방으로 선택</button>
+      <button class="rx-btn">구성 상세</button>
+      <button class="rx-btn">유사 처방 비교</button>
+      <span class="rx-source">사상임상의학회 (한자 풍한습비)</span>
+    </div>
+  </div>
+
+  <!-- 처방 3순위 -->
+  <div class="rx-card">
+    <div class="rx-head">
+      <div class="rx-rank">3</div>
+      <div class="rx-name">조위승청탕 <span class="ko-name">調胃升淸湯</span></div>
+      <div class="rx-match">
+        매칭도 <div class="match-bar"><div style="width:62%"></div></div> 62%
+      </div>
+    </div>
+    <div class="rx-body">
+      <div class="rx-section">
+        <span class="rs-lbl">추천 근거</span>
+        태음인 한증의 <b>심비기허·한습곤비</b>에 쓰임. 비병 + 어지럼증·두통·사경증 등 청양불승 소견이 있을 때 적합. 본 환자는 부소증으로 어깨결림이 있어 보조 후보.
+      </div>
+      <div class="rx-section">
+        <span class="rs-lbl warn">주의</span>
+        주소증이 식적·변비보다 두통·현훈·사경증 쪽으로 기울 때 우선 선택. 본 케이스에서는 1·2순위 부적합 시 고려.
+      </div>
+      <div class="gamga">
+        <div class="gm-title">▣ 임상 가감례 (안준철)</div>
+        <code>+ 천마 1돈 (사경증·BBB 통과·뇌순환 개선)</code>
+      </div>
+    </div>
+    <div class="rx-foot">
+      <button class="rx-btn primary">이 처방으로 선택</button>
+      <button class="rx-btn">구성 상세</button>
+      <button class="rx-btn">유사 처방 비교</button>
+      <span class="rx-source">안준철 임상례</span>
+    </div>
+  </div>
+
+  <!-- 안전 안내문 -->
+  <div class="caveat">
+    <b>※ 처방 결정 시 유의사항</b> &nbsp;|&nbsp;
+    본 추천은 안준철·하만종·권재식 선생님 자료에서 추출한 매칭 결과로, 최종 처방 결정은 원장님이 환자 상태를 직접 확인하고 내리셔야 합니다. 
+    안준철 원장님 강조사항 — <b>"한 가지 증상의 호전만으로 체질·처방을 확정하지 않는다"</b>, 
+    <b>"체질과 한열은 항상 전제로 하고 약물 적합성을 확인해야 한다"</b>. 
+    부적합 시그널(불면·심계·구갈·피부건조·설사·무기력) 발생 시 즉시 재평가가 필요합니다.
+  </div>
+
+  <!-- 최종 처방 결정 -->
+  <div class="final-rx">
+    <div class="final-title">▶ 최종 처방 결정 (원장 입력)</div>
+
+    <div class="final-grid">
+      <div class="final-box">
+        <div class="fb-lbl">선택 처방</div>
+        <div class="fb-val">태음조위탕 + 갈근 2돈, 승마 1돈, 산약·연자육 각 2돈</div>
+      </div>
+      <div class="final-box">
+        <div class="fb-lbl">처방 기간 / 재진 시점</div>
+        <div class="fb-val">반 제 (15일) · 재진 D+7, D+15</div>
+      </div>
+    </div>
+
+    <textarea class="memo" placeholder="처방 의도 · 환자 설명 사항 · 다음 단계 계획 등...">환절기 비염 + 식적 + 변비 경향에 태음조위탕 기본 + 비병·표열 대응 갈근승마 가미. 보비·보신으로 산약·연자육 가. 7일째 대변·수면·피로 재평가 후 가감 조정.</textarea>
+
+    <div class="final-btns">
+      <button class="f-btn go">처방 확정 · 차트 저장</button>
+      <button class="f-btn">출력 (PDF)</button>
+      <button class="f-btn">재진 시 부적합 시그널 추적</button>
+    </div>
+  </div>
+
+  <!-- 푸터 -->
+  <div class="ft">
+    <span>온누리 한의원 · 처방 추천 모듈 MVP</span>
+    <span>v0.1 mockup · 안준철·하만종·권재식 자료 기반</span>
+  </div>
+
+</div>
+</body>
+</html>

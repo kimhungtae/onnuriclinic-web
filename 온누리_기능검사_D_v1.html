@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>온누리 한의원 — 기능 검사 D (맥·복·반응·약물시험)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --taeum:#2D7D46; --taeum-l:#E8F5EC; --taeum-bg:#F4FBF6;
+  --soyang:#D4691E; --soyang-l:#FDF1E5; --soyang-bg:#FEF8F2;
+  --gold:#C49A3F; --gold-l:#FEF9E6;
+  --hot:#C9302C;  --hot-l:#FBE4E1;
+  --cold:#2E5C8A; --cold-l:#E1EBFB;
+  --yang:#A07600; --yang-l:#FFF4D6;
+  --yin:#5E4A8A;  --yin-l:#E8E0F2;
+  --ink:#1a1a1a; --sub:#555; --line:#d5d5d5;
+  --bg:#faf8f3; --serif:'Noto Serif KR',serif; --sans:'Noto Sans KR',sans-serif;
+  --pale:#f7f5f0; --txt3:#9c9590; --bg2:#f1ede4;
+}
+html{font-size:16px;}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-text-size-adjust:100%;}
+
+/* ── 레이아웃 ── */
+.wrap{max-width:980px;margin:0 auto;padding:24px 16px 56px;}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:24px 28px;box-shadow:0 2px 12px rgba(0,0,0,.05);}
+
+/* ── 안전 배너 ── */
+.safety-banner{background:#fdf3f3;border:1px solid #e3b9b9;color:#8a3a3a;font-size:.75rem;
+  padding:8px 14px;border-radius:6px;text-align:center;margin-bottom:14px;line-height:1.5;}
+
+/* ── 헤더 ── */
+.head{border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:16px;}
+.h-top{display:flex;justify-content:space-between;align-items:baseline;}
+.clinic{font-size:.72rem;letter-spacing:1.5px;color:var(--sub);}
+.ver{font-size:.68rem;color:var(--gold);font-weight:700;letter-spacing:1px;}
+.h-title{font-family:var(--serif);font-size:1.36rem;font-weight:700;margin-top:6px;}
+.h-sub{font-size:.78rem;color:var(--sub);margin-top:6px;}
+.h-patient{font-size:.8rem;margin-top:10px;background:var(--pale);padding:8px 12px;border-radius:5px;}
+
+/* ── info 화면 ── */
+.info-sec{padding:12px 0;border-bottom:1px solid var(--line);}
+.info-sec:last-of-type{border-bottom:none;}
+.info-row{display:flex;gap:12px;font-size:.88rem;padding:4px 0;}
+.info-lbl{width:78px;color:var(--sub);font-weight:500;flex-shrink:0;}
+.info-val{flex:1;}
+.muted{color:var(--txt3);}
+.notice{background:var(--gold-l);border:1px solid #e0cf8e;border-radius:6px;
+  padding:12px 14px;font-size:.82rem;line-height:1.6;color:#5a4d20;}
+.name-grid{display:grid;grid-template-columns:1fr 92px 92px;gap:8px;margin-top:10px;}
+.fld{padding:9px 11px;border:1px solid var(--line);border-radius:5px;
+  font-family:inherit;font-size:.85rem;background:#fff;color:var(--ink);}
+.fld:focus{outline:none;border-color:var(--taeum);}
+
+/* ── 검사 섹션 ── */
+.d-section{border:1px solid var(--line);border-radius:8px;margin-bottom:16px;overflow:hidden;}
+.d-sec-head{background:var(--bg2);padding:9px 14px;display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid var(--line);}
+.d-sec-no{background:var(--ink);color:#fff;width:22px;height:22px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;}
+.d-sec-title{font-size:.9rem;font-weight:700;}
+.d-hanja{font-size:.74rem;color:var(--sub);font-weight:400;}
+.d-sec-body{padding:14px 16px;}
+
+/* ── 검사 그리드 ── */
+.dgrid{display:grid;grid-template-columns:148px 1fr 1fr;gap:1px;background:var(--line);
+  border:1px solid var(--line);font-size:.8rem;}
+.dgrid.crit-grid{grid-template-columns:130px 1fr 1fr 1fr;}
+.dgrid>div{background:#fff;padding:8px 10px;}
+.dg-head{background:#faf7f0;font-weight:600;font-size:.7rem;color:var(--sub);
+  text-align:center;letter-spacing:.5px;}
+.dg-cat{background:#f7f4ec;font-weight:600;font-size:.78rem;display:flex;flex-direction:column;
+  justify-content:center;}
+.dg-sub{font-size:.64rem;color:var(--sub);font-weight:400;margin-top:2px;}
+.d-opt{display:flex;align-items:flex-start;gap:7px;padding:3px 0;cursor:pointer;line-height:1.5;}
+.d-opt input{margin-top:3px;width:14px;height:14px;flex-shrink:0;cursor:pointer;}
+.d-opt-txt{flex:1;}
+.d-textarea{width:100%;border:1px dashed #aaa;background:#fcfaf3;border-radius:4px;
+  padding:7px 9px;font-family:inherit;font-size:.78rem;min-height:40px;resize:vertical;color:var(--ink);}
+.d-textarea:focus{outline:none;border-color:var(--gold);}
+
+/* ── 방향 태그 ── */
+.dtag{display:inline-block;font-size:.62rem;padding:1px 5px;border-radius:3px;
+  margin-left:4px;font-weight:600;white-space:nowrap;}
+.dtag.t{background:var(--taeum-l);color:var(--taeum);}
+.dtag.s{background:var(--soyang-l);color:var(--soyang);}
+.dtag.heat{background:var(--hot-l);color:var(--hot);}
+.dtag.cold{background:var(--cold-l);color:var(--cold);}
+.dtag.yang{background:var(--yang-l);color:var(--yang);}
+.dtag.yin{background:var(--yin-l);color:var(--yin);}
+
+/* ── 약물 시험 ── */
+.rx-test{background:#fff9e8;border:1px solid #e9d896;border-radius:5px;padding:11px 13px;margin-bottom:14px;}
+.rx-lbl{font-weight:700;color:#8a6f1f;font-size:.78rem;margin-bottom:8px;letter-spacing:.5px;}
+.rx-row{display:grid;grid-template-columns:20px 86px 1fr;gap:8px;align-items:center;
+  padding:5px 0;cursor:pointer;font-size:.8rem;}
+.rx-row input{width:15px;height:15px;cursor:pointer;}
+.rx-group{font-weight:600;color:var(--sub);font-size:.74rem;}
+.rx-name{font-weight:600;}
+.rx-hint{font-size:.72rem;color:var(--sub);grid-column:3;}
+.crit-title{font-size:.8rem;font-weight:700;margin:4px 0 8px;}
+.crit-note{margin-top:10px;background:#fff;border:1px solid var(--line);border-radius:5px;
+  padding:9px 12px;font-size:.72rem;color:var(--sub);line-height:1.6;}
+
+/* ── 집계 패널 (sticky) ── */
+.panel{position:sticky;bottom:0;z-index:5;background:#fff;border:1px solid var(--line);
+  border-top:2px solid var(--ink);box-shadow:0 -4px 16px rgba(0,0,0,.08);padding:11px 16px;margin-top:14px;}
+.d-tally{display:flex;gap:20px;flex-wrap:wrap;align-items:center;font-size:.82rem;margin-bottom:8px;}
+.tly-label{font-weight:700;}
+.tly-grp{background:var(--bg2);padding:3px 11px;border-radius:4px;}
+.tly-grp b{font-size:.92rem;}
+.dmsg{padding:8px 12px;border:1.5px solid;border-radius:6px;font-size:.83rem;}
+.dmsg.fit{background:var(--taeum-l);border-color:var(--taeum);}
+.dmsg.unfit{background:var(--gold-l);border-color:var(--gold);}
+.dmsg.incomplete{background:#f4f4f0;border-color:var(--line);color:var(--sub);}
+.tly-foot{font-size:.68rem;color:var(--txt3);margin-top:6px;}
+
+/* ── 종합 판정 ── */
+.guide{background:var(--gold-l);border-left:3px solid var(--gold);padding:10px 14px;
+  font-size:.76rem;line-height:1.6;color:#5a4d20;margin:14px 0;}
+.ax-row{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:center;margin-bottom:12px;}
+.ax-lbl{font-size:.82rem;color:var(--sub);font-weight:600;}
+.ax-btns{display:flex;gap:7px;flex-wrap:wrap;}
+.ax-btn{padding:7px 15px;border:1.5px solid var(--line);background:#fff;font-size:.82rem;
+  font-family:inherit;cursor:pointer;border-radius:5px;}
+.ax-btn:hover:not(:disabled){border-color:var(--ink);}
+.ax-btn:disabled{opacity:.4;cursor:not-allowed;}
+.ax-btn.sel{font-weight:700;color:#fff;}
+.ax-btn.ax-constitution.sel{background:var(--taeum);border-color:var(--taeum);}
+.ax-btn.ax-hanyul.sel{background:var(--cold);border-color:var(--cold);}
+.ax-btn.ax-yangyin.sel{background:var(--yin);border-color:var(--yin);}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;}
+.sum-box{border:1px solid var(--line);border-radius:6px;padding:11px 13px;background:var(--pale);}
+.sum-lbl{font-size:.68rem;color:var(--sub);letter-spacing:.5px;margin-bottom:6px;}
+.sum-val{font-size:.82rem;line-height:1.55;}
+.d-memo{width:100%;border:1px solid var(--line);border-radius:6px;padding:9px 11px;
+  font-family:inherit;font-size:.82rem;min-height:56px;resize:vertical;background:#fcfaf3;color:var(--ink);}
+.d-memo:focus{outline:none;border-color:var(--taeum);}
+.status-box{padding:10px 14px;border-radius:6px;font-size:.83rem;margin:14px 0;}
+.status-box.wait{background:#f4f4f0;border:1px solid var(--line);color:var(--sub);}
+.status-box.done{background:var(--taeum-l);border:1px solid var(--taeum);color:var(--taeum);font-weight:600;}
+.status-box.warn{background:var(--gold-l);border:1px solid var(--gold);color:#5a4d20;}
+
+/* ── 버튼 ── */
+.btn{padding:10px 18px;border-radius:6px;font-size:.85rem;font-family:inherit;cursor:pointer;border:1.5px solid;}
+.btn-dark{background:var(--ink);color:#fff;border-color:var(--ink);}
+.btn-line{background:#fff;color:var(--ink);border-color:var(--line);}
+.btn-dark:hover:not(:disabled){opacity:.88;}
+.btn-line:hover{background:var(--bg2);}
+.btn:disabled{opacity:.45;cursor:not-allowed;}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}
+.actions-card{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;
+  background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 20px;}
+
+/* ── 푸터 ── */
+.foot{margin-top:20px;padding-top:14px;border-top:1px solid var(--line);}
+.safe-notes{font-size:.74rem;color:#7a6a3a;line-height:1.75;
+  background:var(--gold-l);border-radius:6px;padding:9px 13px;}
+.source{font-size:.7rem;color:var(--txt3);margin-top:8px;text-align:right;}
+
+/* ── 인쇄 ── */
+@media print{
+  @page{margin:12mm;}
+  body{background:#fff;}
+  .no-print{display:none!important;}
+  .wrap{max-width:100%;padding:0;}
+  .card,.actions-card{border:none;box-shadow:none;padding:0;border-radius:0;}
+  .panel{position:static;box-shadow:none;border:1px solid #ccc;}
+  .dmsg,.status-box{background:#fff!important;border-color:#999!important;color:var(--ink)!important;}
+  .d-section,.dgrid,.summary-grid,.sum-box,.foot,.ax-row{break-inside:avoid;}
+  .h-title{font-size:1.18rem;}
+}
+
+/* ── 반응형 ── */
+@media(max-width:620px){
+  .name-grid{grid-template-columns:1fr 70px 70px;}
+  .summary-grid{grid-template-columns:1fr;}
+  .ax-row{grid-template-columns:1fr;gap:5px;}
+  .dgrid{grid-template-columns:110px 1fr 1fr;}
+}
+</style>
+</head>
+<body>
+<div class="no-print" style="max-width:980px;margin:0 auto;padding:18px 16px 0;">
+<button onclick="location.href='온누리_사상체질_홈_v1.html'" style="font-family:inherit;font-weight:500;font-size:.84rem;background:#fff;color:#444;border:1px solid #c9c4bb;border-radius:8px;padding:8px 15px;cursor:pointer;">← 통합 홈으로 돌아가기</button>
+</div>
+<div id="wrap" class="wrap"></div>
+<script>
+/* ═══════════════════════════════════════════════════
+   온누리 기능 검사 D (맥진·복진·반응·약물시험)
+   모듈 C-1 후속 확진 차트 · vanilla JS · 외부 라이브러리 0개
+═══════════════════════════════════════════════════ */
+
+/* ── §6 검사 항목 데이터 (mockup 추출, 한 글자도 수정 금지) ── */
+const D_FINDINGS = {
+  // 섹션 1 — 맥진 (脈診)
+  pulse: [
+    { id:'p1', cat:'기본맥 강도', sub:'전체 강약', col:1,
+      text:'처음부터 끝까지 눌러도 힘이 있다 (長而緊)', tags:['taeum'] },
+    { id:'p2', cat:'기본맥 강도', sub:'전체 강약', col:2,
+      text:'미세불현 — 무력하고 실같이 가는 맥', tags:['soyang'] },
+    { id:'p3', cat:'관맥 부위별', sub:'촌맥 vs 척맥', col:1,
+      text:'촌맥(寸)이 더 강하게 잡힘', tags:['yang'] },
+    { id:'p4', cat:'관맥 부위별', sub:'촌맥 vs 척맥', col:2,
+      text:'척맥(尺)이 더 강하게 잡힘 → 음허 경향', tags:['yin'] },
+    { id:'p5', cat:'맥의 한열', sub:'참고 지표', col:1,
+      text:'침지(沈遲) 경향', tags:['cold'] },
+    { id:'p6', cat:'맥의 한열', sub:'참고 지표', col:2,
+      text:'부삭(浮數) 경향', tags:['hot'] },
+  ],
+  // 섹션 2 — 복진 (腹診)
+  palpation: [
+    { id:'a1', cat:'상복부 가스', sub:'과식 후 헛배', col:1,
+      text:'과식 시 윗배에 가스 잘 차고 헛배부름', tags:['soyang','cold'] },
+    { id:'a2', cat:'상복부 가스', sub:'과식 후 헛배', col:2,
+      text:'과식해도 가스 적고 윗배 편안', tags:['soyang','hot'] },
+    { id:'a3', cat:'복부 압통', sub:'중완·심하 부위', col:1,
+      text:'심하부 두툼·압통 적음, 복근 두꺼움', tags:['taeum'] },
+    { id:'a4', cat:'복부 압통', sub:'중완·심하 부위', col:2,
+      text:'심하부·중완 압통, 복근 얇음', tags:['soyang'] },
+    { id:'a5', cat:'대변 빈도', sub:'소증의 한열 기준', col:1,
+      text:'하루 1회 이상 매일 봄', tags:['cold'] },
+    { id:'a6', cat:'대변 빈도', sub:'소증의 한열 기준', col:2,
+      text:'1~2일에 한 번, 변비 경향', tags:['hot'] },
+  ],
+  // 섹션 3 — 반응 확인 (反應 確認)
+  reaction: [
+    { id:'r1', cat:'커피 반응', sub:'불면·심계 여부', col:1,
+      text:'잘 잠 (위완수한증)', tags:['taeum','yang'] },
+    { id:'r2', cat:'커피 반응', sub:'불면·심계 여부', col:1,
+      text:'불면 (간수열증)', tags:['taeum','yin'] },
+    { id:'r3', cat:'커피 반응', sub:'불면·심계 여부', col:2,
+      text:'심계·정충, 속쓰림', tags:['soyang'] },
+    { id:'r4', cat:'우유·산약 반응', sub:'태음 배제 지표', col:1,
+      text:'잘 먹음 (배제 안 됨)', tags:[] },
+    { id:'r5', cat:'우유·산약 반응', sub:'태음 배제 지표', col:2,
+      text:'산약 먹으면 배 아픔 → 태음 배제', tags:['soyang'] },
+    { id:'r6', cat:'우유·산약 반응', sub:'태음 배제 지표', col:2,
+      text:'우유 먹고 확실히 설사·복통', tags:[] },
+    { id:'r7', cat:'홍삼 반응', sub:'참고', col:1,
+      text:'편안 / 무반응', tags:[] },
+    { id:'r8', cat:'홍삼 반응', sub:'참고', col:2,
+      text:'얼굴 열·가슴답답 → 소양 열자 가능', tags:['soyang','hot'] },
+  ],
+};
+const D_FREETEXT = {
+  id:'r-food', cat:'평생 못 먹는 음식', sub:'히든카드',
+  placeholder:'예: 양파 알러지 → 태양인 시사 / 메밀 알러지 → 태음 시사 등 자유 기재',
+};
+const D_RX_OPTIONS = [
+  { id:'taeum_cold',  group:'태음 한자', rx:'태음조위탕',           hint:'맞으면 변 시원·땀 개운' },
+  { id:'taeum_hot',   group:'태음 열자', rx:'갈근조위탕',           hint:'맞으면 변 좋아짐, 음허자엔 부적' },
+  { id:'soyang_cold', group:'소양 한자', rx:'형방패독산 / 형방지황탕', hint:'맞으면 상복부 편안' },
+  { id:'soyang_hot',  group:'소양 열자', rx:'지황백호탕 / 양격산화탕', hint:'맞으면 갈증·열감 해소' },
+];
+const D_CRITERIA = [
+  { id:'stool',   name:'대변', sub:'3~7일 후',
+    improve:'시원하고 매일 봄', neutral:'큰 변화 없음', worsen:'설사 / 더 굳음' },
+  { id:'urine',   name:'소변', sub:'',
+    improve:'시원·정상량',     neutral:'큰 변화 없음', worsen:'빈삭·잔뇨감' },
+  { id:'sleep',   name:'수면', sub:'',
+    improve:'잘 잠·깊어짐',     neutral:'변화 없음',   worsen:'불면·심계' },
+  { id:'fatigue', name:'피로감', sub:'',
+    improve:'기력·안색 회복',   neutral:'변화 없음',   worsen:'탈진·무기력' },
+];
+
+const TAG_LABELS = { taeum:'태음', soyang:'소양', hot:'熱', cold:'寒', yang:'양형', yin:'음형' };
+const TAG_CLASS  = { taeum:'t', soyang:'s', hot:'heat', cold:'cold', yang:'yang', yin:'yin' };
+const CONSTITUTION_OPTS = [{v:'taeum',label:'태음인'},{v:'soyang',label:'소양인'},{v:'retest',label:'재시험 필요'}];
+const HANYUL_OPTS       = [{v:'cold',label:'한증 (寒)'},{v:'hot',label:'열증 (熱)'},{v:'mixed',label:'한열 협잡'}];
+const YANGYIN_OPTS      = [{v:'yang',label:'양형 (양허)'},{v:'yin',label:'음형 (음허)'},{v:'none',label:'해당없음'}];
+
+/* ── §7 판정 로직 ── */
+function tallyDirections(checkedIds){
+  const all = D_FINDINGS.pulse.concat(D_FINDINGS.palpation, D_FINDINGS.reaction);
+  const tally = { taeum:0, soyang:0, cold:0, hot:0, yang:0, yin:0 };
+  checkedIds.forEach(function(id){
+    const it = all.filter(function(x){ return x.id===id; })[0];
+    if (it) it.tags.forEach(function(t){ if (tally[t]!==undefined) tally[t]++; });
+  });
+  return tally;
+}
+function evaluateDrugTrial(fourCriteria){
+  const vals = ['stool','urine','sleep','fatigue'].map(function(k){ return fourCriteria[k]; });
+  const answered = vals.filter(Boolean).length;
+  const improve  = vals.filter(function(v){ return v==='improve'; }).length;
+  if (answered < 4) return { fitness:'incomplete', improveCount:improve, reason:'4대 기준 입력 미완료' };
+  if (improve >= 3) return { fitness:'fit',   improveCount:improve, reason:'4대 기준 '+improve+'개 호전 — 적합' };
+  return { fitness:'unfit', improveCount:improve, reason:'호전 '+improve+'개 (3개 미만) — 후보 재평가 필요' };
+}
+function nextModuleOf(finalConstitution, drugFitness){
+  if (finalConstitution === 'retest') return 'moduleC';
+  if (drugFitness === 'unfit')        return 'moduleC';
+  return 'moduleE';
+}
+
+/* ── 상태 ── */
+let step = 0;  // 0:info, 1:test, 2:verdict
+let session = JSON.parse(localStorage.getItem('onnuri_session') || '{}');
+let checks = {};                 // finding id → true
+let freetext = '';
+let rxChoice = null;
+let criteria = { stool:null, urine:null, sleep:null, fatigue:null };
+let verdict = { constitution:null, hanyul:null, yangyin:null };
+let memo = '';
+let confirmed = false;
+
+/* ── 유틸 ── */
+function esc(s){
+  return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function checkedIdList(){
+  return Object.keys(checks).filter(function(k){ return checks[k]; });
+}
+function findingsIn(key){
+  return D_FINDINGS[key].filter(function(it){ return checks[it.id]; }).map(function(it){ return it.id; });
+}
+function groupByCat(arr){
+  const out = [];
+  arr.forEach(function(it){
+    let g = out.filter(function(x){ return x.cat===it.cat; })[0];
+    if (!g){ g = { cat:it.cat, sub:it.sub, col1:[], col2:[] }; out.push(g); }
+    (it.col===1 ? g.col1 : g.col2).push(it);
+  });
+  return out;
+}
+
+/* ── 세션 ── */
+function loadSession(){
+  session = JSON.parse(localStorage.getItem('onnuri_session') || '{}');
+  const md = session.moduleD;
+  if (md){
+    if (md.sections){
+      ['pulse','palpation','reaction'].forEach(function(k){
+        const sec = md.sections[k];
+        ((sec && sec.items) || []).forEach(function(id){ checks[id] = true; });
+      });
+      freetext = (md.sections.reaction && md.sections.reaction.freetext) || '';
+    }
+    if (md.drugTrial){
+      rxChoice = md.drugTrial.prescription || null;
+      criteria = Object.assign({stool:null,urine:null,sleep:null,fatigue:null}, md.drugTrial.fourCriteria || {});
+    }
+    verdict = {
+      constitution: md.finalConstitution || null,
+      hanyul: md.finalHanyul || null,
+      yangyin: md.finalYangYin || null,
+    };
+    memo = md.memo || '';
+    confirmed = true;
+    step = 2;
+  }
+}
+function buildModuleD(){
+  const dt = evaluateDrugTrial(criteria);
+  return {
+    sections: {
+      pulse:     { items: findingsIn('pulse') },
+      palpation: { items: findingsIn('palpation') },
+      reaction:  { items: findingsIn('reaction'), freetext: freetext },
+    },
+    directionTally: tallyDirections(checkedIdList()),
+    drugTrial: {
+      prescription: rxChoice,
+      fourCriteria: { stool:criteria.stool, urine:criteria.urine, sleep:criteria.sleep, fatigue:criteria.fatigue },
+      improveCount: dt.improveCount,
+      fitness: dt.fitness,
+    },
+    finalConstitution: verdict.constitution,
+    finalHanyul: verdict.hanyul,
+    finalYangYin: verdict.yangyin || 'none',
+    memo: memo,
+    completedAt: Date.now(),
+  };
+}
+function saveSession(){
+  session.moduleD = buildModuleD();
+  localStorage.setItem('onnuri_session', JSON.stringify(session));
+}
+
+/* ── 환자·이전 모듈 표시 ── */
+function fmtPct(v){
+  if (v === null || v === undefined || isNaN(v)) return '—';
+  v = Number(v);
+  return (v <= 1 ? Math.round(v*100) : Math.round(v)) + '%';
+}
+function fmtConf(c){
+  if (c === null || c === undefined) return '';
+  const map = { low:'낮음', medium:'보통', mid:'보통', high:'높음' };
+  if (typeof c === 'number') return fmtPct(c);
+  return map[c] || String(c);
+}
+function patientLine(){
+  const p = session.patient || {};
+  const bits = [];
+  bits.push(p.name ? esc(p.name) : '환자 정보 없음');
+  if (p.gender) bits.push(esc(p.gender));
+  if (p.age) bits.push(esc(String(p.age)) + '세');
+  return bits.join(' · ');
+}
+function moduleASummary(){
+  const ma = session.moduleA;
+  if (!ma || !ma.result) return null;
+  const pcts = ma.result.pcts || {};
+  const conf = fmtConf(ma.result.confidence);
+  return '모듈 A: 태음 ' + fmtPct(pcts.te) + ' / 소양 ' + fmtPct(pcts.sy)
+    + (conf ? ' (신뢰도 ' + conf + ')' : '');
+}
+function moduleCSummary(){
+  const mc = session.moduleC;
+  if (!mc) return null;
+  const vmap = { taeum:'태음인 확정', soyang:'소양인 확정', pending:'보류' };
+  return '모듈 C 정밀시진: ' + (vmap[mc.verdict] || mc.verdict)
+    + (mc.reason ? ' (사유: ' + esc(mc.reason) + ')' : '');
+}
+
+/* ── 공통 조각 ── */
+function banner(){
+  return '<div class="safety-banner no-print">본 도구는 임상 의사결정 지원 도구이며 의료기기가 아닙니다. '
+    + '최종 진단·처방은 원장님이 환자를 직접 확인하고 결정합니다.</div>';
+}
+function footer(){
+  return '<div class="foot">'
+    + '<div class="safe-notes">'
+    +   '<div>※ 한 가지 증상의 호전만으로 체질·처방을 확정하지 않습니다 (안준철)</div>'
+    +   '<div>※ 체질과 한열은 항상 전제로 하고 약물 적합성을 확인합니다 (안준철)</div>'
+    + '</div>'
+    + '<div class="source">검사 항목 출처: 안준철 사상의학 방법론 · 권재식 반응 확인 자료</div>'
+    + '</div>';
+}
+function headBlock(title, sub, isPatient){
+  return '<div class="head">'
+    + '<div class="h-top"><span class="clinic">온누리 한의원</span>'
+    + '<span class="ver">v1 · 기능 검사 D</span></div>'
+    + '<div class="h-title">' + title + '</div>'
+    + (isPatient ? '<div class="h-patient">' + sub + '</div>'
+                 : '<div class="h-sub">' + sub + '</div>')
+    + '</div>';
+}
+
+/* ═══ 화면 0 — screen-info ═══ */
+function renderInfo(){
+  const p = session.patient || {};
+  let patientBlock;
+  if (p.name){
+    const extra = [ p.gender ? esc(p.gender) : '', p.age ? esc(String(p.age)) + '세' : '' ]
+      .filter(Boolean).join(' · ');
+    patientBlock = '<div class="info-row"><span class="info-lbl">환자</span>'
+      + '<span class="info-val">' + esc(p.name) + (extra ? ' · ' + extra : '') + '</span></div>';
+  } else {
+    patientBlock = '<div class="info-row"><span class="info-lbl">환자</span>'
+      + '<span class="info-val muted">환자 정보 없음 — 아래에 입력하거나 비워둘 수 있습니다</span></div>'
+      + '<div class="name-grid">'
+      + '<input id="in-name" class="fld" placeholder="환자명">'
+      + '<select id="in-gender" class="fld"><option value="">성별</option>'
+      + '<option value="남">남</option><option value="여">여</option></select>'
+      + '<input id="in-age" class="fld" type="number" min="0" max="120" placeholder="나이">'
+      + '</div>';
+  }
+  const ma = moduleASummary();
+  const mc = moduleCSummary();
+  const isPending = session.moduleC && session.moduleC.verdict === 'pending';
+  let prevBlock = '';
+  if (ma) prevBlock += '<div class="info-row"><span class="info-lbl">모듈 A</span>'
+    + '<span class="info-val">' + esc(ma) + '</span></div>';
+  if (mc) prevBlock += '<div class="info-row"><span class="info-lbl">모듈 C</span>'
+    + '<span class="info-val">' + esc(mc) + '</span></div>';
+  if (!isPending) prevBlock += '<div class="notice">정밀 시진(모듈 C)에서 <b>보류</b> 판정된 환자를 대상으로 하는 '
+    + '확진 차트입니다. 모듈 C 결과가 없거나 보류가 아니어도 원장 재량으로 진행할 수 있습니다.'
+    + '<br><br><button class="btn btn-line" onclick="goToModuleC()">→ 모듈 C (정밀 시진) 열기</button></div>';
+
+  return banner()
+    + '<div class="card">'
+    +   headBlock('사상체질 기능 검사 — 맥진·복진·반응·약물시험',
+          '정밀 시진으로도 확정되지 않은 경우, 기능적 단서로 체질·한열·음양형을 함께 가립니다.', false)
+    +   '<div class="info-sec">' + patientBlock + '</div>'
+    +   '<div class="info-sec">' + (prevBlock || '<div class="info-row muted">이전 모듈 기록 없음</div>') + '</div>'
+    +   '<div class="actions"><button class="btn btn-dark" onclick="startTest()">기능 검사 시작 →</button></div>'
+    + '</div>'
+    + footer();
+}
+
+/* ═══ 화면 1 — screen-test ═══ */
+function renderFinding(it){
+  const checked = checks[it.id] ? ' checked' : '';
+  const tags = it.tags.map(function(t){
+    return '<span class="dtag ' + TAG_CLASS[t] + '">' + TAG_LABELS[t] + '</span>';
+  }).join('');
+  return '<label class="d-opt">'
+    + '<input type="checkbox" id="chk-' + it.id + '"' + checked
+    + ' data-tags="' + it.tags.join(',') + '" onchange="onFindingChange(\'' + it.id + '\')">'
+    + '<span class="d-opt-txt">' + esc(it.text) + tags + '</span></label>';
+}
+function renderSection(no, title, hanja, key, head1, head2){
+  const groups = groupByCat(D_FINDINGS[key]);
+  let rows = '';
+  groups.forEach(function(g){
+    rows += '<div class="dg-cat">' + esc(g.cat)
+      + '<span class="dg-sub">' + esc(g.sub) + '</span></div>'
+      + '<div>' + g.col1.map(renderFinding).join('') + '</div>'
+      + '<div>' + g.col2.map(renderFinding).join('') + '</div>';
+  });
+  if (key === 'reaction'){
+    rows += '<div class="dg-cat">' + esc(D_FREETEXT.cat)
+      + '<span class="dg-sub">' + esc(D_FREETEXT.sub) + '</span></div>'
+      + '<div style="grid-column:span 2"><textarea class="d-textarea" '
+      + 'oninput="onFreetext(this.value)" placeholder="' + esc(D_FREETEXT.placeholder) + '">'
+      + esc(freetext) + '</textarea></div>';
+  }
+  return '<div class="d-section">'
+    + '<div class="d-sec-head"><span class="d-sec-no">' + no + '</span>'
+    +   '<span class="d-sec-title">' + esc(title) + ' <span class="d-hanja">' + esc(hanja) + '</span></span></div>'
+    + '<div class="d-sec-body"><div class="dgrid">'
+    +   '<div class="dg-head">검사 항목</div><div class="dg-head">' + esc(head1) + '</div>'
+    +   '<div class="dg-head">' + esc(head2) + '</div>'
+    +   rows
+    + '</div></div></div>';
+}
+function renderRxSection(){
+  const rxRows = D_RX_OPTIONS.map(function(o){
+    const ck = rxChoice === o.id ? ' checked' : '';
+    return '<label class="rx-row">'
+      + '<input type="radio" name="rxchoice"' + ck + ' onchange="onRxChange(\'' + o.id + '\')">'
+      + '<span class="rx-group">' + esc(o.group) + '</span>'
+      + '<span class="rx-name">' + esc(o.rx) + '</span>'
+      + '<span class="rx-hint">' + esc(o.hint) + '</span></label>';
+  }).join('');
+  let critRows = '';
+  D_CRITERIA.forEach(function(c){
+    critRows += '<div class="dg-cat">' + esc(c.name)
+      + (c.sub ? '<span class="dg-sub">' + esc(c.sub) + '</span>' : '') + '</div>';
+    [['improve',c.improve],['neutral',c.neutral],['worsen',c.worsen]].forEach(function(pair){
+      const ck = criteria[c.id] === pair[0] ? ' checked' : '';
+      critRows += '<div><label class="d-opt">'
+        + '<input type="radio" name="crit-' + c.id + '"' + ck
+        + ' onchange="onCriteriaChange(\'' + c.id + '\',\'' + pair[0] + '\')">'
+        + '<span class="d-opt-txt">' + esc(pair[1]) + '</span></label></div>';
+    });
+  });
+  return '<div class="d-section">'
+    + '<div class="d-sec-head"><span class="d-sec-no">4</span>'
+    +   '<span class="d-sec-title">약물 시험 <span class="d-hanja">藥物 試驗</span> — 최종 확진</span></div>'
+    + '<div class="d-sec-body">'
+    +   '<div class="rx-test"><div class="rx-lbl">▣ 테스트 처방 (택일)</div>' + rxRows + '</div>'
+    +   '<div class="crit-title">▣ 반응 판독 (안준철 4대 기준)</div>'
+    +   '<div class="dgrid crit-grid">'
+    +     '<div class="dg-head">기준</div><div class="dg-head">호전 (적합)</div>'
+    +     '<div class="dg-head">무변 / 모호</div><div class="dg-head">악화 (부적합)</div>'
+    +     critRows
+    +   '</div>'
+    +   '<div class="crit-note">※ 한 가지 증상의 호전만으로 체질을 확정하지 않는다 (안준철). '
+    +     '4대 기준 중 <b>3개 이상이 호전</b>되어야 적합 판정. '
+    +     '피부 건조 단독은 계절적 원인일 수 있으므로 판단 기준에서 제외.</div>'
+    + '</div></div>';
+}
+function drugMsgInner(dt){
+  if (dt.fitness === 'fit')
+    return '<div class="dmsg fit">약물 시험 <b>적합</b> — ' + esc(dt.reason) + '</div>';
+  if (dt.fitness === 'unfit')
+    return '<div class="dmsg unfit">약물 시험 <b>부적합</b> — ' + esc(dt.reason) + '</div>';
+  return '<div class="dmsg incomplete">약물 시험 — ' + esc(dt.reason) + '</div>';
+}
+function panelInner(){
+  const t = tallyDirections(checkedIdList());
+  const dt = evaluateDrugTrial(criteria);
+  return '<div class="d-tally">'
+    + '<span class="tly-label">시사 방향</span>'
+    + '<span class="tly-grp"><span class="dtag t">태음</span> <b id="tly-taeum">' + t.taeum + '</b>'
+    +   ' <span class="dtag s">소양</span> <b id="tly-soyang">' + t.soyang + '</b></span>'
+    + '<span class="tly-grp"><span class="dtag cold">寒</span> <b id="tly-cold">' + t.cold + '</b>'
+    +   ' <span class="dtag heat">熱</span> <b id="tly-hot">' + t.hot + '</b></span>'
+    + '<span class="tly-grp"><span class="dtag yang">양형</span> <b id="tly-yang">' + t.yang + '</b>'
+    +   ' <span class="dtag yin">음형</span> <b id="tly-yin">' + t.yin + '</b></span>'
+    + '</div>'
+    + '<div id="drugMsg">' + drugMsgInner(dt) + '</div>'
+    + '<div class="tly-foot">집계는 보조 지표입니다 — 체질·한열·음양형은 종합 판정 화면에서 원장이 확정합니다.</div>';
+}
+function renderTest(){
+  const ma = moduleASummary();
+  const mc = moduleCSummary();
+  const ctx = patientLine()
+    + (mc ? ' &nbsp;·&nbsp; ' + esc(mc) : (ma ? ' &nbsp;·&nbsp; ' + esc(ma) : ''));
+  return banner()
+    + '<div class="card">'
+    +   headBlock('사상체질 기능 검사 — 맥·복·반응·약물시험', ctx, true)
+    +   renderSection(1, '맥진', '脈診', 'pulse', '소견 1', '소견 2')
+    +   renderSection(2, '복진', '腹診', 'palpation', '소견 1', '소견 2')
+    +   renderSection(3, '반응 확인', '反應 確認', 'reaction', '태음 시사', '소양 시사')
+    +   renderRxSection()
+    + '</div>'
+    + '<div class="panel" id="panel">' + panelInner() + '</div>'
+    + '<div style="text-align:center;color:var(--sub);font-size:.78rem;margin:10px 0 4px">'
+    +   '※ 위의 맥·복·반응 체크와 약물시험 입력은 모두 <b>선택사항</b>입니다. '
+    +   '입력 없이 곧바로 "종합 판정"으로 넘어가실 수 있습니다.</div>'
+    + '<div class="actions-card no-print">'
+    +   '<button class="btn btn-line" onclick="goToModuleC()">← 모듈 C로</button>'
+    +   '<button class="btn btn-line" onclick="clearAll()">모든 입력 초기화</button>'
+    +   '<button class="btn btn-dark" onclick="goVerdict()">종합 판정 →</button>'
+    + '</div>'
+    + footer();
+}
+
+/* ═══ 화면 2 — screen-verdict ═══ */
+function axisRow(label, axis, opts, enabled){
+  const cur = verdict[axis];
+  const btns = opts.map(function(o){
+    const sel = cur === o.v ? ' sel' : '';
+    return '<button class="ax-btn ax-' + axis + sel + '"' + (enabled ? '' : ' disabled')
+      + ' onclick="selectAxis(\'' + axis + '\',\'' + o.v + '\')">' + esc(o.label) + '</button>';
+  }).join('');
+  return '<div class="ax-row"><div class="ax-lbl">' + esc(label) + '</div>'
+    + '<div class="ax-btns">' + btns + '</div></div>';
+}
+function verdictLabelOf(axis, val){
+  const src = axis === 'constitution' ? CONSTITUTION_OPTS
+            : axis === 'hanyul' ? HANYUL_OPTS : YANGYIN_OPTS;
+  const o = src.filter(function(x){ return x.v === val; })[0];
+  return o ? o.label : '—';
+}
+function renderVerdict(){
+  const t = tallyDirections(checkedIdList());
+  const dt = evaluateDrugTrial(criteria);
+  const isTaeum = verdict.constitution === 'taeum';
+  const canConfirm = !!(verdict.constitution && verdict.hanyul);
+  const rxLabel = rxChoice
+    ? (D_RX_OPTIONS.filter(function(o){ return o.id===rxChoice; })[0] || {}).rx
+    : '미선택';
+
+  let statusBox, actions;
+  if (confirmed){
+    const next = nextModuleOf(verdict.constitution, dt.fitness);
+    const incompleteWarn = dt.fitness === 'incomplete'
+      ? ' (약물 시험 미완료 — 재방문 시 4대 기준 입력 권장)' : '';
+    statusBox = '<div class="status-box done">판정 저장됨 — '
+      + esc(verdictLabelOf('constitution', verdict.constitution)) + ' · '
+      + esc(verdictLabelOf('hanyul', verdict.hanyul))
+      + (isTaeum ? ' · ' + esc(verdictLabelOf('yangyin', verdict.yangyin || 'none')) : '')
+      + esc(incompleteWarn) + '</div>';
+    const nextBtn = next === 'moduleC'
+      ? '<button class="btn btn-dark" onclick="goToModuleC()">기능 검사 재평가 — 모듈 C로 →</button>'
+      : '<button class="btn btn-dark" onclick="goToModuleE()">처방 추천(모듈 E) 진행 →</button>';
+    actions = nextBtn
+      + '<button class="btn btn-line" onclick="printResult()">결과 인쇄</button>'
+      + '<button class="btn btn-line" onclick="backToTest()">← 검사로 돌아가기</button>';
+  } else {
+    const missing = [];
+    if (!verdict.constitution) missing.push('체질');
+    if (!verdict.hanyul)       missing.push('한열');
+    if (canConfirm){
+      const yangyinNote = (isTaeum && (!verdict.yangyin || verdict.yangyin === 'none'))
+        ? ' <span style="color:var(--sub);font-weight:400">(태음인은 음양형도 함께 선택 권장 — 처방 매칭 정확도)</span>' : '';
+      statusBox = '<div class="status-box warn"><b>체질·한열 선택 완료</b> — 아래 "판정 확정"을 누르면 저장됩니다.' + yangyinNote + '</div>';
+    } else {
+      statusBox = '<div class="status-box wait">'
+        + '<b>판정 확정에 필요한 항목:</b> ' + missing.join(' · ')
+        + '<br><span style="font-size:.78rem;color:var(--sub)">위에서 해당 버튼을 눌러 선택하세요. '
+        + '맥·복·반응 체크와 약물시험 입력은 <b>선택사항</b>이며, 입력하지 않아도 판정 확정이 가능합니다.</span>'
+        + '</div>';
+    }
+    actions = '<button class="btn btn-dark" onclick="confirmVerdict()"' + (canConfirm ? '' : ' disabled')
+      + '>판정 확정 →</button>'
+      + '<button class="btn btn-line" onclick="backToTest()">← 검사로 돌아가기</button>';
+  }
+
+  return banner()
+    + '<div class="card">'
+    +   headBlock('사상체질 기능 검사 — 종합 판정', patientLine(), true)
+    +   '<div class="guide">체질·한열·음양형은 검사 소견을 <b>참고하여 원장이 직접 판정</b>합니다. '
+    +     '아래 시사 방향 집계와 약물 시험 결과는 보조 지표입니다.</div>'
+    +   axisRow('체질 판정', 'constitution', CONSTITUTION_OPTS, true)
+    +   axisRow('한열', 'hanyul', HANYUL_OPTS, true)
+    +   axisRow('음양형 (태음만)', 'yangyin', YANGYIN_OPTS, isTaeum)
+    +   '<div class="summary-grid">'
+    +     '<div class="sum-box"><div class="sum-lbl">맥·복·반응 시사 방향</div>'
+    +       '<div class="sum-val">태음 ' + t.taeum + ' · 소양 ' + t.soyang
+    +         ' &nbsp;|&nbsp; 寒 ' + t.cold + ' · 熱 ' + t.hot
+    +         ' &nbsp;|&nbsp; 양형 ' + t.yang + ' · 음형 ' + t.yin + '</div></div>'
+    +     '<div class="sum-box"><div class="sum-lbl">약물 시험</div>'
+    +       '<div class="sum-val">테스트 처방: ' + esc(rxLabel) + '<br>'
+    +         esc(dt.reason) + '</div></div>'
+    +   '</div>'
+    +   '<div class="sum-lbl" style="margin-bottom:5px">처방 의도 · 추적 관찰 메모</div>'
+    +   '<textarea class="d-memo" oninput="onMemo(this.value)" '
+    +     'placeholder="처방 메모 · 특이 소견 · 추적 관찰 사항...">' + esc(memo) + '</textarea>'
+    +   statusBox
+    +   '<div class="actions no-print">' + actions + '</div>'
+    + '</div>'
+    + footer();
+}
+
+/* ── 이벤트 핸들러 ── */
+function startTest(){
+  if (!(session.patient && session.patient.name)){
+    const nm = document.getElementById('in-name');
+    const gd = document.getElementById('in-gender');
+    const ag = document.getElementById('in-age');
+    session.patient = Object.assign({}, session.patient, {
+      name:   nm ? nm.value.trim() : '',
+      gender: gd ? gd.value : '',
+      age:    ag ? ag.value : '',
+    });
+  }
+  step = 1;
+  render();
+}
+function onFindingChange(id){
+  if (checks[id]) delete checks[id];
+  else checks[id] = true;
+  refreshPanel();
+}
+function onFreetext(val){ freetext = val; }
+function onRxChange(id){ rxChoice = id; }
+function onCriteriaChange(critId, val){
+  criteria[critId] = val;
+  refreshPanel();
+}
+function onMemo(val){ memo = val; }
+function refreshPanel(){
+  const t = tallyDirections(checkedIdList());
+  const set = function(elId, v){ const el = document.getElementById(elId); if (el) el.textContent = v; };
+  set('tly-taeum', t.taeum); set('tly-soyang', t.soyang);
+  set('tly-cold', t.cold);   set('tly-hot', t.hot);
+  set('tly-yang', t.yang);   set('tly-yin', t.yin);
+  const dm = document.getElementById('drugMsg');
+  if (dm) dm.innerHTML = drugMsgInner(evaluateDrugTrial(criteria));
+}
+function clearAll(){
+  if (!confirm('맥·복·반응 체크와 약물 시험 입력을 모두 초기화하시겠습니까?')) return;
+  checks = {}; freetext = ''; rxChoice = null;
+  criteria = { stool:null, urine:null, sleep:null, fatigue:null };
+  verdict = { constitution:null, hanyul:null, yangyin:null };
+  memo = ''; confirmed = false;
+  render();
+}
+function goVerdict(){ step = 2; confirmed = false; render(); }
+function backToTest(){ step = 1; render(); }
+function selectAxis(axis, val){
+  verdict[axis] = val;
+  if (axis === 'constitution'){
+    if (val === 'taeum'){ if (verdict.yangyin === 'none') verdict.yangyin = null; }
+    else { verdict.yangyin = 'none'; }
+  }
+  confirmed = false;
+  render();
+}
+function confirmVerdict(){
+  if (!(verdict.constitution && verdict.hanyul)) return;
+  if (verdict.constitution !== 'taeum') verdict.yangyin = 'none';
+  saveSession();
+  confirmed = true;
+  render();
+}
+function printResult(){ window.print(); }
+function goToModuleC(){ location.href = '온누리_정밀시진_C1_v1.html'; }
+function goToModuleE(){ location.href = '온누리_처방추천_E_v1.html'; }
+
+/* ── 렌더 ── */
+function render(){
+  const screens = [renderInfo, renderTest, renderVerdict];
+  if (step < 0 || step > 2) step = 0;
+  document.getElementById('wrap').innerHTML = screens[step]();
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+/* ── 진입점 ── */
+loadSession();
+render();
+</script>
+</body>
+</html>

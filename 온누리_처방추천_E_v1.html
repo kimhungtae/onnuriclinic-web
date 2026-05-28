@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>온누리 한의원 — 처방 추천 E</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --taeum:#2D7D46; --taeum-l:#E8F5EC; --taeum-bg:#F4FBF6;
+  --soyang:#D4691E; --soyang-l:#FDF1E5; --soyang-bg:#FEF8F2;
+  --gold:#C49A3F; --gold-l:#FEF9E6;
+  --hot:#C9302C; --hot-l:#FBE4E1; --cold:#2E5C8A; --cold-l:#E1EBFB;
+  --yang:#A07600; --yang-l:#FFF4D6; --yin:#5E4A8A; --yin-l:#E8E0F2;
+  --ink:#1a1a1a; --sub:#555; --line:#d5d5d5;
+  --bg:#faf8f3; --serif:'Noto Serif KR',serif; --sans:'Noto Sans KR',sans-serif;
+  --pale:#f7f5f0; --txt3:#9c9590; --bg2:#f1ede4; --crimson:#c9302c;
+}
+html{font-size:16px;}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-text-size-adjust:100%;}
+
+.wrap{max-width:980px;margin:0 auto;padding:24px 16px 56px;}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:24px 28px;box-shadow:0 2px 12px rgba(0,0,0,.05);}
+
+.safety-banner{background:#fdf3f3;border:1px solid #e3b9b9;color:#8a3a3a;font-size:.75rem;
+  padding:8px 14px;border-radius:6px;text-align:center;margin-bottom:14px;line-height:1.5;}
+
+.head{border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:16px;}
+.h-top{display:flex;justify-content:space-between;align-items:baseline;}
+.clinic{font-size:.72rem;letter-spacing:1.5px;color:var(--sub);}
+.ver{font-size:.68rem;color:var(--gold);font-weight:700;letter-spacing:1px;}
+.h-title{font-family:var(--serif);font-size:1.36rem;font-weight:700;margin-top:6px;}
+.h-sub{font-size:.78rem;color:var(--sub);margin-top:6px;}
+
+/* 환자 요약 카드 */
+.patient-card{background:linear-gradient(to right,var(--taeum-bg),#fff);border:1px solid var(--line);
+  border-left:4px solid var(--taeum);padding:14px 18px;margin-bottom:16px;border-radius:0 6px 6px 0;}
+.pc-row{display:flex;gap:22px;align-items:baseline;flex-wrap:wrap;font-size:.84rem;}
+.pc-label{font-size:.62rem;color:var(--sub);letter-spacing:1px;margin-right:5px;}
+.pc-type{color:var(--taeum);font-size:1rem;font-weight:700;}
+.pc-chip{display:inline-block;padding:2px 9px;border:1px solid var(--line);border-radius:12px;
+  font-size:.72rem;font-weight:600;}
+.pc-chip.cold{background:var(--cold-l);border-color:#bcd1ea;color:var(--cold);}
+.pc-chip.hot{background:var(--hot-l);border-color:#e8c0bc;color:var(--hot);}
+.pc-chip.yang{background:var(--yang-l);border-color:#e8d896;color:var(--yang);}
+.pc-chip.yin{background:var(--yin-l);border-color:#cdbfe3;color:var(--yin);}
+.pc-chip.none{background:var(--bg2);color:var(--sub);}
+.pc-basis{font-size:.74rem;color:var(--sub);margin-top:8px;}
+
+/* info 폴백 */
+.info-sec{padding:12px 0;border-bottom:1px solid var(--line);}
+.info-row{display:flex;gap:12px;font-size:.86rem;padding:4px 0;}
+.info-lbl{width:80px;color:var(--sub);font-weight:500;flex-shrink:0;}
+.notice{background:var(--gold-l);border:1px solid #e0cf8e;border-radius:6px;
+  padding:12px 14px;font-size:.82rem;line-height:1.6;color:#5a4d20;}
+.sel-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;}
+.fld{padding:9px 11px;border:1px solid var(--line);border-radius:5px;font-family:inherit;
+  font-size:.85rem;background:#fff;color:var(--ink);}
+.fld:focus{outline:none;border-color:var(--taeum);}
+
+/* 주소증 입력 */
+.input-sec{border:1px solid var(--line);border-radius:8px;padding:14px 16px;background:#fafafa;margin-bottom:18px;}
+.is-title{font-size:.84rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.is-num{background:var(--ink);color:#fff;width:20px;height:20px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;font-size:.62rem;flex-shrink:0;}
+.is-hint{font-size:.7rem;color:var(--sub);margin-bottom:7px;}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.chip{padding:5px 12px;border:1px solid var(--line);background:#fff;border-radius:14px;
+  font-size:.78rem;cursor:pointer;font-family:inherit;color:var(--ink);}
+.chip:hover{border-color:var(--taeum);}
+.chip.on{background:var(--taeum);color:#fff;border-color:var(--taeum);font-weight:500;}
+.chip.custom{border-style:dashed;}
+.chip.custom.on{background:var(--gold);border-color:var(--gold);border-style:solid;}
+.custom-sym-row{display:flex;gap:6px;margin:4px 0 12px;}
+.custom-sym-input{flex:1;font-family:inherit;font-size:.84rem;padding:7px 10px;
+  border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink);}
+.custom-sym-input:focus{outline:none;border-color:var(--ink);}
+.free-input{width:100%;border:1px solid var(--line);border-radius:5px;padding:8px 10px;
+  font-family:inherit;font-size:.8rem;min-height:46px;resize:vertical;background:#fff;color:var(--ink);}
+.free-input:focus{outline:none;border-color:var(--taeum);}
+
+/* 추천 처방 */
+.rx-sec-title{font-size:.95rem;font-weight:700;padding:10px 0 9px;border-bottom:2px solid var(--ink);
+  margin-bottom:14px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.rx-sec-title .pill{background:var(--taeum);color:#fff;padding:3px 10px;border-radius:3px;font-size:.68rem;}
+.rx-sec-title .sub{font-size:.72rem;color:var(--sub);font-weight:400;margin-left:auto;}
+.rx-card{border:1px solid var(--line);border-radius:7px;margin-bottom:13px;background:#fff;overflow:hidden;}
+.rx-card.top{border:2px solid var(--taeum);}
+.rx-head{display:flex;align-items:center;gap:11px;padding:11px 15px;border-bottom:1px solid var(--line);background:#fafafa;}
+.rx-card.top .rx-head{background:var(--taeum-l);}
+.rx-rank{background:#888;color:#fff;width:25px;height:25px;border-radius:50%;display:flex;
+  align-items:center;justify-content:center;font-size:.78rem;font-weight:700;flex-shrink:0;}
+.rx-card.top .rx-rank{background:var(--taeum);}
+.rx-name{font-size:1rem;font-weight:700;}
+.rx-name .hanja{font-size:.7rem;color:var(--sub);font-weight:400;margin-left:5px;}
+.rx-match{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:.7rem;color:var(--sub);}
+.match-bar{width:62px;height:6px;background:#e0e0e0;border-radius:3px;overflow:hidden;}
+.match-bar>div{height:100%;background:var(--taeum);}
+.rx-body{padding:13px 15px;}
+.rx-line{margin-bottom:9px;font-size:.8rem;line-height:1.6;}
+.rx-line:last-child{margin-bottom:0;}
+.rs-lbl{display:inline-block;font-size:.62rem;font-weight:700;color:var(--gold);letter-spacing:.5px;
+  background:var(--gold-l);padding:2px 7px;border-radius:2px;margin-right:6px;vertical-align:middle;}
+.rs-lbl.warn{color:var(--crimson);background:var(--hot-l);}
+.rs-lbl.signal{color:var(--cold);background:var(--cold-l);}
+.rs-na{color:var(--txt3);font-style:italic;}
+.rev-badge{display:inline-block;font-size:.6rem;font-weight:600;color:#8a6f1f;background:var(--gold-l);
+  border:1px solid #e0cf8e;border-radius:3px;padding:1px 6px;margin-left:8px;vertical-align:middle;}
+.ryu-badge{display:inline-block;font-size:.6rem;font-weight:700;color:#fff;background:var(--taeum);
+  border-radius:3px;padding:1px 6px;margin-left:8px;vertical-align:middle;}
+.rs-lbl.ref{color:var(--cold);background:var(--cold-l);}
+.ryu-note{font-size:.66rem;color:var(--txt3);margin-left:2px;}
+.ryu-item{background:var(--pale);border:1px solid var(--line);border-radius:4px;
+  padding:6px 9px;margin-top:5px;font-size:.74rem;}
+.ryu-item b{font-size:.76rem;}
+.ryu-comp{color:var(--sub);margin-top:2px;line-height:1.5;}
+.gamga{background:var(--pale);border-radius:4px;padding:8px 11px;font-size:.74rem;margin-top:7px;}
+.gamga .gm-t{font-size:.74rem;color:var(--sub);margin-bottom:6px;font-weight:600;}
+.gamga .gm-line{display:block;width:100%;text-align:left;padding:7px 11px;font-size:.78rem;color:var(--sub);line-height:1.55;border-radius:5px;margin-top:4px;border:1px solid var(--line);background:#fff;cursor:pointer;font-family:inherit;}
+.gamga .gm-line:hover{border-color:var(--ink);background:var(--pale);}
+.gamga .gm-line.hit{font-weight:600;color:var(--ink);background:var(--gold-l);border-color:var(--gold);}
+.gamga .gm-line.hit::before{content:"✓ ";color:var(--gold);font-weight:700;}
+.gamga .gm-line.sel{background:var(--taeum-l);border:2px solid var(--taeum);color:var(--ink);font-weight:600;}
+.gamga .gm-line.sel::before{content:"☑ ";color:var(--taeum);font-weight:700;}
+.gamga .gm-line.sel.hit::before{content:"☑ ✓ ";}
+.rs-lbl.match{background:var(--taeum-l);color:var(--taeum);}
+.search-trigger{display:flex;align-items:center;gap:14px;justify-content:center;margin:18px 0 12px;flex-wrap:wrap;padding:14px;background:var(--pale);border-radius:8px;}
+.search-hint{font-size:.78rem;color:var(--sub);}
+.rx-empty{margin:14px 0;}
+.rx-diag{margin:10px 0 14px;padding:10px 14px;border-radius:6px;font-size:.82rem;line-height:1.55;border:1px solid var(--line);background:#fafafa;}
+.rx-diag .dg-t{font-weight:700;font-size:.78rem;letter-spacing:.02em;display:inline-block;padding:2px 8px;border-radius:3px;margin-right:8px;vertical-align:1px;}
+.rx-diag.ok{background:#f2f8f3;border-color:#cfe3d2;}
+.rx-diag.ok .dg-t{background:#3a7d44;color:#fff;}
+.rx-diag.info{background:#f5f7fb;border-color:#d8e0ec;}
+.rx-diag.info .dg-t{background:#4a6cb3;color:#fff;}
+.rx-diag.warn{background:#fdf5ee;border-color:#e9caa1;}
+.rx-diag.warn .dg-t{background:#b86a1a;color:#fff;}
+.rx-diag .dg-row{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:5px;color:var(--sub);font-size:.76rem;}
+.rx-diag .dg-row b{color:var(--ink);font-weight:600;}
+.rx-diag .dg-hint{margin-top:6px;font-size:.76rem;color:var(--sub);}
+.rx-foot{padding:9px 15px;border-top:1px solid var(--line);background:#fafafa;
+  display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.rx-source{margin-left:auto;font-size:.66rem;color:var(--sub);}
+
+/* 검색 폴백 */
+.search-box{margin-top:8px;}
+.search-results{margin-top:10px;max-height:280px;overflow-y:auto;border:1px solid var(--line);border-radius:6px;}
+.sr-item{padding:8px 12px;border-bottom:1px solid var(--line);font-size:.78rem;}
+.sr-item:last-child{border-bottom:none;}
+.sr-name{font-weight:600;}
+.sr-comp{color:var(--sub);font-size:.72rem;margin-top:2px;}
+
+/* 안내 */
+.caveat{background:#fff8e8;border:1px solid #e9d896;border-radius:5px;padding:11px 14px;
+  margin:16px 0;font-size:.74rem;color:#5a4d20;line-height:1.7;}
+.caveat b{color:#8a6f1f;}
+
+/* 최종 결정 */
+.final-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.final-box{background:var(--pale);border:1px solid var(--line);border-radius:6px;padding:11px 13px;}
+.fb-lbl{font-size:.64rem;color:var(--sub);letter-spacing:.5px;margin-bottom:6px;}
+.f-area{width:100%;border:1px solid var(--line);border-radius:5px;padding:8px 10px;
+  font-family:inherit;font-size:.82rem;background:#fff;color:var(--ink);resize:vertical;}
+.f-area:focus{outline:none;border-color:var(--taeum);}
+.f-input{width:100%;border:1px solid var(--line);border-radius:5px;padding:7px 10px;
+  font-family:inherit;font-size:.82rem;background:#fff;color:var(--ink);}
+.f-input:focus{outline:none;border-color:var(--taeum);}
+
+/* 버튼 */
+.btn{padding:9px 16px;border-radius:6px;font-size:.83rem;font-family:inherit;cursor:pointer;border:1.5px solid;}
+.btn-dark{background:var(--ink);color:#fff;border-color:var(--ink);}
+.btn-line{background:#fff;color:var(--ink);border-color:var(--line);}
+.btn-sm{padding:6px 12px;font-size:.76rem;}
+.btn-dark:hover:not(:disabled){opacity:.88;}
+.btn-line:hover{background:var(--bg2);}
+.btn:disabled{opacity:.45;cursor:not-allowed;}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}
+.actions-card{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;background:#fff;
+  border:1px solid var(--line);border-radius:10px;padding:16px 20px;}
+
+.status-box{padding:10px 14px;border-radius:6px;font-size:.83rem;margin:14px 0;}
+.status-box.done{background:var(--taeum-l);border:1px solid var(--taeum);color:var(--taeum);font-weight:600;}
+
+.foot{margin-top:20px;padding-top:14px;border-top:1px solid var(--line);}
+.safe-notes{font-size:.74rem;color:#7a6a3a;line-height:1.75;background:var(--gold-l);border-radius:6px;padding:9px 13px;}
+.source{font-size:.7rem;color:var(--txt3);margin-top:8px;text-align:right;}
+
+@media print{
+  @page{margin:12mm;}
+  body{background:#fff;}
+  .no-print{display:none!important;}
+  .wrap{max-width:100%;padding:0;}
+  .card,.actions-card{border:none;box-shadow:none;padding:0;border-radius:0;}
+  .rx-card,.final-grid,.final-box,.foot,.patient-card{break-inside:avoid;}
+  .match-bar>div{background:#888!important;}
+  .status-box{background:#fff!important;border-color:#999!important;color:var(--ink)!important;}
+  .h-title{font-size:1.18rem;}
+}
+@media(max-width:620px){
+  .sel-grid,.final-grid{grid-template-columns:1fr;}
+  .pc-row{gap:12px;}
+}
+/* ── 변증 기반 전체 처방 패널 (류주열 변증서 전사) ── */
+.bj-sec{margin-top:22px;border-top:2px solid var(--line);padding-top:16px;}
+.bj-title{font-family:var(--serif);font-weight:700;font-size:1.02rem;color:var(--ink);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.bj-title .pill{background:var(--ink);color:#fff;font-size:.68rem;padding:2px 9px;border-radius:10px;font-weight:500;}
+.bj-note{font-size:.74rem;color:var(--sub);margin:6px 0 10px;line-height:1.65;}
+.bj-search input{width:100%;}
+.bj-cnt{font-size:.73rem;color:var(--txt3);margin:9px 0 5px;}
+.bj-row{border:1px solid var(--line);border-radius:7px;margin-bottom:6px;background:#fff;overflow:hidden;}
+.bj-row.open{border-color:var(--ink);}
+.bj-rh{padding:9px 12px;cursor:pointer;display:flex;gap:9px;align-items:baseline;}
+.bj-rh:hover{background:var(--pale);}
+.bj-jeung{font-weight:600;font-size:.9rem;color:var(--ink);white-space:nowrap;}
+.bj-cat{font-size:.66rem;color:var(--txt3);background:var(--bg2);padding:1px 7px;border-radius:8px;white-space:nowrap;}
+.bj-sxp{font-size:.74rem;color:var(--sub);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.bj-detail{padding:4px 12px 12px;border-top:1px dashed var(--line);}
+.bj-sxf{font-size:.76rem;color:var(--sub);line-height:1.7;margin:9px 0 10px;}
+.bj-rx{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:8px 10px;border:1px solid var(--line);border-radius:6px;margin-bottom:5px;}
+.bj-rx.match{border-color:var(--ink);background:var(--gold-l);}
+.bj-role{font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:9px;white-space:nowrap;}
+.bj-role.hot{background:var(--hot-l);color:var(--hot);}
+.bj-role.cold{background:var(--cold-l);color:var(--cold);}
+.bj-role.any{background:var(--bg2);color:var(--sub);}
+.bj-rxname{font-weight:600;font-size:.85rem;color:var(--ink);}
+.bj-rxcode{font-size:.7rem;color:var(--txt3);}
+.bj-rx button{margin-left:auto;}
+.bj-comp{flex-basis:100%;font-size:.75rem;color:var(--sub);}
+</style>
+</head>
+<body>
+<div class="no-print" style="max-width:980px;margin:0 auto;padding:18px 16px 0;">
+<button onclick="location.href='온누리_사상체질_홈_v1.html'" style="font-family:inherit;font-weight:500;font-size:.84rem;background:#fff;color:#444;border:1px solid #c9c4bb;border-radius:8px;padding:8px 15px;cursor:pointer;">← 통합 홈으로 돌아가기</button>
+</div>
+<div id="wrap" class="wrap"></div>
+<script>
+/* ═══════════════════════════════════════════════════
+   온누리 처방 추천 E · 모듈 D 후속 · vanilla JS · 외부 라이브러리 0개
+   처방 데이터는 file:// 호환 위해 인라인 임베드 (fetch 안 함)
+═══════════════════════════════════════════════════ */
+
+/* ── 큐레이션 처방 (data/prescriptions_curated.json) ── */
+/* 류주열식 중심 (원장 진료 방식 반영 — 류주열 처방 주, 고전 처방 참조):
+   ryuCode = 류주열 처방 코드, composition = 류주열 구성.
+   classicRef = 고전 사상의학 처방 참조 메모. ryuAltCodes = 류주열 책의 다른 관련 처방.
+   ryuCode:null = 류주열 책 미수록(고전 처방). verified:false = 원장 미검수(한열·주증 등). */
+const RX_CURATED = [
+ {id:'taeum_jowi',name:'태음조위탕',hanja:'太陰調胃湯',constitution:'taeum',hanyul:'cold',yangyin:'yang',verified:false,
+  ryuCode:'H019',composition:'의이인12 건율12 나복자8 마황4 맥문동4 길경4 오미자4 석창포4',
+  ryuAltCodes:['H020'],classicRef:'고전 사상의학에도 동명 태음조위탕 — 구성 차이 가능(참조)',
+  symptoms:['만성 비염','식적·더부룩','변비 경향','감기 후 회복'],
+  basis:'태음인 한증 위완수한증·중기 회복의 핵심 처방. 비병(소화불량·더부룩)·식적·한습곤비에 두루 적합. 환절기 비염의 외감 동반 시에도 1차 선택지.',
+  caution:'마황 함유 → 음허·심계·불면자에게 부적합.',
+  unfitSignal:'복용 후 불면·심계·구갈·피부건조 발생 시 → 음형으로 재평가, 갈근조위탕 또는 음형 처방으로 전환.',
+  alternatives:['갈근조위탕'],
+  gamga:['+갈근 2돈·승마 1돈 (비병·표열 겸함)','+산약·연자육 각 2돈 (보비·보신, 변비 경향)','+대황 3푼 (술 많이 마시는 환자)'],
+  source:'류주열 사상처방개정판 H019 · 한열/주증은 원장 검수 대상'},
+ {id:'galgeun_jowi',name:'갈근조위탕',hanja:'葛根調胃湯',constitution:'taeum',hanyul:'hot',yangyin:'any',verified:false,
+  ryuCode:null,composition:null,
+  ryuAltCodes:[],classicRef:'고전 처방 — 류주열 책에 동명 미수록. 원장이 쓰시는 류주열 대응 처방 확인 필요',
+  symptoms:['변비','두통','다한증'],
+  basis:'태음인 열증(열자)의 조위 처방. 태음조위탕의 열자 전환 버전.',
+  caution:'음허자에게 부적합.',
+  unfitSignal:null,alternatives:['태음조위탕'],gamga:[],
+  source:'고전 처방 (cowork_spec §2.2) · 류주열 대응 처방 원장 확인 필요'},
+ {id:'mahwang_uiin',name:'마황의이인탕',hanja:'麻黃薏苡仁湯',constitution:'taeum',hanyul:'cold',yangyin:'any',verified:false,
+  ryuCode:'H110',composition:'의이인12 나복자6 마황4 백지4 석창포4 녹각상4 해동피4 해백2',
+  ryuAltCodes:[],classicRef:'고전 동명 처방 — 참조',
+  symptoms:['관절통·부종','만성 비염'],
+  basis:'태음인 한자 풍한습비증의 기본방. 비염이 관절통·어깨결림을 동반하고 환절기·습한 날씨에 악화될 때 적합.',
+  caution:'마황 함유 → 음허·심계자 부적합.',
+  unfitSignal:'설사 빈발 또는 무기력 → 의이인 감량 또는 태음조위탕으로 전환.',
+  alternatives:['태음조위탕'],gamga:[],
+  source:'류주열 사상처방개정판 H110 · 한열/주증은 원장 검수 대상'},
+ {id:'jowi_seungcheong',name:'조위승청탕',hanja:'調胃升淸湯',constitution:'taeum',hanyul:'cold',yangyin:'any',verified:false,
+  ryuCode:'H117',composition:'의이인12 건율12 나복자6 오미자4 석창포4 산조인4 원지4 용안육4 길경4 마황4 맥문동4 천문동4',
+  ryuAltCodes:[],classicRef:'고전 동명 처방 — 참조',
+  symptoms:['사경증·두통','식적·더부룩'],
+  basis:'태음인 한증의 심비기허·한습곤비에 쓰임. 비병에 어지럼·두통·사경증 등 청양불승 소견이 동반될 때 적합.',
+  caution:'주소증이 식적·변비보다 두통·현훈·사경증 쪽으로 기울 때 우선 선택.',
+  unfitSignal:null,alternatives:[],gamga:['+천마 1돈 (사경증·뇌순환 개선)'],
+  source:'류주열 사상처방개정판 H117 · 한열/주증은 원장 검수 대상'},
+ {id:'hyeongbang_jihwang',name:'형방지황탕',hanja:'荊防地黃湯',constitution:'soyang',hanyul:'cold',yangyin:'any',verified:false,
+  ryuCode:'P013',composition:'복령8 산수유8 택사8 강활4 형개4 방풍4 차전자4 독활4 홍모오가피4',
+  ryuAltCodes:[],classicRef:'고전 형방지황탕은 숙지황 포함 — 류주열 P013은 지황 미포함(구성 차이 유의)',
+  symptoms:['두통','이명','한기'],basis:'소양인 한증(한자)의 기본 처방.',caution:null,unfitSignal:null,
+  alternatives:['형방패독산'],gamga:[],source:'류주열 사상처방개정판 P013 · 한열/주증은 원장 검수 대상'},
+ {id:'hyeongbang_paedok',name:'형방패독산',hanja:'荊防敗毒散',constitution:'soyang',hanyul:'cold',yangyin:'any',verified:false,
+  ryuCode:null,composition:null,
+  ryuAltCodes:['P001'],classicRef:'고전 처방 — 류주열 P001 이씨형백패독산이 유사. 원장 확인 후 연결 가능',
+  symptoms:['한기','두통'],basis:'소양인 한증(한자)의 표증 처방.',caution:null,unfitSignal:null,
+  alternatives:['형방지황탕'],gamga:[],source:'고전 처방 (cowork_spec §2.2) · 류주열 대응 처방 원장 확인 필요'},
+ {id:'jihwang_baekho',name:'지황백호탕',hanja:'地黃白虎湯',constitution:'soyang',hanyul:'hot',yangyin:'any',verified:false,
+  ryuCode:'P009',composition:'석고20 생지황16 지모8 독활4 방풍4',
+  ryuAltCodes:[],classicRef:'고전 동명 처방 — 참조',
+  symptoms:['갈증','위완 건조','소갈','다음(多飮)'],basis:'소양인 열증(열자)의 처방 — 갈증·열감 해소.',caution:null,unfitSignal:null,
+  alternatives:['양격산화탕'],gamga:[],source:'류주열 사상처방개정판 P009 · 한열/주증은 원장 검수 대상'},
+ {id:'yanggyeok_sanhwa',name:'양격산화탕',hanja:'凉膈散火湯',constitution:'soyang',hanyul:'hot',yangyin:'any',verified:false,
+  ryuCode:'P018',composition:'인동등8 연교8 생지황8 형개4 방풍4 석고4 박하4 치자4 지모4',
+  ryuAltCodes:['P060'],classicRef:'고전 동명 처방 — 참조',
+  symptoms:['흉번조','안충혈','갈증'],basis:'소양인 열증(열자)의 처방 — 흉격 열·번조 해소.',caution:null,unfitSignal:null,
+  alternatives:['지황백호탕'],gamga:[],source:'류주열 사상처방개정판 P018 · 한열/주증은 원장 검수 대상'},
+];
+
+/* ── 주소증 칩 (data/symptom_chips.json) ── */
+const SYMPTOM_CHIPS = {
+  taeum:{ cold:['만성 비염','식적·더부룩','변비 경향','기침 가래','피로·보약','감기 후 회복','관절통·부종','사경증·두통','코피','땀 많음'],
+          hot:['안면홍조','두통','불면','가슴 답답','변비','다한증','공황장애'] },
+  soyang:{ cold:['상복부 가스','우울','두통','이명','한기','간기울결 증상'],
+           hot:['갈증','위완 건조','소갈','다음(多飮)','흉번조','안충혈'] },
+  soeum:{ any:['소화불량','무기력','설사','대변 묽음','한기'] },
+  taeyang:{ any:[] },
+};
+
+/* ── 전체 처방 참조 목록 (data/prescriptions_full.json — ETL 주입) ── */
+const RX_FULL = [{"code":"L001","constitution":"taeyang","name":"류씨오가피장척탕","composition":"목적8 포도근8 향유8 모과4 양총피4 송절4 산장과4 오가피4"},{"code":"L002","constitution":"taeyang","name":"잠사해표탕","composition":"곽향8 향유6 오가피6 잠사4 양총피4 포도근4 모과4 송절4","compositionOld":"향유8 잠사6 곽향6 오가피4 양총피4 포도근4 모과4 송절4"},{"code":"L003","constitution":"taeyang","name":"오가피장척탕","composition":"오가피16 모과8 송절8 앵도육4 교맥4 포도근4"},{"code":"L004","constitution":"taeyang","name":"목적쌍해산","composition":"오가피12 포도근8 모과8 앵도육4 목적4 송화4 잠사4"},{"code":"L005","constitution":"taeyang","name":"오가피청열탕","composition":"향유8 백강잠6 목적6 어성초4 구인4 오가피4 산장4 백모근4"},{"code":"L006","constitution":"taeyang","name":"잠사청열탕","composition":"곽향8 오가피8 어성초6 목적6 향유4 모과4 양총피4 잠사4 산장2","compositionOld":"오가피8 향유8 어성초4 모과4 양총피4 잠사4 산장4 곽향4 목적4"},{"code":"L007","constitution":"taeyang","name":"오가피쌍해산","composition":"포도근8 목적8 백강잠8 오가피4 모과4 송절4 향유4"},{"code":"L008","constitution":"taeyang","name":"석옥승기탕","composition":"생석곡20 생옥죽20 적하수오6 백모근6 산앵도인4 미후도4 구인4"},{"code":"L009","constitution":"taeyang","name":"미후도승기탕","composition":"생석곡10 생옥죽10 미후도8 산앵도인6 저두강6 교맥4 구인4"},{"code":"L010","constitution":"taeyang","name":"교맥관장탕","composition":"교맥12 곽향6 모과초6 향유4 저두강4 백편두4 앵도육4 송화4 양강4"},{"code":"L011","constitution":"taeyang","name":"류씨미후도식장탕","composition":"연조미후도8 곽향6 모과6 백편두4 오가피4 저두강4 양강4 앵도육4 송화4"},{"code":"L012","constitution":"taeyang","name":"미후도식장탕","composition":"연조미후도16 모과8 포도근8 앵도육4 노근4 오가피4 저두강4 송화4"},{"code":"L013","constitution":"taeyang","name":"산장청영탕","composition":"석곡12 산장8 백모근8 구인4 백강잠4 어성초4"},{"code":"L014","constitution":"taeyang","name":"어성초청영탕","composition":"어성초12 백모근8 연조미후도8 구인4 석곡4 산장과4 옥죽4"},{"code":"L015","constitution":"taeyang","name":"석곡옥죽탕","composition":"석곡12 옥죽8 회우슬주증8 백모근4 구인4 적하수오4 진주모4"},{"code":"L016","constitution":"taeyang","name":"미후도옥죽탕","composition":"연조미후도12 옥죽8 백모근4 적하수오4 석곡4 회우슬주증4 적하수오4"},{"code":"L017","constitution":"taeyang","name":"모과실비탕","composition":"비해12 백편두초8 모과초4 오가피4 송화4 곽향4","compositionOld":"비해12 백편두초8 적소두8 모과초4 오가피4 송화4 곽향4"},{"code":"L018","constitution":"taeyang","name":"백모근탕","composition":"백모근12 천우슬8 구인4 적소두4 비해4 번행4","compositionOld":"옥미수백모근탕: 백모근12 천우슬8 구인4 적소두4 비해4 교맥4"},{"code":"L019","constitution":"taeyang","name":"어성초제습탕","composition":"비해8 어성초8 연조미후도4 오가피4 백모근4 천우슬4 번행4","compositionOld":"비해8 어성초8 연조미후도4 앵도육4 오가피4 백모근4 천우슬4"},{"code":"L020","constitution":"taeyang","name":"현호색소간탕","composition":"미후도8 교맥8 현호색4 모과4 초룡담4 석곡4 양강2 석결명2 진주모2 적하수오2","compositionOld":"미후도8 교맥8 현호색4 모과4 석곡4 양강2 석결명2 진주모2 적하수오2"},{"code":"L021","constitution":"taeyang","name":"용담청간탕","composition":"적하수오8 석결명6 진주모6 석곡4 산장4 미후도4 초룡담4 구인4 야관문4","compositionOld":"적하수오8 석곡8 석결명6 진주모6 산장4 미후도4 초룡담4 구인4"},{"code":"L022","constitution":"taeyang","name":"미후도양간탕","composition":"미후도12 적하수오증8 회우슬주증6 야관문6 백하수오4 석결명4 옥죽4","compositionOld":"미후도12 적하수오증8 회우슬주증8 백하수오4 석결명4 석곡4 옥죽4"},{"code":"L023","constitution":"taeyang","name":"계혈등보간탕","composition":"계혈등8 백하수오8 적하수오증6 회우슬주증6 미후도4 모과4"},{"code":"L024","constitution":"taeyang","name":"백모근보간탕","composition":"미후도12 백하수오8 회우슬주증8 백모근4 적하수오증4 옥죽4 계혈등2"},{"code":"L025","constitution":"taeyang","name":"음양곽난간전","composition":"음양곽8 미후도8 회우슬주증8 모과4 오가피4 포도근4 현호색4 양강4"},{"code":"L026","constitution":"taeyang","name":"당삼보심탕","composition":"당삼12 야교등6 송엽6 앵도육4 송화4 자오가피4 진주모4"},{"code":"L027","constitution":"taeyang","name":"야교등양심탕","composition":"야교등12 석곡8 옥죽4 진주모4 연조미후도4 미후도4","compositionOld":"야교등12 석곡8 옥죽8 진주모4 연조미후도4"},{"code":"L028","constitution":"taeyang","name":"석곡청심탕","composition":"석곡12 야교등8 진주모6 백모근6 초룡담4 연조미후도4 구인4"},{"code":"L029","constitution":"taeyang","name":"도인현호색탕","composition":"현호색8 강황6 양총피6 도인4 도초4 홍국4 송화4 홍화4 천우슬4 야교등4","compositionOld":"현호색8 도인6 양총피6 도초4 홍국4 송화4 홍화4 천우슬4 야교등4"},{"code":"L030","constitution":"taeyang","name":"야교등백강잠탕","composition":"백강잠8 야교등8 진주모4 자오가피4 석곡4 양총피4 구인4 송엽4"},{"code":"L031","constitution":"taeyang","name":"비해송화탕","composition":"비해12 송화8 향유4 저두강4 문합4 양강4"},{"code":"L032","constitution":"taeyang","name":"교맥건비탕","composition":"당삼12 저두강6 아삼6 모과초4 교맥4 백편두초4 앵도육4 곡아4"},{"code":"L033","constitution":"taeyang","name":"당삼보기탕","composition":"당삼12 교맥8 송화8 백하수오4 아삼4 앵도육4 백편두초4 향유2 곽향2","compositionOld":"당삼12 교맥8 송화8 백하수오4 아삼4 앵도육4 백편두초4 향유1.2 곽향1.2"},{"code":"L034","constitution":"taeyang","name":"석곡양비탕","composition":"백하수오8 연조미후도8 석곡4 저두강4 적하수오4 교맥4","compositionOld":"석곡12 백하수오8 옥죽8 저두강4 연조미후도4 도인4 적하수오4"},{"code":"L035","constitution":"taeyang","name":"이삼보폐탕","composition":"아삼12 송화6 당삼6 양총피4 백개자4 동충하초4","compositionOld":"아삼12 송화6 당삼6 양총피4 동충하초4"},{"code":"L036","constitution":"taeyang","name":"옥죽양폐탕","composition":"옥죽8 야관문8 백모근6 석결명6 백하수오4 동충하초4 석곡4 구인4","compositionOld":"옥죽12 백모근6 석결명6 백하수오4 동충하초4 석곡4 구인4"},{"code":"L037","constitution":"taeyang","name":"아삼온폐탕","composition":"백개자8 양총피8 숭자4 향유4 아삼4 산앵도인4 송화4 배해4 동충하초4","compositionOld":"숭자8 양총피8 향유4 아삼4 산앵도인4 송화4 비해4 동충하초4"},{"code":"L038","constitution":"taeyang","name":"원잠보음탕","composition":"야관문8 적하수오증8 회우슬주증6 백하수오4 석곡4 원잠4","compositionOld":"옥죽12 회우슬주증8 적하수오증8 백하수오4 석결명4 석곡4 원잠4 미후도4"},{"code":"L039","constitution":"taeyang","name":"당삼보신탕","composition":"당삼12 자오가피6 산앵도6 회우슬주증4 음양곽4 발계4","compositionOld":"백하수오8 회우슬주증8 자오가피6 산앵도6 옥죽4 당삼4 양총피4"},{"code":"L040","constitution":"taeyang","name":"충초보양탕","composition":"당삼8 음양곽6 오가피6 파극천6 회우슬주증4 발계4 원잠아2 동충하초2","compositionOld":"옥죽주증12 백하수오8 회우슬주증6 음양곽6 동충하초4 발계4 원잠아4"},{"code":"L041","constitution":"taeyang","name":"산장온담탕","composition":"연조미후도8 초룡담4 저두강4 문합4 백모근4 산장4 와송4 번행4","compositionOld":"연조미후도8 초룡담4 저두강4 문합4 백모근4 산장4 와송4"},{"code":"L042","constitution":"taeyang","name":"당삼보위탕","composition":"당삼8 홍국6 교맥6 곡아4 연조미후도4 모과초4 현호색4 송화4 번행4","compositionOld":"당삼8 곡아6 홍국6 연조미후도4 모과초4 현호색4 앵도육4 교맥4 송화4"},{"code":"L043","constitution":"taeyang","name":"석곡양위탕","composition":"백하수오8 연조미후도8 석곡6 번행6 백편두4 저두강4 미후리엽2","compositionOld":"석곡12 백하수오8 연조미후도8 미후리엽4 백모근4 백편두4 저두강4 옥죽4"},{"code":"L044","constitution":"taeyang","name":"미후도청위탕","composition":"연조미후도12 번행8 백모근4 미후리엽4 초룡담4 저두강4 야관문4","compositionOld":"연조미후도12 백모근8 미후리엽8 초룡담4 저두강4 석곡4 옥죽4"},{"code":"L045","constitution":"taeyang","name":"당삼양장탕","composition":"당삼8 백편두초6 산앵도6 교맥4 발계4 곡아4 연조미후도4 송화4"},{"code":"L046","constitution":"taeyang","name":"미후도청장탕","composition":"번행8 현지초6 백모근6 선학초4 곡아4 연조미후도4 산장4","compositionOld":"현지초8 선학초8 백모근6 적하수오6 곡아4 백편두4 연조미후도4 산장4 적소두4"},{"code":"L047","constitution":"taeyang","name":"당삼소간탕","composition":"교맥8 당삼8 백편두초4 현호색4 모과초4 미후도4 곡아4 진주모2 석결명2"},{"code":"L048","constitution":"taeyang","name":"현호색화위탕","composition":"연조미후도8 번행6 현호색6 모과초4 저두강4 백모근4 진주모4 미후리엽2 곡아2","compositionOld":"연조미후도12 모과초6 현호색6 저두강4 곡아4 백모근4 미후리엽4 잠사4 진주모2"},{"code":"L049","constitution":"taeyang","name":"문합청폐탕","composition":"적하수오8 백모근8 구인6 야관문6 문합4 산장4 석결명4 숭자4","compositionOld":"적하수오8 백모근8 문합6 구인6 산장4 석결명4 숭자4"},{"code":"L050","constitution":"taeyang","name":"백하오양혈탕","composition":"당삼8 백하수오6 야교등6 교맥4 백편두4 저두강4 송화4 계혈등4 진주모2"},{"code":"L051","constitution":"taeyang","name":"야교등음양곽탕","composition":"당삼12 음양곽6 야교등6 진주모4 앵도육4 송화4 동충하초4"},{"code":"L052","constitution":"taeyang","name":"도인백모근탕","composition":"도인8 천우슬8 계혈등4 현호색4 홍국4 오가피4 미후도근4 송절4 백모근4"},{"code":"L052-1","constitution":"taeyang","name":"가미도인백모근탕","composition":"도인백모근탕 중용현호색 오가피 가 구인"},{"code":"L053","constitution":"taeyang","name":"가감산장청영탕","composition":"백모근8 산장8 목적4 연조미후도4 구인4 석곡4 와송4"},{"code":"L054","constitution":"taeyang","name":"계혈등통맥탕","composition":"송절8 오가피8 계혈등6 야교등6 포도근4 도초4 양강4 모과4"},{"code":"L055","constitution":"taeyang","name":"백하오당삼탕","composition":"당삼16 백하수오16"},{"code":"L056","constitution":"taeyang","name":"백하오윤조탕","composition":"옥죽12 앵도육6  야교등6 적하수오4 백강잠4 선학초4 송엽4 목적4","compositionOld":"옥죽12 앵도육6 어성초6 적하수오4 백강잠4 선학초4 송엽4 야교등4 와송4"},{"code":"L057","constitution":"taeyang","name":"어성초백강잠탕","composition":"어성초6 백강잠6 송엽4 선학초4 야교등4 잠사4 연조미후도4 번행4 와송2 적하수오2","compositionOld":"어성초8 송엽8 백강잠6 목적6 선학초4 야교등4 잠사4 와송2 적하수오2"},{"code":"L058","constitution":"taeyang","name":"산장청인탕","composition":"어성초8 산장8 백강잠4 구인4 번행4 미후도근4 도엽4 와송4 야관문4","compositionOld":"어성초8 산장8 백강잠4 구인4 목적4 미후도근4 도엽4 와송4"},{"code":"L059","constitution":"taeyang","name":"잠사오가피탕","composition":"발계8 음양곽8 송절8 모과4 오가피4 포도근4 저두강4 천우슬4 잠사4 위령선4","compositionOld":"발계12 음양곽8 송절8 모과4 오가피4 포도근4 저두강4 천우슬4 잠사4"},{"code":"L060","constitution":"taeyang","name":"포도근오가피탕","composition":"포도근12 석곡8 오가피4 비해4 백강잠4 천우슬4 야교등4","compositionOld":"포도근12 석곡8 오가피4 미후리엽4 비해4 백강잠4 천우슬4 야교등4"},{"code":"L061","constitution":"taeyang","name":"이향정기산","composition":"곽향6 모과4 오가피4 향유4 저두강2 발계2 목적2 양강2 백편두2 양총피2 잠사2"},{"code":"L062","constitution":"taeyang","name":"백모근청폐탕","composition":"백모근8 구인6 어성초6 석곡4 문합4 옥죽4 숭자4 산장4 야관문4","compositionOld":"백모근8 구인6 어성초6 석곡4 문합4 옥죽4 숭자4 산장4"},{"code":"L063","constitution":"taeyang","name":"도인생화탕","composition":"오가피8 영실6 저두강6 적하수오주증4 옥죽4 회우슬4 미후도근4 도인4","compositionOld":"적하수오주증8 옥죽8 회우슬6 영실6 오가피4 미후도근4 백모근4 도인4"},{"code":"L064","constitution":"taeyang","name":"현호색생화탕","composition":"백하수오8 오가피8 회우슬6 택란6 계혈등4 현호색4 당삼4 영실4"},{"code":"L065","constitution":"taeyang","name":"이어성초백강잠탕","composition":"연조미후도16 선학초4 야교등4 목적4 어성초4 송화4 모과4 저두강4 백강잠4 포도근4"},{"code":"L066","constitution":"taeyang","name":"우슬오가피탕","composition":"회우슬주증8 오가피8 음양곽6 송절6 적하수오주증4 발계4 잠사4 모과4"},{"code":"L067","constitution":"taeyang","name":"가감도인백모근탕","composition":"우슬8 영실8 현호색4 백모근4 도인4 교맥4 미후도4"},{"code":"L068","constitution":"taeyang","name":"가감현호색생화탕","composition":"우슬8 현호색6 택란6 계혈등4 오가피4 홍국4 잠사4 양강2"},{"code":"L069","constitution":"taeyang","name":"교맥총피탕","composition":"교맥8 양총피8 백편두6 곽향6 모과4 곡아4 홍국4 백강잠4","compositionOld":"적소두총피탕: 적소두12 양총피6 백편두6 교맥4 모과4 곡아4 홍국4 곽향4"},{"code":"L070","constitution":"taeyang","name":"가감교맥총피탕","composition":"연조미후도12 백모근6 교맥6 문합4 백강잠4 구인4 양총피4 모과4","compositionOld":"가감적소두총피탕: 연조미후도12 적소두6 백모근6 문합4 백강잠4 구인4 양총피4 교맥4 모과4"},{"code":"H001","constitution":"taeum","name":"가미해기탕","composition":"갈근8 맥문동6 황금6 길경4 행인4 고본4 마황4 백지4 승마4"},{"code":"H002","constitution":"taeum","name":"갈근해표탕","composition":"백부근8 갈근8 창이자4 고본4 백지4 길경4 황금4 상백피4 상엽4 마황2"},{"code":"H003","constitution":"taeum","name":"류씨한다열소탕","composition":"의이인8 백부근8 길경4 백지4 고본4 갈근4 나복자4 창이자4 마황2 상엽2"},{"code":"H004","constitution":"taeum","name":"백부근청열탕","composition":"백부근8 황금6 상백피6 길경6 갈근4 감국4 상엽4 승마4 선태4 백지2 창이자2","compositionOld":"백부근8 갈근8 황금6 상백피6 감국4 길경4 상엽4 승마4 선태4 백지2 창이자2"},{"code":"H005","constitution":"taeum","name":"자완청열탕","composition":"백부근8 감국6 길경6 자완4 창이자4 황금4 상백피4 선태4 고본2 백지2","compositionOld":"백부근8 감국6 자완6 창이자4 길경4 황금4 상백피4 선태4 고본2 백지2"},{"code":"H006","constitution":"taeum","name":"갈근청열탕","composition":"갈근12 황금6 길경6 포공영4 행인4 담두시4 선태4 백지4 고본4"},{"code":"H007","constitution":"taeum","name":"한다열소탕","composition":"의이인12 건율12 나복자8 행인4 황금4 마황4 맥문동4 길경4"},{"code":"H008","constitution":"taeum","name":"갈근포공영탕","composition":"갈근12 황금8 포공영8 노근6 사간6 길경4 자완4 절패모4","compositionOld":"갈근12 황금8 포공영8 노근8 행인4 길경4 자완4 절패모4"},{"code":"H009","constitution":"taeum","name":"자완상백피탕","composition":"백부근8 상백피8 자완6 황금6 감국4 노근4 삼백초4 행인4 길경4 사간4","compositionOld":"백부근8 상백피8 자완6 황금6 감국4 노근4 백선피4 삼백초4 행인4"},{"code":"H010","constitution":"taeum","name":"가미발표탕","composition":"갈근8 길경6 마황6 고본4 행인4 황금4 백지4 맥문동4 승마4"},{"code":"H011","constitution":"taeum","name":"마황발표탕","composition":"길경12 마황6 황금4 행인4 맥문동4"},{"code":"H012","constitution":"taeum","name":"갈근해기탕","composition":"갈근12 고본6 황금6 길경4 백지4 승마4"},{"code":"H013","constitution":"taeum","name":"상지부평탕","composition":"의이인12 갈근12 부평초8 상지8 나복자4 길경4"},{"code":"H014","constitution":"taeum","name":"마황부평탕","composition":"의이인12 건율12 길경8 부평초4 마황4 나복자4"},{"code":"H015","constitution":"taeum","name":"갈근승기탕","composition":"갈근16 대황8 황금8 길경4 백지4 승마4"},{"code":"H016","constitution":"taeum","name":"의이인승기탕","composition":"갈근8 황금8 유근피8 사삼4 의이인4 승마4 행인4 대황2"},{"code":"H017","constitution":"taeum","name":"열다한소탕","composition":"갈근16 고본8 황금8 길경4 백지4 나복자4 승마4"},{"code":"H018","constitution":"taeum","name":"갈근나복자탕","composition":"의이인8 갈근8 맥문동6 황금4 마황4 길경4 나복자4 오미자4 석창포4"},{"code":"H019","constitution":"taeum","name":"태음조위탕","composition":"의이인12 건율12 나복자8 마황4 맥문동4 길경4 오미자4 석창포4"},{"code":"H020","constitution":"taeum","name":"류씨태음조위탕","composition":"의이인12 건율12 나복자8 신곡4 오미자4 오매4 석창포4 유근피4"},{"code":"H021","constitution":"taeum","name":"웅담산","composition":"웅담 3~5푼 온수조하"},{"code":"H022","constitution":"taeum","name":"가감갈근해기탕","composition":"갈근12 길경6 고본6 황금4 백지4 창이자4 행인4 백부근4 담두시4"},{"code":"H023","constitution":"taeum","name":"갈근의이인탕","composition":"의이인12 갈근12 황금8 건율4 맥문동4 나복자4 유근피4"},{"code":"H024","constitution":"taeum","name":"황금의이인탕","composition":"의이인12 갈근12 황금8 길경4 대두황권4 나복자4 포공영4 승마4"},{"code":"H025","constitution":"taeum","name":"의이인삼백초탕","composition":"의이인12 삼백초8 갈근6 황금6 해동피4 백지4 유근피4 길경4 승마4"},{"code":"H026","constitution":"taeum","name":"두황의이인탕","composition":"의이인12 대두황권6 황금6 길경4 갈근4 마황4 나복자4 석창포4"},{"code":"H027","constitution":"taeum","name":"우각청영탕","composition":"우각12 맥문동8 황금8 단삼4 패장4 포공영4 대황4"},{"code":"H028","constitution":"taeum","name":"담삼청영탕","composition":"우각12 포공영8 황금8 맥문동4 패장4 길경4 단삼4"},{"code":"H029","constitution":"taeum","name":"맥문동양액탕","composition":"맥문동8 진교6 천문동6 마자인4 사삼4 상심자4 황금4"},{"code":"H030","constitution":"taeum","name":"여정실양액탕","composition":"사삼8 여정실주증6 황금6 해송자4 맥문동4 상심자4 지부자4"},{"code":"H031","constitution":"taeum","name":"갈근소간탕","composition":"백질려염수초8 갈근8 담두시4 백렴4 조구등4 나복자4 산조인4 여정실4 연자육4"},{"code":"H032","constitution":"taeum","name":"산조인소간탕","composition":"사삼8 여정실8 감국4 조구등4 나복자4 백렴4 산조인4 유근피4 백질려염수초4"},{"code":"H033","constitution":"taeum","name":"갈근청간탕","composition":"갈근8 황금8 백질려염수초8 맥문동4 괴화4 조구등4 청호4 저실자4 대황2"},{"code":"H034","constitution":"taeum","name":"하고초청간탕","composition":"갈근8 여정실8 백질려염수초4 하고초4 황금4 조구등4 산조인4 감국4 괴화2 상엽2"},{"code":"H035","constitution":"taeum","name":"백자양간탕","composition":"상황8 저실자6 여정실주증6 백자인4 맥문동4 산조인4 산약4 오미자증4"},{"code":"H036","constitution":"taeum","name":"상자양간탕","composition":"여정실주증12 상심자8 산조인8 저실자4 감국4","compositionOld":"여정실주증12 상심자8 산조인8 사삼4 저실자4 감국4"},{"code":"H037","constitution":"taeum","name":"연자보간탕","composition":"연자육8 용안육6 산약6 산조인4 백자인4 녹각교초주4 여정실주증4 홍화2"},{"code":"H038","constitution":"taeum","name":"여정자보간탕","composition":"여정실주증12 산조인6 용안육6 상심자4 단삼초4 녹각교초주2 홍화2"},{"code":"H039","constitution":"taeum","name":"단삼보간탕","composition":"여정실주증8 단삼초8 저실자4 맥문동4 백자인4 산조인4 상심자4"},{"code":"H040","constitution":"taeum","name":"여두난간전","composition":"건율12 나복자6 여두6 조각자4 오미자4 마황4 여정실4 해백4"},{"code":"H041","constitution":"taeum","name":"연자보심탕","composition":"연자육8 용안육8 산약4 나복자4 석창포4 산조인초4 자노아4 원지4 맥문동2 호박2","compositionOld":"산약8 연자육8 나복자4 석창포4 산조인초4 자노아4 원지4 용안육4 맥문동4 호박2"},{"code":"H042","constitution":"taeum","name":"소맥보심탕","composition":"부소맥8 연자육8 오미자4 백합4 석창포4 산조인초4 원지4 용안육4 호박2 황금2"},{"code":"H043","constitution":"taeum","name":"백자양심탕","composition":"백자인8 맥문동8 천문동4 자노아4 목통4 산조인4 원지4 용안육4"},{"code":"H044","constitution":"taeum","name":"사삼양심탕","composition":"백합8 산조인8 사삼4 호박4 황금4 오미자4 백자인4 원지4 용안육4 부소맥4"},{"code":"H045","constitution":"taeum","name":"황금청심탕","composition":"황금8 맥문동8 대황4 등심4 백합4 목통4 우각4 울금4","compositionOld":"황금8 맥문동8 대황4 등심4 백합4 목통4 천축황4 우각4 울금4"},{"code":"H046","constitution":"taeum","name":"단삼해백탕","composition":"단삼8 녹용6 해백6 백렴4 호박4 홍화4 길경4 원지4 울금4"},{"code":"H047","constitution":"taeum","name":"이씨우황청심환","composition":""},{"code":"H048","constitution":"taeum","name":"창포천마탕","composition":"단삼주초8 석창포8 천마6 천패모6 원지6 목통4 백렴4 맥문동4 호박2","compositionOld":"단삼주초8 맥문동8 천마6 천패모6 목통4 백렴4 석창포4 원지4 천축황2 호박2"},{"code":"H049","constitution":"taeum","name":"가감승청탕","composition":"의이인12 건율12 나복자6 해백4 마황4 목통4 길경4 오미자4 석창포4 원지4"},{"code":"H050","constitution":"taeum","name":"연자건비탕","composition":"의이인초12 연자육6 용안육6 나복자초4 산약초4 사삼4 건율4 오미자증4 석창포4"},{"code":"H051","constitution":"taeum","name":"의이인건비탕","composition":"의이인초12 건율12 산약초8 용안육4 나복자초4 오미자증4 석창포4"},{"code":"H052","constitution":"taeum","name":"갈근양비탕","composition":"노근12 맥문동8 갈근8 행인4 용안육4 천문동4 나복자초4 백자인4"},{"code":"H053","constitution":"taeum","name":"사삼양비탕","composition":"사삼12 맥문동6 나복자초6 용안육4 행인4 백자인4 의이인4","compositionOld":"사삼12 노근8 유근피6 맥문동6 나복자초4 용안육4 행인4 백자인4"},{"code":"H054","constitution":"taeum","name":"마황보폐탕","composition":"의이인8 산약8 길경4 나복자4 행인4 오미자4 마황2 황금2","compositionOld":"의이인8 산약8 길경8 나복자4 행인4 마황4 오미자2 황금2"},{"code":"H055","constitution":"taeum","name":"사삼보폐탕","composition":"의이인8 산약8 나복자4 사삼4 오미자4 길경4 행인4","compositionOld":"의이인8 산약8 나복자4 사삼4 천패모4 오미자4 길경4 행인4"},{"code":"H056","constitution":"taeum","name":"맥문동양폐탕","composition":"맥문동12 천문동6 백합6 길경4 황금4 용안육4 오미자4"},{"code":"H057","constitution":"taeum","name":"백합양폐탕","composition":"백합8 사삼8 천패모4 황금4 맥문동4 용안육4 상엽4 오미자4"},{"code":"H058","constitution":"taeum","name":"산약보폐탕","composition":"의이인8 산약8 녹용6 호도육4 길경4 마황4 맥문동4 오미자4 행인4 해백4"},{"code":"H059","constitution":"taeum","name":"녹용대보탕","composition":"의이인6 맥문동6 행인4 마황4 천문동4 녹용4 오미자4 산약4"},{"code":"H060","constitution":"taeum","name":"공진흑원단","composition":""},{"code":"H061","constitution":"taeum","name":"가감정천탕","composition":"마황12 행인6 길경6 황금4 관동화4 맥문동4 나복자4 녹각상4 오미자4"},{"code":"H062","constitution":"taeum","name":"동과자온폐탕","composition":"동과자8 행인6 마황6 자완4 길경4 나복자4 녹각상4 오미자4 상백피4"},{"code":"H063","constitution":"taeum","name":"상황보음탕","composition":"여정실주증12 상황8 상심자8 저실자4 산약4 지부자4 천문동4","compositionOld":"상황12 여정실주증8 저실자8 흑두4 지부자4 오미자증4 상심자4"},{"code":"H064","constitution":"taeum","name":"정심보음탕","composition":"여정실주증12 저실자8 상심자8 오미자증4 상황4 산약4 지부자4 천문동4","compositionOld":"여정실주증12 저실자8 상심자8 오미자증4 상황4 사삼4 지부자4"},{"code":"H065","constitution":"taeum","name":"건율보양탕","composition":"건율12 연자육8 산약8 호도육4 녹각교4 쇄양4 속단주초4 상황4","compositionOld":"건율12 연자육8 산약6 호도육6 녹용4 쇄양4 속단주초4"},{"code":"H066","constitution":"taeum","name":"연자보양탕","composition":"연자12 산약8 여정실주증4 상심자4 오미자증4 속단주초4 호도육4 쇄양4 지부자4","compositionOld":"연자8 여정실주증6 상심자6 오미자증4 속단주초4 호도육4 건율4 쇄양4 지부자4"},{"code":"H067","constitution":"taeum","name":"호도육보신탕","composition":"건율12 호도육8 나복자6 산약6 녹용4 오미자4 맥문동4 여두4"},{"code":"H068","constitution":"taeum","name":"건율온신탕","composition":"건율12 의이인12 산약4 마황4 나복자4 녹각상4 오미자4 지부자4"},{"code":"H069","constitution":"taeum","name":"여정자건율탕","composition":"건율12 여정실주증6 지부자6 산약4 오미자4 삼백초4 상백피4 녹각상4"},{"code":"H070","constitution":"taeum","name":"청호온담탕","composition":"의이인8 청호6 비파엽4 황금4 동과인4 나복자4 절패모4","compositionOld":"의이인8 청호6 죽여6 비파엽4 황금4 동과인4 나복자4 절패모4"},{"code":"H071","constitution":"taeum","name":"감국온담탕","composition":"사삼8 감국6 유근피6 황금4 청호4 비파엽4 절패모4 울금4","compositionOld":"사삼8 감국6 유근피6 황금4 죽여4 청호4 비파엽4 절패모4 울금4"},{"code":"H072","constitution":"taeum","name":"마황정통탕","composition":"의이인12 건율12 나복자4 행인4 백자인4 석창포4 사군자4 용안육4","compositionOld":"의이인12 건율12 마황8 나복자8 행인 백자인 맥문동 길경 오미자 석창포 사군자 용안육4"},{"code":"H073","constitution":"taeum","name":"천문동도적산","composition":"천문동8 등심4 호장근4 목통4 포공영4 포황4 지부자4 진교4"},{"code":"H074","constitution":"taeum","name":"유근피도적산","composition":"백합8 등심4 호박4 목통4 포황4 삼백초4 유근피4 지부자4"},{"code":"H075","constitution":"taeum","name":"건율보위탕","composition":"의이인초12 건율6 산약초6 사삼4 나복자초4 석창포4 신곡4 사당4 오매2 유근피2"},{"code":"H076","constitution":"taeum","name":"맥문동양위탕","composition":"갈근8 노근8 맥문동8 황금4 황정4 천문동4 나복자초4 비파엽4"},{"code":"H077","constitution":"taeum","name":"백합양위탕","composition":"사삼8 노근8 맥문동8 유근피6 나복자초6 황금4 비파엽4 백합4","compositionOld":"사삼8 노근8 유근피6 맥문동6 황금4 나복자초4 비파엽4 백합4"},{"code":"H078","constitution":"taeum","name":"갈근청위탕","composition":"갈근12 황금8 맥문동6 유근피6 노근4 절패모4 나복자초4 비파엽4"},{"code":"H079","constitution":"taeum","name":"유근피청위탕","composition":"황금8 유근피8 의이인4 감국4 절패모4 비파엽4 나복자초4 삼백초4 노근4"},{"code":"H080","constitution":"taeum","name":"건율청위탕","composition":"사삼8 유근피8 건율6 황금6 의이인4 나복자초4 감국4 삼백초4 노근4"},{"code":"H081","constitution":"taeum","name":"이건율청위탕","composition":"의이인8 건율8 용안육6 유근피6 나복자초4 오미자4 사삼4 석창포4 노근2 황금2"},{"code":"H082","constitution":"taeum","name":"연자육양장탕","composition":"의이인초12 건율12 갈근외4 나복자초4 오미자4 석창포4 연자육4 춘근피2 해백2"},{"code":"H083","constitution":"taeum","name":"오매양장탕","composition":"의이인8 연자육8 건율4 나복자초4 오미자4 오매4 유근피2 저백피부초2"},{"code":"H084","constitution":"taeum","name":"갈근청장탕","composition":"의이인8 황금6 저근백피부초6 괴화4 해동피4 담두시4 대황4 유근피4 갈근외4"},{"code":"H085","constitution":"taeum","name":"유근피청장탕","composition":"유근피8 황금6 의이인6 해동피4 감국4 저근백피4 괴화4"},{"code":"H086","constitution":"taeum","name":"연자소간탕","composition":"의이인초8 연자육8 백렴4 나복자4 오미자4 석창포4 백질려염수초4 산조인4 해백2 조구등2"},{"code":"H087","constitution":"taeum","name":"오매소간탕","composition":"의이인초8 연자육8 오미자4 오매4 산조인4 여정실4 조구등2 백렴2 유근피2 백질려염수초2","compositionOld":"의이인초8 연자육8 조구등4 오미자4 오매4 산조인4 유근피4 여정실4 백렴4"},{"code":"H088","constitution":"taeum","name":"갈근화위탕","composition":"의이인8 갈근8 백질려염수초4 담두시4 백렴4 비파엽4 맥문동4 나복자4 유근피4"},{"code":"H089","constitution":"taeum","name":"유근피화위탕","composition":"의이인8 유근피8 백지려염수초4 백합4 나복자4 사삼4 비파엽4 감국2 백렴2"},{"code":"H090","constitution":"taeum","name":"천문동청폐탕","composition":"천문동8 황금6 맥문동6 비파엽4 자완4 절패모4 상백피4"},{"code":"H091","constitution":"taeum","name":"상백피청폐탕","composition":"사삼8 황금6 상백피6 천문동4 감국4 비파엽4 백선피4 상엽4"},{"code":"H092","constitution":"taeum","name":"연자양혈탕","composition":"산약8 연자육8 맥문동4 녹각교초주4 석창포4 산조인초4 단삼초4 원지4 용안육4 백자인4"},{"code":"H093","constitution":"taeum","name":"단삼양혈탕","composition":"백합8 용안육8 백자인4 단삼4 오미자4 산조인초4 원지4 감국2 황금2"},{"code":"H094","constitution":"taeum","name":"단삼건율탕","composition":"건율12 단삼6 홍화6 연자육4 녹각4 포황4 상황4 길경4"},{"code":"H094-1","constitution":"taeum","name":"가미단삼건율탕","composition":"단삼건율탕 + 오공 진교"},{"code":"H095","constitution":"taeum","name":"단삼포황탕","composition":"단삼8 홍화8 백렴4 호박4 여정실주증4 포황4 속단4 상황4"},{"code":"H095-1","constitution":"taeum","name":"가미단삼포황탕","composition":"단삼포황탕 + 오공 진교"},{"code":"H096","constitution":"taeum","name":"단삼대황탕","composition":"단삼8 황금6 맥문동6 길경4 호장근4 대황주증4 백렴4 녹각4 포황4"},{"code":"H096-1","constitution":"taeum","name":"가미단삼대황탕","composition":"단삼대황탕 + 오공 진교"},{"code":"H097","constitution":"taeum","name":"가감단삼청영탕","composition":"사삼8 여정실8 단삼4 황금4 포황4 백렴4 우각4 유근피4 측백엽4"},{"code":"H098","constitution":"taeum","name":"마황통맥탕","composition":"건율8 단삼6 진교6 녹각상4 석창포4 여두4 홍화4 마황2 고본2 백지2"},{"code":"H099","constitution":"taeum","name":"홍화통맥탕","composition":"여정실주증8 사삼8 홍화6 단삼4 고본4 여두4 진교4 백지2 녹각상2"},{"code":"H100","constitution":"taeum","name":"이동윤조탕","composition":"맥문동8 천문동6 백질려6 단삼4 패장4 승마 4 지부자4 부평초4 화피4","compositionOld":"맥문동8 천문동6 백질려6 단삼4 행인4 패장4 승마 4 지부자4 부평초4"},{"code":"H101","constitution":"taeum","name":"사삼윤조탕","composition":"사삼8 백부근6 상엽6 백선피4 맥문동4 여정실주증4 단삼4 선태4 화피4","compositionOld":"사삼8 백부근6 상엽6 백선피4 행인4 맥문동4 여정실주증4 단삼4 선태4"},{"code":"H102","constitution":"taeum","name":"천마조등탕","composition":"천마6 조구등6 갈근4 백렴4 조각자4 석창포4 원지4 전충2 오공2"},{"code":"H103","constitution":"taeum","name":"감국구풍탕","composition":"조구등8 감국6 상지6 천마4 백렴4 석창포4 선태4 전충2 원지2"},{"code":"H104","constitution":"taeum","name":"갈근질려탕","composition":"백질려8 부평초8 지부자6 화피6 괴화4 백지4 패장4 승마2 갈근2","compositionOld":"백질려8 부평초8 지부자6 해동피6 괴화4 백지4 패장4 승마2 갈근2"},{"code":"H105","constitution":"taeum","name":"창이자패장탕","composition":"백선피6 선태6 백부근4 창이자4 감국4 상엽4 화피4 지부자4 패장4 부평초4","compositionOld":"백선피6 선태6 백부근4 창이자4 감국4 상엽4 해동피4 지부자4 패장4 부평초4"},{"code":"H106","constitution":"taeum","name":"갈근해독탕","composition":"갈근16 황금8 포공영8 백렴4 맥문동4 패장4 길경4 승마4"},{"code":"H107","constitution":"taeum","name":"감국해독탕","composition":"사삼8 감국6 백선피6 황금4 백렴4 삼백초4 상엽4 선태4"},{"code":"H108","constitution":"taeum","name":"상지삼백초탕","composition":"의이인8 부평초6 상지6 나복자4 삼백초4 해동피4 유근피4 지부자4"},{"code":"H109","constitution":"taeum","name":"가감갈근부평탕","composition":"의이인12 부평초8 갈근8 곤포4 길경4 황금4 맥문동4 나복자4"},{"code":"H110","constitution":"taeum","name":"마황의이인탕","composition":"의이인12 나복자6 마황4 백지4 석창포4 녹각상4 해동피4 해백2"},{"code":"H111","constitution":"taeum","name":"상지의이인탕","composition":"의이인12 창이자6 상지6 백선피4 곡기생4 해동피4 진교4"},{"code":"H112","constitution":"taeum","name":"진교의이인탕","composition":"의이인12 진교8 목통6 해동피6 백렴4 나복자4 곡기생4 백자인4"},{"code":"H113","constitution":"taeum","name":"마황정천탕","composition":"백과12 마황12 행인6 관동화4 황금4 길경4 맥문동4 나복자4 상백피4"},{"code":"H114","constitution":"taeum","name":"의이인청폐탕","composition":"천문동8 황금8 비파엽6 길경6 맥문동4 의이인4 승마4 창이자4 포공영4","compositionOld":"천문동8 황금6 비파엽6 맥문동4 백합4 의이인4 승마4 창이자4 포공영4"},{"code":"H115","constitution":"taeum","name":"창이자청폐탕","composition":"비파엽8 황금8 창이자6 길경6 상엽4 포공영4 사간4 맥문동4","compositionOld":"비파엽8 황금6 창이자6 백합4 백선피4 상엽4 사삼4 맥문동4"},{"code":"H116","constitution":"taeum","name":"백지창이자탕","composition":"사간8 황금8 갈근8 길경8 백지4 창이자4 패장4 포공영4","compositionOld":"백지8 황금8 갈근8 창이자4 패장4 길경4 맥문동4 포공영4"},{"code":"H117","constitution":"taeum","name":"조위승청탕","composition":"의이인12 건율12 나복자6 오미자4 석창포4 산조인4 원지4 용안육4 길경4 마황4 맥문동4 천문동4"},{"code":"H118","constitution":"taeum","name":"사삼유근피탕","composition":"비파엽8 행인8 의이인6 나복자6 황금4 유근피4 사삼4 삼백초4 오미자4 맥문동4"},{"code":"H119","constitution":"taeum","name":"연자생화탕","composition":"의이인8 연자육8 상황8 녹각교초주4 포황4 속단4 홍화4 단삼4 호장근2 목통2","compositionOld":"의이인12 연자육8 상황8 녹각교초주4 포황4 속단4 홍화4 호장근2 목통2"},{"code":"H120","constitution":"taeum","name":"상황생화탕","composition":"상황12 의이인8 녹각교초주4 포황4 호장근4 속단4 목통4 단삼4","compositionOld":"상황12 의이인12 천문동4 녹각교초주4 포황4 호장근4 속단4 목통4"},{"code":"H121","constitution":"taeum","name":"여정자생화탕","composition":"여정실주증8 상황8 의이인8 오미자4 포황4 단삼4 홍화4 속단4 호장근4 녹각교초주2","compositionOld":"여정실주증8 상황8 의이인8 백선피4 오미자4 포황4 단삼4 홍화4 속단4 녹각교초주2"},{"code":"H122","constitution":"taeum","name":"울금청담탕","composition":"울금8 유근피8 갈근6 포공영6 대황4 황금4 나복자초4 청호4"},{"code":"H123","constitution":"taeum","name":"여정자진교탕","composition":"여정실주증8 진교8 속단6 곡기생6 자노아4 의이인4 상심자4 녹각상2 마황2"},{"code":"H124","constitution":"taeum","name":"가감단삼대황탕","composition":"단삼8 호장근6 패장6 포황4 백질려4 길경4 홍화4 녹각4"},{"code":"H125","constitution":"taeum","name":"가감단삼건율탕","composition":"건율8 홍화8 단삼8 길경4 자노아4 녹각4 울금4 백자인4"},{"code":"H126","constitution":"taeum","name":"가감단삼포황탕","composition":"홍화8 단삼6 울금6 포황4 상황4 백자인4 속단4"},{"code":"H127","constitution":"taeum","name":"길경원지탕","composition":"의이인12 석창포6 나복자6 길경4 오미자4 천패모4 원지4 노근2 비파엽2","compositionOld":"길경죽여탕: 의이인12 석창포6 나복자6 길경4 오미자4 천패모4 원지4 죽여2 비파엽2"},{"code":"H128","constitution":"taeum","name":"가감길경원지탕","composition":"비파엽8 노근6 나복자6 길경4 오미자4 천패모4 원지4 황금4 행인4","compositionOld":"가감길경죽여탕: 비파엽8 죽여6 나복자6 길경4 오미자4 천패모4 원지4 황금4 행인4 노근4"},{"code":"P001","constitution":"soyang","name":"이씨형백패독산","composition":"방풍4 복령4 차전자4 독활4 강활4 형개4 전호4 시호4 지골피4 생지황4"},{"code":"P002","constitution":"soyang","name":"방풍해표탕","composition":"방풍8 형개6 강활6 복령4 전호4 독활4 금은화4 연교4 토창출4","compositionOld":"방풍8 형개6 강활6 복령4 전호4 독활4 금은화4 연교4 홍모오가피4"},{"code":"P003","constitution":"soyang","name":"은교청열탕","composition":"금은화8 사과락8 차전자4 방풍4 죽엽4 전호4 석고4 우방자4 연교4 생지황4 박하2","compositionOld":"금은화8 사과락8 차전자4 방풍4 형개4 전호4 석고4 우방자4 연교4 생지황4 박하2"},{"code":"P004","constitution":"soyang","name":"방풍청열탕","composition":"금은화8 사과락8 방풍4 복령4 강활4 전호4 형개4 차전자4 연교4 독활4","compositionOld":"방풍8 금은화6 사과락6 복령4 강활4 전호4 형개4 차전자4 연교4 독활4"},{"code":"P005","constitution":"soyang","name":"방풍차전자탕","composition":"방풍8 강활6 복령6 차전자4 형개4 사과락4 독활4 전호초4"},{"code":"P006","constitution":"soyang","name":"사과락과루인탕","composition":"사과락8 전호8 차전자4 금은화4 과루인4 죽엽4 시호4 연교4 복령4 백화사설초4","compositionOld":"사과락8 전호8 차전자4 금은화4 과루인4 방풍4 시호4 연교4 복령4 백화사설초4"},{"code":"P007","constitution":"soyang","name":"형방사백산","composition":"생지황12 택사8 복령8 강활4 형개4 석고4 방풍4 독활4 지모4"},{"code":"P008","constitution":"soyang","name":"류씨저령차전자탕","composition":"복령8 택사8 저령6 차전자6 시호4 지모4 방풍4"},{"code":"P009","constitution":"soyang","name":"지황백호탕","composition":"석고20 생지황16 지모8 독활4 방풍4"},{"code":"P010","constitution":"soyang","name":"저령차전자탕","composition":"복령8 택사8 저령6 차전자6 강활4 형개4 방풍4 석고4 독활4 지모4"},{"code":"P011","constitution":"soyang","name":"형방도적산","composition":"생지황12 과루인6 현삼6 독활4 형개4 전호4 강활4 방풍4 사과락4","compositionOld":"생지황12 목통8 과루인6 현삼6 독활4 형개4 전호4 강활4 방풍4"},{"code":"P012","constitution":"soyang","name":"류씨소시호탕","composition":"방풍8 복령6 형개6 강활4 과루인4 독활4 시호4 숙지황4"},{"code":"P013","constitution":"soyang","name":"형방지황탕","composition":"복령8 산수유8 택사8 강활4 형개4 방풍4 차전자4 독활4 홍모오가피4","compositionOld":"복령8 산수유8 택사8 숙지황8 강활4 형개4 방풍4 차전자4 독활4"},{"code":"P014","constitution":"soyang","name":"독활지황탕","composition":"숙지황16 산수유8 택사6 복령6 방풍4 독활4 목단피4"},{"code":"P015","constitution":"soyang","name":"활석고삼탕","composition":"복령8 고삼8 활석8 택사8 방풍4 독활4 황백4 황련4 형개4 강활4"},{"code":"P016","constitution":"soyang","name":"황련청장탕","composition":"생지황16 택사8 복령8 황련4 저령4 방풍4 차전자4 강활4","compositionOld":"생지황16 목통8 택사8 복령8 황련4 저령4 방풍4 차전자4 강활4"},{"code":"P017","constitution":"soyang","name":"지황청영탕","composition":"생지황12 죽엽8 금은화8 황련4 석고4 연교4 치자4 지모4","compositionOld":"생지황12 현삼8 금은화8 황련4 석고4 연교4 치자4 지모4"},{"code":"P018","constitution":"soyang","name":"양격산화탕","composition":"인동등8 연교8 생지황8 형개4 방풍4 석고4 박하4 치자4 지모4"},{"code":"P019","constitution":"soyang","name":"별갑지골피탕","composition":"건지황12 지골피8 구판교6 별갑초6 황백4 목단피4 복령4 지모4"},{"code":"P020","constitution":"soyang","name":"홍맥건비탕","composition":"토창출8 복령8 맥아8 홍맥4 토사자4 맥이당4 영지4 연교2","compositionOld":"홍맥8 복령8 맥아8 토사자4 맥이당4 택사4 영지4 연교2 방풍2"},{"code":"P021","constitution":"soyang","name":"숙지황고삼탕","composition":"숙지황16 산수유8 택사6 복령6 황백4 고삼4 지모4"},{"code":"P022","constitution":"soyang","name":"류씨시호소간탕","composition":"숙지황8 시호6 복령6 맥아초4 박하4 과루피4 토창출4 목단피4","compositionOld":"숙지황8 시호6 복령6 맥아초4 박하4 과루피4 택사4 목단피4"},{"code":"P023","constitution":"soyang","name":"대맥소간탕","composition":"토창출8 복령8 맥아초6 홍맥4 방풍4 대맥근4 박하2 시호2 과루피2","compositionOld":"복령8 홍맥8 방풍6 맥아초6 대맥근4 형개4 택사4 박하2 시호2 과루피2"},{"code":"P024","constitution":"soyang","name":"결명자청간탕","composition":"건지황8 결명자8 별갑6 시호6 차전자4 구판4 모려분4 치자4"},{"code":"P025","constitution":"soyang","name":"구기자양간탕","composition":"숙지황16 산수유8 구기자8 목단피4 복령4 택사4 구판4"},{"code":"P026","constitution":"soyang","name":"숙지황보간탕","composition":"산수유8 구기자8 형개6 복령6 택사4 숙지황4 방풍4"},{"code":"P027","constitution":"soyang","name":"생지황보간탕","composition":"숙지황16 생지황8 구기자8 산수유4 택사4 복령4 한련초4"},{"code":"P028","constitution":"soyang","name":"복령보심탕","composition":"복령12 구기자8 영지8 백복신4 홍맥4 시호2 모려분2"},{"code":"P029","constitution":"soyang","name":"지황양심탕","composition":"숙지황12 구기자6 복령6 백복신4 구판4 지골피4 생지황4 천화분4"},{"code":"P030","constitution":"soyang","name":"복신보심탕","composition":"영지8 복령8 홍맥4 토사자4 백복신4 숙지황4 방풍4"},{"code":"P031","constitution":"soyang","name":"황련청심탕","composition":"생지황12 황련6 복령6 현삼4 박하4 모려분4 죽엽4 치자4","compositionOld":"생지황12 황련6 복령6 현삼4 박하4 모려분4 연교4 치자4"},{"code":"P032","constitution":"soyang","name":"목단피과루인탕","composition":"대맥근12 복령8 과루인초8 토창출4 목단피4 사과락4 생지황4","compositionOld":"대맥근12 복령8 과루인초8 목단피4 사과락4 생지황4"},{"code":"P033","constitution":"soyang","name":"복신과루인탕","composition":"백복신12 과루인6 영지6 천축황4 대맥근4 복령4 목단피4 모려분4 치자초4","compositionOld":"백복신12 과루인6 영지6 대맥근4 복령4 목단피4 모려분4 연교4 치자초4"},{"code":"P034","constitution":"soyang","name":"천화분양비탕","composition":"숙지황16 복령8 천화분4 과루인4 석고4 택사4 지모4"},{"code":"P035","constitution":"soyang","name":"가감독활지황탕","composition":"숙지황8 택사8 복령8 독활4 방풍4 토사자4 선모4"},{"code":"P036","constitution":"soyang","name":"방풍보폐탕","composition":"복령8 영지8 홍맥4 방풍4 맥이당4 토사자4 전호초4 토창출4","compositionOld":"복령8 영지8 홍맥6 방풍6 맥이당4 토사자4 전호초4"},{"code":"P037","constitution":"soyang","name":"지황양폐탕","composition":"숙지황12 현삼6 생지황4 한련초4 지골피4 천화분4 지모4 죽엽4 황백2","compositionOld":"숙지황12 생지황6 현삼6 한련초4 지골피4 천화분4 지모4 황백2"},{"code":"P038","constitution":"soyang","name":"이씨육미지황탕","composition":"숙지황16 산수유8 구기자8 택사6 복령6 목단피4"},{"code":"P039","constitution":"soyang","name":"산수유보신탕","composition":"산수유8 복령8 토사자8 복분자4 택사4 홍맥4 영지4","compositionOld":"산수유8 복령8 토사자8 복분자4 택사4 홍맥4 영지4 구기자4"},{"code":"P040","constitution":"soyang","name":"토사자보양탕","composition":"숙지황8 토사자8 복령8 산수유8 구자4 택사4 선모4","compositionOld":"숙지황8 토사자8 복령8 산수유8 구기자4 구자4 택사4 선모4"},{"code":"P041","constitution":"soyang","name":"구판보음탕","composition":"숙지황16 택사8 산수유8 한련초4 목단피4 복령4 구판4 별갑4","compositionOld":"숙지황16 택사8 산수유8 한련초4 목단피4 복령4 구기자4 구판4"},{"code":"P042","constitution":"soyang","name":"구자온신탕","composition":"구기자8 택사8 복령8 산수유6 저령6 목단피4 구자4 선모4","compositionOld":"토사자온신탕: 구기자8 택사8 복령8 산수유6 저령6 목단피4 구자4 선모4"},{"code":"P043","constitution":"soyang","name":"치자온담탕","composition":"복령4 치자4 죽여4 과루피4 황련4 사과락4 시호4 연교4 지모4 토창출4","compositionOld":"복령4 치자4 과루피4 황련4 사과락4 시호4 연교4 지모4"},{"code":"P044","constitution":"soyang","name":"가감팔정산","composition":"복령4 치자4 차전자4 활석4 저령4 석고4 택사4 죽엽4 생지황4","compositionOld":"복령4 치자4 차전자4 활석4 저령4 석고4 택사4 생지황4"},{"code":"P045","constitution":"soyang","name":"맥아보위탕","composition":"맥이당8 맥아초8 홍맥초6 토창출6 영지4 복령4 대맥근4 토사자4 방풍4","compositionOld":"맥이당8 맥아초8 영지8 복령6 홍맥초6 대맥근4 토사자4 방풍4"},{"code":"P046","constitution":"soyang","name":"생지황양위탕","composition":"숙지황12 생지황6 죽여6 복령4 모려분4 택사4 천화분4 지모4 맥아4","compositionOld":"숙지황12 생지황6 복령6 모려분4 석고4 택사4 천화분4 지모4"},{"code":"P047","constitution":"soyang","name":"황련청위탕","composition":"생지황12 죽여8 지모8 모려분4 석고4 치자초4 황련초4","compositionOld":"생지황12 복령8 지모8 모려분4 석고4 치자초4 황련초4"},{"code":"P048","constitution":"soyang","name":"토사자양장탕","composition":"복령12 맥아초8 토창출4 홍맥4 금앵자4 토사자4 석류피2 황련초2","compositionOld":"복령12 맥아초8 택사8 홍맥4 금앵자4 토사자4 석류피2 황련초2"},{"code":"P049","constitution":"soyang","name":"삼황사심탕","composition":"숙지황16 택사6 복령6 생지황4 목단피4 치자초2 시호초2 석고2 활석2 황백초2 황련초2 지모초2"},{"code":"P050","constitution":"soyang","name":"토사자소간탕","composition":"토창출8 맥아초6 시호6 복령4 홍맥4 박하4 차전자4 토사자4 죽여2","compositionOld":"복령12 맥아초6 시호6 홍맥4 박하4 차전자4 토사자4"},{"code":"P051","constitution":"soyang","name":"시호화위탕","composition":"복령8 맥아초초8 시호6 생지황4 박하4 토창출4 죽여4 모려분4 황련초2","compositionOld":"복령8 맥아초초8 시호6 생지황6 박하4 택사4 모려분4 황련초2"},{"code":"P052","constitution":"soyang","name":"치자황련탕","composition":"복령8 택사8 차전자4 활석4 황련4 저령4 치자4 백화사설초4"},{"code":"P053","constitution":"soyang","name":"숙지황목단피탕","composition":"숙지황8 복령6 형개6 홍맥4 목단피4 토창출4 영지4 대계4","compositionOld":"숙지황8 홍맥8 복령6 형개6 목단피4 영지4 대계4"},{"code":"P053-1","constitution":"soyang","name":"가미숙지황목단피탕","composition":"숙지황목단피탕 중용대계 가 강활 독활"},{"code":"P054","constitution":"soyang","name":"생지황목단피탕","composition":"숙지황12 목단피6 시호6 자초4 과루인4 대계4 석고4 생지황4"},{"code":"p054-1","constitution":"soyang","name":"가미생지황목단피탕","composition":"생지황목단피탕 중용대계 가 강활 독활"},{"code":"P055","constitution":"soyang","name":"가감지황청영탕","composition":"생지황12 죽여6 현삼6 한련초4 석고4 금은화4 치자4 택사4","compositionOld":"생지황12 택사6 현삼6 한련초4 석고4 금은화4 치자4"},{"code":"P056","constitution":"soyang","name":"방풍통맥탕","composition":"숙지황8 방풍8 독활6 강활6 홍모오가피4 목단피4 사과락4 토창출4","compositionOld":"숙지황8 방풍8 독활6 강활6 홍모오가피4 목단피4 사과락4 홍맥4"},{"code":"P057","constitution":"soyang","name":"생지황윤조탕","composition":"생지황12 한련초6 숙지황6 형개4 목단피4 우방자4 방풍4 천화분4 독활4 금은화4"},{"code":"P058","constitution":"soyang","name":"방풍구풍탕","composition":"방풍8 인동등6 죽엽6 천축황4 형개4 사과락4 백복신4 토창출4 모려분2 시호2","compositionOld":"방풍8 인동등6 형개6 사과락4 강활4 백복신4 모려분2 시호2"},{"code":"P059","constitution":"soyang","name":"자초한련초탕","composition":"방풍8 독활6 형개6 한련초4 고삼4 금은화4 자초4 우방자4 연교4"},{"code":"P060","constitution":"soyang","name":"가감양격산화탕","composition":"인동등8 연교8 생지황8 황련4 백화사설초4 석고4 박하4 치자4 지모4"},{"code":"P061","constitution":"soyang","name":"강활홍오탕","composition":"방풍8 강활6 독활6 홍모오가피4 토창출4 선모4 대맥근4 복령4 사과락2 인동등2","compositionOld":"방풍8 강활6 독활6 홍모오가피4 영지4 선모4 대맥근4 복령4 사과락2 인동등2"},{"code":"P062","constitution":"soyang","name":"인동등지황탕","composition":"인동등12 방풍6 사과락6 숙지황4 강활4 시호4 독활4 토창출4","compositionOld":"인동등12 방풍6 사과락6 숙지황4 강활4 시호4 독활4"},{"code":"P063","constitution":"soyang","name":"사과락청폐탕","composition":"사과락8 금은화8 지모6 현삼6 치자4 석고4 차전자4 과루인4 백화사설초4 박하2","compositionOld":"사과락8 지모6 현삼6 치자4 숙지황4 석고4 차전자4 과루인4 백화사설초4 박하2"},{"code":"P064","constitution":"soyang","name":"양격청폐탕","composition":"금은화12 연교12 방풍4 형개4 과루인4 황련4 석고4 생지황4 박하4"},{"code":"P065","constitution":"soyang","name":"숙지황생화탕","composition":"숙지황8 복령6 토창출6 형개6 방풍6 택사4 목단피4 대계4 영지4","compositionOld":"숙지황8 택사8 복령8 형개6 방풍6 목단피4 대계4 영지4"},{"code":"P066","constitution":"soyang","name":"생지황생화탕","composition":"숙지황16 택사8 목단피4 대계4 구판4 형개4 생지황4 토창출4","compositionOld":"숙지황16 택사8 목단피4 대계4 구판4 형개4 생지황4 복령4"},{"code":"P067","constitution":"soyang","name":"숙지황독활탕","composition":"숙지황8 토창출8 방풍6 복령6 독활4 구기자4 강활4 홍모오가피4 인동등4","compositionOld":"숙지황8 독활8 방풍6 복령6 구기자4 강활4 홍모오가피4 인동등4"},{"code":"P068","constitution":"soyang","name":"가감생지황목단피탕","composition":"숙지황12 목단피6 사과락6 생지황4 별갑4 대계4"},{"code":"P069","constitution":"soyang","name":"가감숙지황목단피탕","composition":"숙지황12 홍맥8 목단피6 독활6 대계4 대맥근4"},{"code":"P070","constitution":"soyang","name":"복령과루실탕","composition":"복령8 홍맥8 과루실4 맥아4 영지4 토창출4 대맥근4 차전자4 죽여2","compositionOld":"복령과루인탕: 복령8 홍맥8 과루인4 맥아4 영지4 택사4 대맥근4 차전자4"},{"code":"P071","constitution":"soyang","name":"가감복령과루실탕","composition":"사과락8 죽여6 과루실6 복령4 맥아4 택사4 차전자4 황련4 석고4 현삼4","compositionOld":"가감복령과루인탕: 사과락8 과루인6 복령6 맥아 대맥근4 택사 차전자 황련 석고 현삼4"},{"code":"R001","constitution":"soeum","name":"가감천궁계지탕","composition":"계지4 모당귀4 대조4 생강4 창출4 자감초4 천궁4 진피4 소엽4 신이4"},{"code":"R002","constitution":"soeum","name":"궁귀향소산","composition":"향부자8 총백5 창출4 당귀4 대조4 생강4 자감초4 천궁4 자소엽4 진피4"},{"code":"R003","constitution":"soeum","name":"이씨곽향정기산","composition":"광곽향6 생강4 대조4 자소엽4 백출2 대복피2 반하강제2 계피2 자감초2 창출2 건강2 익지인2 청피2 진피2"},{"code":"R004","constitution":"soeum","name":"황기청열탕","composition":"백작약8 충울자6 신이6 황기4 인진4 반하강제4 소엽4 천궁4 대조4 감초4 총백2","compositionOld":"황기8 충울자6 신이6 생강4 창출4 모당귀4 인진4 반하강제4 소엽4 총백2 세신2 감초2"},{"code":"R005","constitution":"soeum","name":"소엽청열탕","composition":"신이6 백작약6 인진4 충울자4 계지4 반하강제4 소엽4 대조4 감초4 총백2 세신2","compositionOld":"창출6 신이6 인진4 충울자4 계지4 생강4 반하강제4 소엽4 진피4 세신4 총백2 감초2"},{"code":"R006","constitution":"soeum","name":"계지반하생강탕","composition":"생강12 반하강제8 계지8 백출4 자감초4 백작약4 진피4"},{"code":"R007","constitution":"soeum","name":"황기소엽탕","composition":"황기12 인진12 백작약8 감초4 당귀4 대조4 생강4 소엽4"},{"code":"R008","constitution":"soeum","name":"계지소엽탕","composition":"계지12 황기8 백작약8 당귀4 감초4 대조4 생강4 소엽4"},{"code":"R009","constitution":"soeum","name":"천궁계지탕","composition":"계지12 백작약8 대조4 생강4 창출4 자감초4 천궁4 진피4"},{"code":"R010","constitution":"soeum","name":"황기계지탕","composition":"계지12 황기8 백작약8 당귀4 자감초4 대조4 생강4"},{"code":"R011","constitution":"soeum","name":"계지탕","composition":"계지12 백작약8 감초4 생강4 대조4"},{"code":"R012","constitution":"soeum","name":"이씨이중탕","composition":"백출8 계지8 건강포8 인삼8 백작약8 자감초4 진피4"},{"code":"R013","constitution":"soeum","name":"팔물군자탕","composition":"인삼8 천궁4 당귀4 대조4 생강4 자감초4 황기4 백출4 백작약4 진피4"},{"code":"R014","constitution":"soeum","name":"이씨보중익기탕","composition":"황기12 인삼12 대조4 생강4 자감초4 백출4 당귀4 진피4 소엽2 광곽향2"},{"code":"R015","constitution":"soeum","name":"승양익기탕","composition":"계지8 황기8 인삼8 백작약8 당귀4 자감초4 대조4 생강4 육계4"},{"code":"R016","constitution":"soeum","name":"독삼팔물탕","composition":"인삼40 천궁4 당귀6 대조4 생강4 자감초4 황기4 백출4 백작약4 진피4"},{"code":"R017","constitution":"soeum","name":"류씨인삼양위탕","composition":"창출8 반하강제6 생강6 대조4 자감초4 광곽향4 후박4 인삼4 백작약4 진피4"},{"code":"R018","constitution":"soeum","name":"관계부자이중탕","composition":"인삼12 육계8 건강포8 백출8 부자포4 자감초4 백작약4 진피4"},{"code":"R019","constitution":"soeum","name":"백작약보음탕","composition":"백작약8 아교8 충울자6 수삼6 사원자4 나도근4","compositionOld":"백작약8 아교8 충울자6 수삼6 황기4 사원자4 나도근4"},{"code":"R020","constitution":"soeum","name":"인삼오수유탕","composition":"인삼40 생강12 오수유12 당귀4 백작약4 육계4"},{"code":"R021","constitution":"soeum","name":"이중탕","composition":"인삼8 백출8 건강8 자감초4"},{"code":"R022","constitution":"soeum","name":"삼미삼유탕","composition":"오수유12 인삼8 생강4 대조4"},{"code":"R023","constitution":"soeum","name":"인삼계지탕","composition":"자감초7.2 계지7.2 백출6 인삼6 건강6"},{"code":"R024","constitution":"soeum","name":"인삼부자이중탕","composition":"인삼8 백출8 건강포8 자감초4 부자포4"},{"code":"R025","constitution":"soeum","name":"작약청영탕","composition":"충울자12 백작약8 인진8 감초4 나도근4 수삼4"},{"code":"R026","constitution":"soeum","name":"가감작약청영탕","composition":"백작약12 자감초8 충울자8 황기4 아교4 수삼4"},{"code":"R027","constitution":"soeum","name":"인진충울자탕","composition":"인진12 황기8 충울자8 백작약4 백출4 지실4 진피4"},{"code":"R028","constitution":"soeum","name":"십이미관중탕","composition":"청피4 대조4 건강4 향부자4 익지인4 진피4 목향2 후박2 지실2 대복피2"},{"code":"R029","constitution":"soeum","name":"향부자소간탕","composition":"창출6 향부자6 천궁4 백작약초4 소엽4 지각초4 진피초4 후박4 청피2 자감초2","compositionOld":"창출6 향부자6 천궁4 백작약초4 소엽4 지각초4 진피초4 청피2 자감초2"},{"code":"R030","constitution":"soeum","name":"향부자팔물탕","composition":"당귀8 향부자8 백작약8 대조4 생강4 자감초4 천궁4 백출4 진피4"},{"code":"R031","constitution":"soeum","name":"충울자청간탕","composition":"충울자8 백작약8 향부자4 감초4 인진4 청피4 지실4 희첨4"},{"code":"R032","constitution":"soeum","name":"백작약양간탕","composition":"아교8 백작약8 당귀4 희첨주증4 감초4 충울자4 사원자4"},{"code":"R033","constitution":"soeum","name":"당귀보간탕","composition":"당귀8 백작약8 사원자4 대조4 생강4 자감초4 아교4 천궁4"},{"code":"R034","constitution":"soeum","name":"오수유부자이중탕","composition":"인삼8 백출8 건강포8 육계8 백작약4 진피4 자감초4 오수유4 소회향4 파고지4 부자4~8"},{"code":"R035","constitution":"soeum","name":"인삼보심탕","composition":"인삼12 대조8 옥촉서6 합환피4 자감초4 소엽4 진피4","compositionOld":"인삼12 대조8 합환피4 자감초4 소엽4 진피4"},{"code":"R036","constitution":"soeum","name":"대조양심탕","composition":"수삼8 대조6 백작약6 합환피4 황기4 당귀4 감초4 아교4 옥촉서4","compositionOld":"수삼8 대조6 백작약6 합환피4 황기4 당귀4 감초4 아교4"},{"code":"R037","constitution":"soeum","name":"합환피청심탕","composition":"수삼12 향부자6 합환피6 적작약4 인진4 당귀4 감초4 지실4"},{"code":"R038","constitution":"soeum","name":"당귀후박탕","composition":"후박8 계지8 생강4 자감초4 천궁4 적작약4 토당귀4 진피4 산사4"},{"code":"R039","constitution":"soeum","name":"삼부탕","composition":"부자포12 인삼6"},{"code":"R040","constitution":"soeum","name":"가감척담탕","composition":"반하강제6 지실6 생강4 귤홍4 인삼4 남성강제4 천궁4 감초2"},{"code":"R041","constitution":"soeum","name":"백출건비탕","composition":"백출8 인삼6 진피6 생강4 자감초4 후박4 반하강제4 대조4 계내금자4 교이4","compositionOld":"백출8 인삼6 진피6 생강4 자감초4 후박4 반하강제4 대조4 계내금자4"},{"code":"R042","constitution":"soeum","name":"작약양비탕","composition":"백작약8 수삼8 지실6 대조4 나도근4 감초4 황기4"},{"code":"R043","constitution":"soeum","name":"소자양폐탕","composition":"백작약8 아교6 당귀신4 가자육4 소자밀자6 수삼4 감초4"},{"code":"R044","constitution":"soeum","name":"홍삼보양탕","composition":"홍삼8 사원자6 백작약6 당귀4 익지인4 두충염수초4 보골지4 부자포2 자감초2 건강2","compositionOld":"홍삼8 사원자6 백작약6 당귀4 익지인4 두충염수초4 부자포2 자감초2 건강2"},{"code":"R045","constitution":"soeum","name":"인진온담탕","composition":"인진8 생강6 반하강제6 옥촉서예 4 자감초4 백작약4 지실초4 진피4","compositionOld":"인진8 생강6 반하강제6 자감초4 백작약4 지실초4 진피4"},{"code":"R046","constitution":"soeum","name":"황기보위탕","composition":"나교이16 백작약8 계지4 자감초4 대조4 황기4 생강4 계내금자4"},{"code":"R047","constitution":"soeum","name":"인진청위탕","composition":"인진8 백작약초6 지실초6 대조4 나도근4 생강4 수삼4 감초4","compositionOld":"인진8 백작약초6 지실초6 대조4 나도근4 생강4 수삼4 감초4 황기4"},{"code":"R048","constitution":"soeum","name":"가감작약탕","composition":"백작약12 당귀6 산사초초6 자감초4 빈랑4 목향외4 육계4 지각초4 희첨4"},{"code":"R049","constitution":"soeum","name":"향사양위탕","composition":"백두구4 백출4 반하강제4 대조4 생강4 자감초4 건강4 향부자4 인삼4 백작약4 사인4 산사4 진피4"},{"code":"R050","constitution":"soeum","name":"가감귀비탕","composition":"백출4 당귀신4 대조4 자감초4 합환피4 황기4 인삼4 백작약4 목향2"},{"code":"R051","constitution":"soeum","name":"승양익기부자탕","composition":"계지8 황기8 인삼8 백작약8 부자포4 자감초4 대조4 생강4 육계4"},{"code":"R052","constitution":"soeum","name":"당귀작약탕","composition":"토당귀8 익모초6 적작약6 감초4 천궁4 계지4 오령지4 지각4 당귀미4"},{"code":"R053","constitution":"soeum","name":"당귀통맥탕","composition":"토당귀8 계지8 백작약8 천궁4 자감초4 생강4 오수유2 세신2"},{"code":"R054","constitution":"soeum","name":"독삼탕","composition":"인삼20~40"},{"code":"R055","constitution":"soeum","name":"당귀윤조탕","composition":"당귀8 적작약6 지각초6 천궁4 소엽4 대조4 애엽4 감초2"},{"code":"R056","constitution":"soeum","name":"인진지각탕","composition":"인진8 지각초6 모당귀6 감초4 익모초4 애엽4 소엽4 생강4 진피4"},{"code":"R057","constitution":"soeum","name":"황기해독탕","composition":"황기8 충울자6 인진6 감초4 희첨4 천궁4 수삼4 지유4"},{"code":"R058","constitution":"soeum","name":"오약창출탕","composition":"창출8 토당귀6 오약6 모당귀4 계지4 구척4 생강4 세신2 자감초2"},{"code":"R059","constitution":"soeum","name":"황기백출탕","composition":"백출초12 황기8 모당귀4 생강4 토당귀4 적작약4 오약4 희첨4"},{"code":"R060","constitution":"soeum","name":"신이청폐탕","composition":"신이8 아교6 충울자6 소자밀자4 가자육4 지각4 황기4 수삼4 감초4"},{"code":"R061","constitution":"soeum","name":"창출생화탕","composition":"창출8 당귀6 익모초6 계지4 향부자4 천궁주초4 백작약초4 산사4 인삼2 자감초2"},{"code":"R062","constitution":"soeum","name":"익모초생화탕","composition":"익모초8 당귀6 백출6 향부자4 황기4 천궁주초4 백작약초4 산사4 인삼2 감초2"},{"code":"R063","constitution":"soeum","name":"두충구척탕","composition":"두충염수초8 구척6 모당귀6 백작약4 천궁4 계지4 당귀4 세신2 감초2"},{"code":"R064","constitution":"soeum","name":"가감당귀작약탕","composition":"익모초8 적작약8 향부자8 당귀미4 천궁4 지각4 오령지4 감초4"},{"code":"R065","constitution":"soeum","name":"가감창출생화탕","composition":"향부자8 당귀6 천궁6 토당귀4 애엽4 산사4 계지4 오령지4 감초4"},{"code":"R066","constitution":"soeum","name":"반하백출탕","composition":"백출8 반하제4 진피4 백두구4 생강4 대조4 청피2 자감초2"},{"code":"R067","constitution":"soeum","name":"가감반하백출탕","composition":"지실6 인진6 반하제4 남성제4 소자4 생강4 진피4 청피2 감초2"}];
+
+/* ── 한글 → 한문 변증맵 sx 동의어 사전 (data/sx_dict.json — Phase 1a W4 seed v0.1) ── */
+const SX_DICT = {"기침":["咳嗽","咳喘","乾咳少痰","乾咳無痰","咳痰不爽","咳嗽喘促"],"가래":["痰少而粘","咳嗽痰黃稠","喉中痰鳴","咳痰不爽"],"숨참":["氣喘","咳喘","動則氣短","心悸氣短","短氣懶言","咳嗽喘促"],"호흡곤란":["氣喘","咳喘","動則氣短"],"코막힘":["鼻塞"],"콧물":["流淸涕","鼻鳴乾嘔"],"비염":["鼻塞","流淸涕","噴嚔"],"재채기":["噴嚔"],"두통":["頭痛","頭項强痛"],"어지러움":["頭暈目眩","眩暈耳鳴","頭暈眼花"],"현훈":["頭暈目眩","眩暈耳鳴","頭暈眼花"],"이명":["耳鳴耳聾","眩暈耳鳴"],"발열":["發熱","身熱","潮熱盜汗","午後熱甚","惡寒發熱"],"오한":["惡寒","微惡風寒","形寒肢冷","畏寒肢冷","惡寒發熱"],"한출":["自汗","盜汗","潮熱盜汗"],"땀":["自汗","盜汗","潮熱盜汗"],"도한":["盜汗","潮熱盜汗"],"구갈":["口渴","口乾","口乾咽燥","口渴喜飮"],"갈증":["口渴","口渴喜飮","口乾咽燥"],"구건":["口乾","口乾咽燥","口淡不渴"],"구고":["口苦"],"변비":["大便秘結","便秘","大便乾結","尿黃便乾"],"설사":["大便溏泄","便溏","腹痛下利","下利淸穀","腹脹便溏"],"복통":["腹痛","腹痛下利","脘腹脹滿"],"복부팽만":["小腹脹滿","脘腹脹滿","腹脹便溏"],"더부룩":["脘腹脹滿","腹脹便溏","不思飮食"],"소화불량":["食少","食慾不振","不思飮食","脘腹脹滿"],"식욕부진":["食慾不振","食少","不思飮食"],"구역":["嘔吐","惡心嘔吐","鼻鳴乾嘔"],"구토":["嘔吐","惡心嘔吐"],"소변불리":["小便不利","尿少"],"빈뇨":["小便短赤","小便淸長"],"야뇨":["遺尿"],"수족냉":["形寒肢冷","畏寒肢冷","四肢厥冷","四肢不溫","口脣指甲淡白"],"수족번열":["五心煩熱"],"불면":["失眠多夢","多夢","驚惕不安"],"다몽":["多夢","失眠多夢"],"건망":["失眠多夢","心悸怔忡"],"심계":["心悸","心悸怔忡","心悸氣短"],"정충":["心悸怔忡","心悸"],"흉협통":["胸脇疼痛","善太息"],"한숨":["善太息"],"요통":["腰膝酸軟"],"무릎무력":["腰膝酸軟"],"사지마비":["肢體麻木","半身不遂"],"안면마비":["口眼喎斜"],"중풍":["半身不遂","口眼喎斜","神昏譫語"],"월경불순":["月經不調"],"부종":["肢體浮腫","下肢浮腫"],"피로":["倦怠無力","神疲無力","少氣懶言","短氣懶言"],"권태":["倦怠無力","神疲無力"],"수척":["形體消瘦"],"오심번열":["五心煩熱","顴紅"],"상열감":["顴紅","五心煩熱","潮熱盜汗"],"안면홍조":["顴紅"],"안색창백":["面色蒼白","面色晄白"],"안색위황":["面色萎黃"],"번조":["煩躁易怒","煩躁不安","心煩"],"구내염":["口舌生瘡"],"음성저하":["聲音低微","語聲低微","聲重"]};
+
+const CONST_LABEL  = {taeum:'태음인',soyang:'소양인',taeyang:'태양인',soeum:'소음인',retest:'재시험 필요'};
+const HANYUL_LABEL = {cold:'한증 (寒)',hot:'열증 (熱)',mixed:'한열 협잡'};
+const YANGYIN_LABEL= {yang:'양형 (양허)',yin:'음형 (음허)',none:'해당없음'};
+const HANYUL_CLASS = {cold:'cold',hot:'hot',mixed:'none'};
+const YANGYIN_CLASS= {yang:'yang',yin:'yin',none:'none'};
+
+/* ── 변증→처방 매핑 (data/byeonjeung_map.json · 외감,내상변증편 전사) ──
+   각 변증의 증상(sx)과 체질별 처방코드. hot=열자/cold=한자/any=단일. */
+const BYEONJEUNG = [{"cat":"외감·사시상한·초기","jeung":"風寒束肺證","sx":["咳嗽","喀痰淸稀","鼻塞","流淸涕","聲重","噴嚔","頭痛","惡寒發熱","無汗","周身酸痛","舌苔薄白","脈浮緊"],"rx":{"te":{"hot":["H022"],"cold":["H003","H002"]},"sy":{"hot":["P001"],"cold":["P002"]},"ty":{"hot":["L003"],"cold":["L002","L061"]},"se":{"hot":["R001"],"cold":["R003"]}}},{"cat":"외감·사시상한·초기","jeung":"風熱犯肺證","sx":["發熱","微惡風寒","咳嗽痰黃稠","咽喉疼痛","鼻流濁涕","口渴喜飮","氣喘","鼻煽","煩躁不安","舌質紅","苔黃或黃膩","脈浮數或滑數"],"rx":{"te":{"hot":["H006","H004"],"cold":["H005"]},"sy":{"hot":["P003"],"cold":["P004"]},"ty":{"hot":["L005"],"cold":["L006"]},"se":{"hot":["R004"],"cold":["R005"]}}},{"cat":"외감·사시상한·초기","jeung":"燥邪傷肺證","sx":["乾咳無痰","鼻燥咽乾","痰少而粘","咳痰不爽","咳引胸痛","喀痰帶血","惡寒發熱","頭痛","身楚","舌質紅少津","苔薄黃而燥","脈浮細數"],"rx":{"te":{"any":["H006","H004"]},"sy":{"any":["P003"]},"ty":{"any":["L005"]},"se":{"any":["R004"]}}},{"cat":"외감·사시상한·후기","jeung":"肺經風熱證","sx":["鼻塞","鼻流黃涕","後鼻漏","咳嗽痰黃稠","口乾","喉痒","煩躁","或皮膚搔痒","舌質紅","苔黃燥","脈浮數或滑數"],"rx":{"te":{"hot":["H006","H004"],"cold":["H005"]},"sy":{"hot":["P003"],"cold":["P004"]},"ty":{"hot":["L005"],"cold":["L006"]},"se":{"hot":["R004"],"cold":["R005"]}}},{"cat":"외감·사시상한·후기","jeung":"寒痰擾肺證","sx":["咳嗽喘促","痰稀淸白","喀出容易","身冷惡寒","胸膈滿悶","口淡不渴","舌苔白潤","脈沈遲"],"rx":{"te":{"any":["H054","H055"]},"sy":{"any":["P005"]},"ty":{"any":["L037"]},"se":{"any":["R006"]}}},{"cat":"외감·육경·태양경","jeung":"太陽中風證","sx":["惡風寒","發熱","自汗","頭項强痛","鼻鳴乾嘔","舌苔薄白","脈浮緩"],"rx":{"te":{"hot":["H001"],"cold":["H003"]},"sy":{"hot":["P001"],"cold":["P002"]},"ty":{"hot":["L007"],"cold":["L004"]},"se":{"hot":["R010"],"cold":["R011"]}}},{"cat":"외감·육경·태양경","jeung":"太陽傷寒證","sx":["惡寒","發熱","無汗","頭項强痛","身痛腰疼","氣喘","嘔逆","脈浮緊"],"rx":{"te":{"hot":["H010"],"cold":["H011"]},"sy":{"hot":["P001"],"cold":["P002"]},"ty":{"hot":["L001"],"cold":["L002"]},"se":{"hot":["R009"],"cold":["R002"]}}},{"cat":"외감·육경·태양부","jeung":"膀胱蓄水證","sx":["小便不利","小腹脹滿","發熱","惡風","自汗","渴不欲飮","飮入卽吐"],"rx":{"te":{"hot":["H013"],"cold":["H014"]},"sy":{"hot":["P008"],"cold":["P008"]},"ty":{"hot":["L007"],"cold":["L004"]},"se":{"hot":["R012"],"cold":["R003"]}}},{"cat":"외감·육경·태양부","jeung":"膀胱蓄血證","sx":["太陽病不解","小腹脹滿","急結硬痛","如狂喜忘","小便自利","舌紫脈澁"],"rx":{"te":{"hot":["H015"],"cold":["H016"]},"sy":{"hot":["P009"],"cold":["P009","P013"]},"ty":{"hot":["L008"],"cold":["L009"]},"se":{"hot":["R013"],"cold":["R003"]}}},{"cat":"외감·육경·양명","jeung":"陽明經證","sx":["不惡寒反惡熱","煩渴引飮","蒸蒸汗出","心煩譫語","氣粗如喘","舌苔黃燥","脈洪大"],"rx":{"te":{"hot":["H017"],"cold":["H016"]},"sy":{"any":["P010"]},"ty":{"hot":["L008"],"cold":["L009"]},"se":{"hot":["R014"],"cold":["R015"]}}},{"cat":"외감·육경·양명","jeung":"陽明腑證","sx":["日晡潮熱","汗出不止","腹滿拒按","煩躁譫語","循衣摸床","驚惕不安","大便秘結難下","苔黃焦燥起刺","脈沈實有力"],"rx":{"te":{"hot":["H015"],"cold":["H016"]},"sy":{"any":["P009"]},"ty":{"hot":["L008"],"cold":["L009"]},"se":{"hot":["R013","R016"],"cold":["R015"]}}},{"cat":"외감·육경·소양","jeung":"少陽證","sx":["口苦","目眩","寒熱往來","胸脇苦滿","咽乾","黙黙不欲食","喜嘔","心煩","舌苔滑白","脈弦"],"rx":{"te":{"hot":["H012"],"cold":["H007"]},"sy":{"hot":["P011","P007"],"cold":["P012"]},"ty":{"hot":["L001"],"cold":["L002"]},"se":{"hot":["R006"],"cold":["R003"]}}},{"cat":"외감·육경·태음","jeung":"太陰證","sx":["腹滿","嘔吐","食不下","腹瀉時痛","腹痛喜溫喜按","口不渴","舌質淡","脈沈遲"],"rx":{"te":{"hot":["H018"],"cold":["H019","H020"]},"sy":{"any":["P013"]},"ty":{"hot":["L012"],"cold":["L011"]},"se":{"hot":["R017"],"cold":["R012"]}}},{"cat":"외감·육경·소음한화","jeung":"陽虛寒證","sx":["四肢逆冷","口渴欲吐","心煩","精神萎靡不振欲睡","下利淸穀","舌淡苔白","脈微"],"rx":{"te":{"any":["H019","H020"]},"sy":{"any":["P013"]},"ty":{"any":["L011"]},"se":{"any":["R018"]}}},{"cat":"외감·육경·소음한화","jeung":"陰盛隔陽證","sx":["下利淸穀","四肢厥逆","身不惡寒","面赤","脈微欲絶"],"rx":{"te":{"any":["H019","H020"]},"sy":{"any":["P013"]},"ty":{"any":["L011"]},"se":{"any":["R018"]}}},{"cat":"외감·육경·소음한화","jeung":"陽虛水泛(少陰)","sx":["頭目眩暈","心悸","肉瞤","全身肢體振顫","尿少浮腫","腰背痛","腹痛下利","脈沈弦"],"rx":{"te":{"any":["H068","H069"]},"sy":{"any":["P042"]},"se":{"any":["R018"]}}},{"cat":"외감·육경·소음한화","jeung":"虛寒下利","sx":["下利不止","下利膿血","小便不利"],"rx":{"te":{"any":["H082","H083"]},"sy":{"any":["P048"]},"ty":{"any":["L045"]},"se":{"any":["R012"]}}},{"cat":"외감·육경·소음열화","jeung":"心煩不寐","sx":["心煩不寐","口燥咽乾","尿黃赤","舌紅絳","脈細數"],"rx":{"te":{"any":["H017"]},"sy":{"any":["P007"]},"ty":{"any":["L015"]},"se":{"any":["R019"]}}},{"cat":"외감·육경·소음열화","jeung":"水熱互結","sx":["咳嗽","嘔吐","口渴","心煩不寐","尿少","舌質紅"],"rx":{"te":{"any":["H017"]},"sy":{"any":["P010"]},"ty":{"any":["L015"]},"se":{"any":["R019"]}}},{"cat":"외감·육경·소음겸증","jeung":"兼太陽表證(少陰)","sx":["惡寒發熱","但欲寐","脈沈"],"rx":{"te":{"any":["H019"]},"sy":{"any":["P013"]},"ty":{"any":["L011"]},"se":{"any":["R018"]}}},{"cat":"외감·육경·소음겸증","jeung":"兼陽明證(少陰)","sx":["口燥咽乾","心下痛","腹脹滿","大便難"],"rx":{"te":{"any":["H015"]},"sy":{"any":["P009"]},"ty":{"any":["L008"]},"se":{"any":["R013"]}}},{"cat":"외감·육경·궐음·궐역","jeung":"寒厥","sx":["惡寒","舌淡","脈微細"],"rx":{"te":{"any":["H007"]},"sy":{"any":["P035"]},"ty":{"any":["L011"]},"se":{"any":["R020","R016"]}}},{"cat":"외감·육경·궐음·궐역","jeung":"熱厥","sx":["手足厥冷","煩熱口渴","尿黃","脈滑"],"rx":{"te":{"any":["H017"]},"sy":{"any":["P010","P007"]},"ty":{"any":["L008"]},"se":{"any":["R013"]}}},{"cat":"외감·육경·궐음·궐역","jeung":"蛔厥","sx":["手足厥冷","氣上撞胸","心中熱痛","飢不欲食","吐蛔","下之則利不止"],"rx":{"te":{"any":["H019","H020"]},"sy":{"any":["P013"]},"ty":{"any":["L011"]},"se":{"any":["R021","R012"]}}},{"cat":"외감·육경·궐음·구토하리","jeung":"虛寒嘔吐","sx":["嘔吐涎沫","乾嘔頭痛"],"rx":{"te":{"any":["H019","H020"]},"sy":{"any":["P035"]},"ty":{"any":["L011"]},"se":{"any":["R022"]}}},{"cat":"외감·육경·궐음·구토하리","jeung":"上熱下寒","sx":["穀入卽吐","腹痛下利"],"rx":{"te":{"any":["H019","H020"]},"sy":{"any":["P015"]},"ty":{"any":["L011"]},"se":{"any":["R023"]}}},{"cat":"외감·육경·궐음·구토하리","jeung":"身熱下利","sx":["裏急後重","渴欲飮水"],"rx":{"te":{"any":["H017"]},"sy":{"any":["P016","P007"]},"ty":{"any":["L008"]},"se":{"any":["R013"]}}},{"cat":"외감·위기영혈·위분","jeung":"風溫傷衛","sx":["身微發熱","微惡風寒","頭痛","咳嗽","痰少而粘","咽喉痛","口微乾而渴","舌邊尖紅","苔薄白","脈浮數"],"rx":{"te":{"hot":["H006","H004"],"cold":["H005"]},"sy":{"hot":["P003"],"cold":["P004"]},"ty":{"hot":["L005"],"cold":["L006"]},"se":{"hot":["R004"],"cold":["R005"]}}},{"cat":"외감·위기영혈·위분","jeung":"暑溫傷衛","sx":["發熱重","惡寒","無汗","頭痛","身重痛","舌質紅","苔白膩","脈浮數或浮濡"],"rx":{"te":{"hot":["H012"],"cold":["H003"]},"sy":{"any":["P007","P003"]},"ty":{"hot":["L005"],"cold":["L006"]},"se":{"hot":["R004"],"cold":["R005"]}}},{"cat":"외감·위기영혈·위분","jeung":"濕溫傷衛","sx":["惡寒","無汗","身熱不揚","頭身脹重","胸悶不飢","面淡黃","舌苔白膩","脈濡緩"],"rx":{"te":{"hot":["H018","H013"],"cold":["H014","H007"]},"sy":{"hot":["P007"],"cold":["P013"]},"ty":{"hot":["L001"],"cold":["L002"]},"se":{"hot":["R017"],"cold":["R003"]}}},{"cat":"외감·위기영혈·위분","jeung":"溫燥","sx":["身熱","微惡風寒","頭痛","少汗","乾咳","痰粘量少","咳而不爽","胸脇疼痛","皮膚鼻咽喉乾燥","口渴心煩","舌邊尖紅"],"rx":{"te":{"any":["H012","H004"]},"sy":{"any":["P003","P004"]},"ty":{"any":["L005"]},"se":{"any":["R004"]}}},{"cat":"외감·위기영혈·위분","jeung":"凉燥","sx":["發熱惡寒","頭痛無汗","乾咳","咽乾脣燥","苔薄白而乾"],"rx":{"te":{"any":["H007","H005"]},"sy":{"any":["P001"]},"ty":{"any":["L004"]},"se":{"any":["R003"]}}},{"cat":"외감·위기영혈·기분","jeung":"熱結氣分內入腸胃·大便秘結","sx":["身熱惡熱","潮熱","面目紅赤","大便乾燥","腹脹滿拒按","氣促","譫言妄語","脈沈數","舌紅苔黃"],"rx":{"te":{"hot":["H015"],"cold":["H016"]},"sy":{"any":["P009"]},"ty":{"hot":["L008"],"cold":["L009"]},"se":{"hot":["R013"],"cold":["R015"]}}},{"cat":"외감·위기영혈·기분","jeung":"熱結氣分內入腸胃·下利頻繁","sx":["身熱惡熱","潮熱","瀉下黃糜稀水","下利頻繁","脈沈數","舌紅苔黃"],"rx":{"te":{"hot":["H017"],"cold":["H023"]},"sy":{"any":["P010","P007"]},"ty":{"hot":["L008"],"cold":["L009"]},"se":{"hot":["R013"],"cold":["R015"]}}},{"cat":"외감·위기영혈·기분","jeung":"熱邪壅肺","sx":["身熱","咳喘","胸脇疼痛","痰黃稠粘","汗出","舌紅苔黃","脈滑數"],"rx":{"te":{"hot":["H008"],"cold":["H009"]},"sy":{"any":["P011"]},"ty":{"any":["L058"]},"se":{"hot":["R007"],"cold":["R008"]}}},{"cat":"외감·위기영혈·기분","jeung":"濕重于熱","sx":["午後熱甚","四肢困怠","渴不欲飮","脘悶納呆","出粘汗","頭目脹痛昏重","便溏不爽惡臭"],"rx":{"te":{"hot":["H024","H025"],"cold":["H026"]},"sy":{"hot":["P007"],"cold":["P013"]},"ty":{"hot":["L005"],"cold":["L006"]},"se":{"hot":["R017"],"cold":["R003"]}}},{"cat":"외감·위기영혈·기분","jeung":"熱重于濕","sx":["午後熱甚","脘悶納呆","汗出熱臭","目赤","頭暈","口苦","便秘","尿短赤","苔黃膩","脈濡數"],"rx":{"te":{"hot":["H024","H025"],"cold":["H026"]},"sy":{"any":["P007"]},"ty":{"hot":["L005"],"cold":["L006"]},"se":{"hot":["R017"],"cold":["R003"]}}},{"cat":"외감·위기영혈·영분","jeung":"營衛合邪","sx":["身熱夜甚","煩躁不寐","神昏譫語","發斑發疹","舌紅絳","脈數"],"rx":{"te":{"hot":["H027"],"cold":["H028"]},"sy":{"any":["P017","P018"]},"ty":{"hot":["L013"],"cold":["L014"]},"se":{"any":["R025"]}}},{"cat":"외감·위기영혈·영분","jeung":"熱在營分","sx":["身熱夜甚","煩躁躁擾","譫語不寐","舌紅絳無苔","脈細數"],"rx":{"te":{"hot":["H027"],"cold":["H028"]},"sy":{"any":["P017"]},"ty":{"hot":["L013"],"cold":["L014"]},"se":{"any":["R025"]}}},{"cat":"외감·위기영혈·영분","jeung":"熱入心包","sx":["神昏譫語","高熱","四肢厥冷","脈細數或滑數"],"rx":{"te":{"hot":["H027","H047"],"cold":["H028","H047"]},"sy":{"any":["P017"]},"ty":{"hot":["L013"],"cold":["L014"]},"se":{"any":["R025"]}}},{"cat":"외감·위기영혈·혈분","jeung":"熱在血分","sx":["高熱夜甚","五心煩熱","神昏譫語","口渴汗多","出血發斑"],"rx":{"te":{"hot":["H027"],"cold":["H028"]},"sy":{"any":["P017"]},"ty":{"hot":["L013"],"cold":["L014"]},"se":{"any":["R025"]}}},{"cat":"외감·위기영혈·혈분","jeung":"熱動肝風","sx":["頭痛","眩暈","目紅赤","發熱","口渴","項背拘急强直","陣陣抽搐","舌紅絳","脈弦數"],"rx":{"te":{"hot":["H027","H047"],"cold":["H028","H047"]},"sy":{"any":["P017"]},"ty":{"hot":["L013"],"cold":["L014"]},"se":{"any":["R025"]}}},{"cat":"외감·위기영혈·혈분","jeung":"血熱傷陰","sx":["身熱面紅","口舌乾燥","耳鳴耳聾","神疲不寐","五心煩熱","脈虛數"],"rx":{"te":{"hot":["H029"],"cold":["H030"]},"sy":{"any":["P019"]},"ty":{"hot":["L015"],"cold":["L016"]},"se":{"any":["R026"]}}},{"cat":"외감·위기영혈·혈분","jeung":"亡陰失水","sx":["肢體瘦弱乾枯","脣萎舌縮","牙齒積垢","目陷","肢端厥冷","拘急抽搐","手指蠕動","脈微欲絶"],"rx":{"te":{"hot":["H029"],"cold":["H030"]},"sy":{"any":["P019"]},"ty":{"hot":["L015"],"cold":["L016"]},"se":{"any":["R026"]}}},{"cat":"외감·삼초·상초습열","jeung":"濕困肌表","sx":["初期微熱或無熱","惡寒重","無汗或多汗","身重而疼","頭沈如裹","昏蒙脹重","耳鳴耳聾","神志呆滯","沈黙嗜眠","不思飮食","咳嗽痰多","腹瀉腸鳴","苔膩脈濡"],"rx":{"te":{"hot":["H018","H013"],"cold":["H014","H007"]},"sy":{"hot":["P007"],"cold":["P013"]},"ty":{"hot":["L001"],"cold":["L002"]},"se":{"hot":["R017"],"cold":["R003"]}}},{"cat":"외감·삼초·상초습열","jeung":"表濕化熱","sx":["頭痛惡寒","周身重痛","肢倦乏力","身熱不揚","午後熱甚","口不渴","脘悶不飢","面黃","苔膩脈濡"],"rx":{"te":{"hot":["H018","H013"],"cold":["H014","H026"]},"sy":{"any":["P007"]},"ty":{"hot":["L005"],"cold":["L006"]},"se":{"hot":["R017"],"cold":["R003"]}}},{"cat":"외감·삼초·중초습열","jeung":"濕熱阻塞氣機","sx":["發熱","身體倦怠","肢節痠痛","胸悶腹脹","惡心或嘔吐","小便黃赤","舌苔黃白濁膩"],"rx":{"te":{"hot":["H024","H025"],"cold":["H026"]},"sy":{"hot":["P007"],"cold":["P013"]},"ty":{"hot":["L005"],"cold":["L006"]},"se":{"hot":["R017"],"cold":["R003"]}}},{"cat":"외감·삼초·중초습열","jeung":"脾胃昇降失調","sx":["脘腹脹滿","大便溏瀉不爽","身肢重痛","舌苔微黃或滑白而膩","脈濡緩模糊不淸"],"rx":{"te":{"hot":["H018"],"cold":["H019","H020"]},"sy":{"hot":["P052"],"cold":["P013"]},"ty":{"hot":["L012"],"cold":["L017"]},"se":{"hot":["R017"],"cold":["R003"]}}},{"cat":"외감·삼초·중초습열","jeung":"濕熱鬱發白㾦","sx":["發熱身痛","汗出不解","胸脘痞悶","欲嘔","釀發白㾦","舌苔黃膩"],"rx":{"te":{"hot":["H024","H025"],"cold":["H026"]},"sy":{"any":["P015"]},"ty":{"hot":["L005"],"cold":["L006"]},"se":{"hot":["R017"],"cold":["R003"]}}},{"cat":"외감·삼초·중초습열","jeung":"濕熱釀痰蒙蔽心包","sx":["身熱不甚","神昏譫語","苔黃垢膩","脈濡滑而數"],"rx":{"te":{"hot":["H027","H047"],"cold":["H028","H047"]},"sy":{"any":["P017"]},"ty":{"hot":["L013"],"cold":["L014"]},"se":{"any":["R025"]}}},{"cat":"외감·삼초·하초습열","jeung":"濕滯膀胱","sx":["頭腦脹痛","脘腹痞悶","小便不通或整日無尿","大便不爽","舌苔灰白而膩","脈濡"],"rx":{"te":{"hot":["H024","H025"],"cold":["H026"]},"sy":{"hot":["P016"],"cold":["P013"]},"ty":{"hot":["L018"],"cold":["L019"]},"se":{"hot":["R027"],"cold":["R028"]}}},{"cat":"외감·삼초·하초습열","jeung":"濕滯大腸","sx":["頭脹脘悶","腹脹疼痛","大便不通","苔灰黃","脈濡"],"rx":{"te":{"hot":["H016"],"cold":["H007"]},"sy":{"any":["P009"]},"ty":{"hot":["L008"],"cold":["L009"]},"se":{"hot":["R017"]}}},{"cat":"내상·장부·간","jeung":"肝氣鬱結證","sx":["脇肋脹痛","心煩易怒","精神抑鬱","胸悶","善太息","多疑欲哭","經前乳房脹痛","小腹脹痛","月經不調","舌苔薄","脈弦"],"rx":{"te":{"any":["H031","H086","H032"]},"sy":{"any":["P022","P023"]},"ty":{"any":["L020"]},"se":{"any":["R029","R030"]}}},{"cat":"내상·장부·간","jeung":"肝火上炎證","sx":["頭脹痛","眩暈耳鳴","目赤腫痛","煩躁易怒","面紅口苦","脇肋灼痛","失眠多夢","口渴","小便短赤","大便秘結","舌紅苔黃","脈弦數"],"rx":{"te":{"any":["H033","H034"]},"sy":{"any":["P024"]},"ty":{"any":["L021"]},"se":{"any":["R031"]}}},{"cat":"내상·장부·간","jeung":"肝陰虛證","sx":["頭暈目眩","兩目乾澁","脇肋隱痛","五心煩熱","口乾咽燥","肢麻筋攣","爪甲不榮","煩躁易怒","顴紅赤","尿黃便乾","潮熱盜汗","舌紅少苔","脈弦細"],"rx":{"te":{"any":["H035"]},"sy":{"any":["P025"]},"ty":{"any":["L022"]},"se":{"any":["R032"]}}},{"cat":"내상·장부·간","jeung":"肝陽上亢證","sx":["眩暈耳鳴","頭痛脹感","面赤烘熱","失眠多夢","煩躁易怒","頭重脚輕","腰膝酸軟","咽乾口燥","舌質紅","脈弦細數或弦勁有力"],"rx":{"te":{"any":["H035","H036"]},"sy":{"any":["P025"]},"ty":{"any":["L022"]},"se":{"any":["R032"]}}},{"cat":"내상·장부·간","jeung":"肝血虛證","sx":["眩暈耳鳴","視物昏花","夜盲","肢體麻木","筋脈拘攣","面色淡白少華","脇肋綿綿作痛","筋惕肉瞤","爪甲枯脆","口脣指甲淡白","月經量少而色淡","舌質淡","脈細"],"rx":{"te":{"hot":["H039"],"cold":["H037","H038"]},"sy":{"hot":["P027"],"cold":["P026"]},"ty":{"hot":["L024"],"cold":["L023"]},"se":{"any":["R033"]}}},{"cat":"내상·장부·간","jeung":"肝陽化風證","sx":["抽搐拘攣","肢體麻木","口眼喎斜","言語不利","半身不遂","卒然僵仆","痙攣性頭痛","眩暈欲倒","腰膝酸軟","面紅口乾","神志不淸","舌紅絳","脈弦"],"rx":{"te":{"any":["H035","H036","H047"]},"sy":{"any":["P025"]},"ty":{"any":["L022"]},"se":{"any":["R032"]}}},{"cat":"내상·장부·간","jeung":"血虛生風證","sx":["肢體麻木","筋脈拘急","筋惕肉瞤","視物昏花","手足痙攣","面色蒼白","口脣指甲淡白","爪甲枯脆反甲","脇肋隱痛","舌質淡","脈弦細"],"rx":{"te":{"hot":["H039"],"cold":["H037","H038"]},"sy":{"hot":["P027"],"cold":["P026"]},"ty":{"hot":["L024"],"cold":["L023"]},"se":{"any":["R033"]}}},{"cat":"내상·장부·간","jeung":"寒滯肝脈證","sx":["少腹脹痛","痛引睾丸","畏寒喜暖","陰囊冷縮","形寒肢冷","口淡不渴","小便淸長","苔白滑","脈沈弦"],"rx":{"te":{"any":["H040"]},"sy":{"any":["P035"]},"ty":{"any":["L025"]},"se":{"any":["R034"]}}},{"cat":"내상·장부·간","jeung":"肝經濕熱證","sx":["脇肋脹痛","煩躁易怒","口苦飮食無味","嘔惡腹脹","小便短赤","寒熱往來","睾丸腫脹熱痛","帶下黃臭","外陰搔痒","大便不爽","舌苔黃膩","脈弦滑數"],"rx":{"te":{"hot":["H033","H034"],"cold":["H086","H032"]},"sy":{"hot":["P024"],"cold":["P022"]},"ty":{"hot":["L021"],"cold":["L020"]},"se":{"hot":["R031"],"cold":["R029"]}}},{"cat":"내상·장부·심","jeung":"心氣虛證","sx":["心悸氣短","動則尤甚","神疲無力","畏風自汗","胸悶","心胸隱痛","面色蒼白","少氣懶言","語聲低微","舌質淡","脈細數或結代"],"rx":{"te":{"any":["H041","H042"]},"sy":{"any":["P028"]},"ty":{"any":["L026"]},"se":{"any":["R035"]}}},{"cat":"내상·장부·심","jeung":"心血虛證","sx":["心悸怔忡","面色淡白無華或萎黃","失眠","多夢","健忘","驚惕不安","眩暈","口脣指甲淡白","舌質淡","脈細"],"rx":{"te":{"hot":["H043","H044"],"cold":["H041","H042"]},"sy":{"hot":["P029"],"cold":["P028"]},"ty":{"hot":["L027"],"cold":["L026"]},"se":{"hot":["R036"],"cold":["R035"]}}},{"cat":"내상·장부·심","jeung":"心陰虛證","sx":["心悸心慌","失眠多夢","五心煩熱","口乾咽燥","健忘","驚惕不安","顴紅","尿黃便乾","潮熱盜汗","舌紅少苔","脈細數"],"rx":{"te":{"any":["H043","H044"]},"sy":{"any":["P029"]},"ty":{"any":["L027"]},"se":{"any":["R036"]}}},{"cat":"내상·장부·심","jeung":"心陽虛證","sx":["心悸氣短","動則氣促","形寒肢冷","心胸痞悶疼痛","面色㿠白","少氣懶言","畏風自汗","尿淸便溏","舌質淡","苔薄白而潤","脈沈遲無力"],"rx":{"te":{"any":["H041","H042"]},"sy":{"any":["P030"]},"ty":{"any":["L026"]},"se":{"any":["R035"]}}},{"cat":"내상·장부·심","jeung":"心火亢盛證","sx":["口舌生瘡","心悸失眠","煩躁不安","面赤口渴","胸中煩熱","尿赤","狂躁譫語","大便秘結","舌紅或舌尖獨赤","脈數有力"],"rx":{"te":{"any":["H045"]},"sy":{"any":["P031"]},"ty":{"any":["L028"]},"se":{"any":["R037"]}}},{"cat":"내상·장부·심","jeung":"心血瘀阻證","sx":["心胸痞悶疼痛","刺痛","痛引肩背內臂","突然發作","心痛如刀割","昏厥","心悸怔忡","口脣靑紫","自汗","四肢厥冷","舌質紫暗或有瘀點瘀斑","脈細澁或結代"],"rx":{"te":{"any":["H046","H047"]},"sy":{"any":["P032"]},"ty":{"any":["L029"]},"se":{"any":["R038","R039"]}}},{"cat":"내상·장부·심","jeung":"痰迷心竅證","sx":["精神抑鬱","神志痴呆或神志昏蒙或卒然昏仆","不省人事","嘔吐痰涎","四肢抽搐","面色晦滯","不思飮食","獨白自語","表情淡漠","行動擧止異常","胸悶痰多","喉中痰鳴","苔白膩","脈濡或滑"],"rx":{"te":{"any":["H048","H047"]},"sy":{"any":["P033"]},"ty":{"any":["L030"]},"se":{"any":["R040"]}}},{"cat":"내상·장부·심","jeung":"痰火擾心證","sx":["心悸心煩","神志不淸","失眠多夢","面赤氣粗","便秘尿赤","狂妄躁動","哭笑無常","呼號怒罵","打人毁物","胡言亂語","舌質紅","苔黃厚膩","脈弦滑數"],"rx":{"te":{"any":["H045"]},"sy":{"any":["P031"]},"ty":{"any":["L028"]},"se":{"any":["R037"]}}},{"cat":"내상·장부·심","jeung":"水氣凌心證","sx":["心悸","喘息不能平臥","周身浮腫","面色晄白","心慌","神疲倦怠","氣短","胸脘痞滿","畏寒肢冷","小便短少淸白","舌質淡","舌胖大","苔白滑","脈沈細"],"rx":{"te":{"any":["H049"]},"sy":{"any":["P030"]},"ty":{"any":["L031"]},"se":{"any":["R018"]}}},{"cat":"내상·장부·비","jeung":"脾氣虛證","sx":["面色萎黃","倦怠","氣短懶言","飮食不振","食後腹脹","大便溏薄","四肢倦怠","肢體浮腫","小便不利","經少色淡","甚則閉經","舌淡苔白","脈緩弱"],"rx":{"te":{"any":["H051","H050"]},"sy":{"any":["P020"]},"ty":{"any":["L032"]},"se":{"any":["R041"]}}},{"cat":"내상·장부·비","jeung":"脾氣下陷證","sx":["氣短無力","食入則脹","脘腹重墜","便意頻數","久瀉脫肛","胃下垂","子宮下垂","頭暈目眩","言語低微","自汗食少","精神倦怠","大便溏泄","舌淡苔薄白","脈虛弱"],"rx":{"te":{"any":["H051","H050"]},"sy":{"any":["P020"]},"ty":{"any":["L033"]},"se":{"any":["R014"]}}},{"cat":"내상·장부·비","jeung":"脾不統血證","sx":["面色蒼白或萎黃","大便溏泄","便血","衄血","皮膚紫斑","月經過多","崩漏","食少","食後脹滿","倦怠無力","短氣懶言","手足不溫","消瘦","舌淡苔白","脈濡細弱"],"rx":{"te":{"any":["H051","H050"]},"sy":{"any":["P020"]},"ty":{"any":["L033"]},"se":{"any":["R041"]}}},{"cat":"내상·장부·비","jeung":"脾陰虛證","sx":["食少","食後腹脹","口乾少津","大便秘結","倦怠無力","短氣懶言","脣舌乾燥","口渴喜飮","低熱","舌乾苔少","脈細弱而數"],"rx":{"te":{"any":["H052","H053"]},"sy":{"any":["P034"]},"ty":{"any":["L034"]},"se":{"any":["R042"]}}},{"cat":"내상·장부·비","jeung":"脾陽虛證","sx":["食少","腹脹","腹中冷痛","喜溫喜按","四肢不溫","面色蒼白","大便稀薄","形寒","口淡不渴","肢體浮腫","小便不利","白帶淸稀量多","舌質淡胖","苔白滑","脈沈細或沈遲"],"rx":{"te":{"any":["H051","H050"]},"sy":{"any":["P035"]},"ty":{"any":["L032"]},"se":{"any":["R012"]}}},{"cat":"내상·장부·비","jeung":"寒濕困脾證","sx":["脘腹脹悶","腹痛溏瀉","頭身困重","口淡不渴","不思飮食","惡心嘔吐","口粘無味","肢體浮腫","面色晦黃","帶下綿綿","舌胖苔白膩","脈濡緩"],"rx":{"te":{"any":["H019","H020"]},"sy":{"any":["P013"]},"ty":{"any":["L061","L010"]},"se":{"any":["R003","R017"]}}},{"cat":"내상·장부·폐","jeung":"肺氣虛證","sx":["面色晄白","咳喘無力","動則氣短","自汗怕冷","精神倦怠","聲音低微","短氣懶言","痰多淸稀","舌淡苔薄白","脈虛弱"],"rx":{"te":{"any":["H054","H055"]},"sy":{"any":["P036"]},"ty":{"any":["L035"]},"se":{"any":["R014"]}}},{"cat":"내상·장부·폐","jeung":"肺陰虛證","sx":["乾咳少痰","午後顴紅","口乾咽燥","潮熱盜汗","痰少而稠","五心煩熱","形體消瘦","聲音嘶啞","舌紅絳少津","脈細數"],"rx":{"te":{"any":["H056","H057"]},"sy":{"any":["P037"]},"ty":{"any":["L036"]},"se":{"any":["R043"]}}},{"cat":"내상·장부·폐","jeung":"肺陽虛證","sx":["咳喘無力","面色晄白","形寒肢冷","動則氣短","神疲少氣","聲音低怯","自汗","背寒","痰淸稀","咳吐涎沫","舌質淡","苔薄白","脈虛弱"],"rx":{"te":{"any":["H058","H055"]},"sy":{"any":["P036"]},"ty":{"any":["L035"]},"se":{"any":["R014"]}}},{"cat":"내상·장부·폐","jeung":"肺氣陰兩虛證","sx":["咳喘無力","動則氣短","口乾咽燥","自汗盜汗","五心煩熱","神疲少氣","聲音低微","面色無華","顴紅","痰少而稠","咳痰帶血","形體消瘦","午後潮熱","舌淡嫩紅","脈細弱"],"rx":{"te":{"hot":["H056"],"cold":["H059","H055"]},"sy":{"hot":["P037"],"cold":["P036"]},"ty":{"hot":["L036"],"cold":["L035"]},"se":{"hot":["R043"],"cold":["R014"]}}},{"cat":"내상·장부·폐","jeung":"肺氣衰絶證","sx":["喘息鼻脹","咳不能咳","呼吸少氣","不能息","面色晄白","皮毛乾枯","形體消瘦","動則汗出氣喘","咽乾","舌淡苔少","脈微弱或脈浮散無倫"],"rx":{"te":{"any":["H059"]},"sy":{"any":["P036"]},"ty":{"any":["L033"]},"se":{"any":["R014"]}}},{"cat":"내상·장부·폐","jeung":"水寒犯肺證","sx":["咳嗽","喘促不能臥","下肢浮腫","痰多稀白","胸脇滿悶","小腹脹滿","腰部冷痛","脛膝冷感","尿少","惡寒發熱","無汗身痛","舌苔薄白而潤","脈浮緊或弦緊"],"rx":{"te":{"any":["H061","H062"]},"sy":{"any":["P013"]},"ty":{"any":["L037"]},"se":{"any":["R018"]}}},{"cat":"내상·장부·폐","jeung":"寒痰阻肺證","sx":["咳嗽","痰稀白","喘促不能臥","痰多","喀出容易","形寒畏冷","胸膈滿悶","舌苔白膩","脈沈遲"],"rx":{"te":{"any":["H054","H055"]},"sy":{"any":["P005"]},"ty":{"any":["L037"]},"se":{"any":["R006"]}}},{"cat":"내상·장부·폐","jeung":"痰熱壅肺證","sx":["咳喘痰鳴","痰黃粘稠","發熱","呼吸促急","痰稠膠固","咳吐不爽","痰中帶血","胸膈痞滿","舌紅苔黃膩","脈滑數"],"rx":{"te":{"hot":["H008"],"cold":["H009"]},"sy":{"any":["P006"]},"ty":{"any":["L058"]},"se":{"hot":["R007"],"cold":["R008"]}}},{"cat":"내상·장부·신","jeung":"腎精不足證","sx":["眩暈耳鳴","腰膝酸軟","小兒發育遲延","男子不姙","女子經閉不孕","健忘少眠","動作遲鈍","形體消瘦","齒搖髮脫","知能低下","反應遲鈍","肌肉萎縮","舌淡苔白","脈細弱"],"rx":{"te":{"any":["H063","H064"]},"sy":{"any":["P038"]},"ty":{"any":["L038"]},"se":{"any":["R019"]}}},{"cat":"내상·장부·신","jeung":"腎氣虛證","sx":["眩暈耳鳴","腰膝酸軟","氣短自汗","倦怠無力","面色晄白","小便頻數","遺精早泄","舌淡苔白","脈細弱"],"rx":{"te":{"any":["H065","H066"]},"sy":{"any":["P039"]},"ty":{"any":["L039"]},"se":{"any":["R044"]}}},{"cat":"내상·장부·신","jeung":"腎氣不固證","sx":["小便頻數而淸","尿後餘瀝不盡","遺尿","小便失禁","滑精","早泄","胎動易滑","面色晄白","神疲無力","腰膝酸軟","聽力減退","自汗","白帶淸稀","舌淡苔白","脈細弱"],"rx":{"te":{"any":["H065","H066"]},"sy":{"any":["P039"]},"ty":{"any":["L039"]},"se":{"any":["R044"]}}},{"cat":"내상·장부·신","jeung":"腎不納氣證","sx":["氣短喘息","呼多吸少","動則喘甚","面色晄白而虛浮","甚則面脣靑紫","自汗","畏寒肢冷","腰膝酸軟","舌淡苔白","脈細弱或虛浮無根"],"rx":{"te":{"any":["H067"]},"sy":{"any":["P040"]},"ty":{"any":["L039"]},"se":{"any":["R044"]}}},{"cat":"내상·장부·신","jeung":"腎陰虛證","sx":["頭暈目眩","耳鳴耳聾","腰膝酸軟","五心煩熱","潮熱盜汗","健忘少寐","遺精早泄","齒搖髮脫","知能低下","男子不姙","女子經少不孕","口乾咽燥","尿黃便乾","舌紅少苔","脈細數"],"rx":{"te":{"any":["H063","H064"]},"sy":{"any":["P041"]},"ty":{"any":["L038"]},"se":{"any":["R019"]}}},{"cat":"내상·장부·신","jeung":"腎陽虛證","sx":["畏寒肢冷","腰膝冷痛","五更泄瀉","小便淸長","面色晄白或黧黑","眩暈耳鳴","男子陽痿不擧","早泄","性慾減退","女子宮寒不孕","尿少浮腫","白帶淸稀","舌淡嫩","苔白滑","脈沈遲無力"],"rx":{"te":{"any":["H065","H066"]},"sy":{"any":["P040"]},"ty":{"any":["L040","L039"]},"se":{"any":["R044"]}}},{"cat":"내상·장부·신","jeung":"腎陰陽兩虛證","sx":["眩暈耳鳴","腰膝酸軟疼痛","五心煩熱","盜汗","遺精","手足冷","自汗","面色晄白","顴紅","失眠健忘","多夢","精神萎弱","齒浮動搖","毛髮乾枯","動則氣喘","足浮腫"],"rx":{"te":{"hot":["H063","H064"],"cold":["H065","H066"]},"sy":{"hot":["P041"],"cold":["P040"]},"ty":{"hot":["L038"],"cold":["L040"]},"se":{"hot":["R019"],"cold":["R044"]}}},{"cat":"내상·장부·신","jeung":"腎虛水泛證","sx":["全身水腫","下肢尤甚按之沒指","腰膝酸痛","尿少","心悸氣短","咳喘痰鳴","陰囊水腫","舌淡體胖","苔白滑","脈沈弦"],"rx":{"te":{"any":["H068","H069"]},"sy":{"any":["P042"]},"ty":{"any":["L031"]},"se":{"any":["R018"]}}},{"cat":"내상·장부·담","jeung":"膽熱證","sx":["兩側頭痛","目眥痛","目眩耳聾","口苦咽乾","胸脇滿痛","往來寒熱","嘔吐苦水","煩躁易怒","夜寐不安","黃疸","舌紅苔黃","脈弦數有力"],"rx":{"te":{"any":["H033","H034"]},"sy":{"any":["P024"]},"ty":{"any":["L021"]},"se":{"any":["R031"]}}},{"cat":"내상·장부·담","jeung":"膽鬱痰擾證","sx":["頭暈目眩","口苦","驚悸不寧","失眠","脇脹痛","食慾不振","嘔惡","煩躁不寐","胸悶善太息","右脇不舒","舌苔黃膩","脈弦滑"],"rx":{"te":{"any":["H070","H071"]},"sy":{"any":["P043"]},"ty":{"any":["L041"]},"se":{"any":["R045"]}}},{"cat":"내상·장부·소장","jeung":"小腸氣滯證","sx":["少腹絞痛","一側陰囊腫脹","或睾丸偏墜","畏冷","腹脹腸鳴","失氣則舒","少腹部或有聚氣突起","重墜不舒","舌苔白滑","脈沈弦"],"rx":{"te":{"any":["H040","H072"]},"sy":{"any":["P035"]},"ty":{"any":["L025"]},"se":{"any":["R028"]}}},{"cat":"내상·장부·소장","jeung":"小腸虛寒證","sx":["大便水穀不化","腹痛","四肢不溫","小便不利","大便淸稀","形寒肢冷","舌苔白滑","脈沈無力"],"rx":{"te":{"any":["H019","H020"]},"sy":{"any":["P013"]},"ty":{"any":["L010"]},"se":{"any":["R012"]}}},{"cat":"내상·장부·소장","jeung":"小腸實熱證","sx":["小便短赤","尿道灼痛","口渴","心煩","甚則血尿","口舌生瘡","舌紅苔黃","脈數有力"],"rx":{"te":{"any":["H073","H074"]},"sy":{"any":["P044"]},"ty":{"any":["L021"]},"se":{"any":["R031"]}}},{"cat":"내상·장부·위","jeung":"胃氣虛證","sx":["胃脘隱痛按之痛減","不思飮食","嘔吐呃逆","消化不良","食入卽吐","痛有定時","喜熱喜按","少氣懶言","語聲低微","面色萎黃","舌質淡","苔薄白","脈虛弱"],"rx":{"te":{"any":["H019","H075"]},"sy":{"any":["P045"]},"ty":{"any":["L042"]},"se":{"any":["R046"]}}},{"cat":"내상·장부·위","jeung":"胃陰虛證","sx":["食慾不振","食少","胃脘虛痞","胃脘疼痛","乾嘔","飢而不食","口乾咽燥","大便秘結","心煩潮熱","舌質光紅無苔鏡面舌","舌紅少苔","舌乾少津","脈細數"],"rx":{"te":{"any":["H076","H077"]},"sy":{"any":["P046"]},"ty":{"any":["L043"]},"se":{"any":["R042"]}}},{"cat":"내상·장부·위","jeung":"胃寒證","sx":["胃脘冷痛","嘔吐呃逆","嘔吐淸水","喜熱食","面白少華","畏寒怕冷","手足冷","脘痛拒按","舌質淡","苔白","脈遲緩或弦緩"],"rx":{"te":{"any":["H072","H019","H020"]},"sy":{"any":["P045"]},"ty":{"any":["L010"]},"se":{"any":["R003"]}}},{"cat":"내상·장부·위","jeung":"胃熱證","sx":["胃脘灼痛","多食善飢","口臭","便秘","牙齦腫痛出血","食入卽吐","渴喜冷飮","呑酸","身熱","煩渴","舌質紅","苔黃厚","脈洪大或滑數"],"rx":{"te":{"any":["H078","H079","H080"]},"sy":{"any":["P016"]},"ty":{"any":["L044"]},"se":{"any":["R047"]}}},{"cat":"내상·장부·대장","jeung":"大腸津虧證","sx":["大便乾結","排便困難努責難下","數日一行","便秘","形體消瘦","咽乾少津","口乾","口臭","頭暈目眩","舌質紅","苔黃燥","脈澁或細數"],"rx":{"te":{"any":["H052","H053"]},"sy":{"any":["P034"]},"ty":{"any":["L034"]},"se":{"any":["R042"]}}},{"cat":"내상·장부·대장","jeung":"大腸虛寒證","sx":["腹部隱痛","喜熱喜按","腹瀉","便溏","粘液便","四肢不溫","腸鳴","大便失禁","脫肛","舌質淡","苔薄白而滑","脈沈遲或沈細無力"],"rx":{"te":{"any":["H082","H083"]},"sy":{"any":["P048"]},"ty":{"any":["L045"]},"se":{"any":["R012"]}}},{"cat":"내상·장부·대장","jeung":"大腸濕熱證","sx":["腹痛下利","下利粘液","便膿血","裏急後重","便物如漿如黃水","肛門灼熱","胸脘滿悶","飮食無味","嘔惡","寒熱","口渴","小便黃赤","午後熱盛","肢體沈重","舌苔黃膩","脈滑數"],"rx":{"te":{"any":["H084","H085"]},"sy":{"any":["P016"]},"ty":{"any":["L046"]},"se":{"any":["R048"]}}},{"cat":"내상·장부·대장","jeung":"大腸實熱證","sx":["大便乾燥秘結","腹脹硬滿","腹痛拒按","惡心嘔吐","身熱面赤","口渴","肛門灼熱","小便短赤","舌苔黃燥","甚則黑褐芒刺","脈洪數有力"],"rx":{"te":{"any":["H015","H016"]},"sy":{"any":["P009"]},"ty":{"any":["L008"]},"se":{"any":["R013"]}}},{"cat":"내상·장부·방광","jeung":"膀胱虛寒證","sx":["小便頻數","小便淸長","小便不禁","尿有餘瀝","遺尿","尿後白濁","小便點滴不爽","無力排出","腰痠楚","少腹冷痛","舌淡","苔薄白而潤","脈沈細"],"rx":{"te":{"any":["H065","H066"]},"sy":{"any":["P040"]},"ty":{"any":["L040"]},"se":{"any":["R044"]}}},{"cat":"내상·장부·방광","jeung":"膀胱濕熱證","sx":["頻尿","尿急","尿澁","尿痛","尿黃赤混濁","尿血","發熱","腰痛","尿中有砂石","舌紅","苔黃膩","脈滑數"],"rx":{"te":{"any":["H073","H074"]},"sy":{"any":["P044"]},"ty":{"any":["L021"]},"se":{"any":["R031"]}}},{"cat":"내상·장부·장부겸병","jeung":"肝脾不和證","sx":["兩脇脹滿疼痛","脘腹脹滿","食慾不振","煩躁易怒","善太息","腹痛欲瀉","腸鳴失氣","月經不調","舌苔白膩","脈弦緩"],"rx":{"te":{"any":["H086","H087"]},"sy":{"any":["P050"]},"ty":{"any":["L047"]},"se":{"any":["R049"]}}},{"cat":"내상·장부·장부겸병","jeung":"肝氣犯胃證","sx":["胃脘痞滿時痛","兩脇脹痛或竄痛","嘈囃嘔逆","噯氣呑酸","善太息","頭痛","舌苔薄白或薄黃","脈弦"],"rx":{"te":{"any":["H088","H089"]},"sy":{"any":["P051"]},"ty":{"any":["L048"]},"se":{"any":["R049"]}}},{"cat":"내상·장부·장부겸병","jeung":"肝火犯肺證","sx":["咳嗆氣逆","胸脇疼痛","胸脇不舒","性急易怒","痰少粘","痰帶血","目赤口苦","咽乾聲啞","頭暈頭痛","小便短赤","大便秘","舌質紅","苔黃乾","脈弦數或弦細數"],"rx":{"te":{"any":["H090","H091"]},"sy":{"any":["P037"]},"ty":{"any":["L049"]},"se":{"any":["R043"]}}},{"cat":"내상·장부·장부겸병","jeung":"肝腎陰虛證","sx":["腰膝酸軟","兩目乾澁","胸脇疼痛","五心煩熱","健忘失眠","顴紅脣赤","頭暈目眩","耳鳴如蟬","咽乾口燥","盜汗","遺精","女子月經量少","舌紅絳少苔","脈細數"],"rx":{"te":{"any":["H063","H064"]},"sy":{"any":["P041"]},"ty":{"any":["L038"]},"se":{"any":["R019"]}}},{"cat":"내상·장부·장부겸병","jeung":"心肝血虛證","sx":["心悸怔忡","健忘失眠","多夢","頭暈目昏","四肢麻木","面色淡白","驚惕不安","筋脈拘急","夜盲","舌質淡","脈細無力"],"rx":{"te":{"hot":["H039"],"cold":["H037","H038"]},"sy":{"hot":["P027"],"cold":["P026"]},"ty":{"hot":["L024"],"cold":["L023"]},"se":{"any":["R033"]}}},{"cat":"내상·장부·장부겸병","jeung":"心肺氣虛證","sx":["心悸氣短","咳嗽","動則氣喘","面色淡白無華","神疲無力","咳痰淸稀","心胸痞悶","語聲低微","自汗","舌質淡","苔薄白","脈細弱"],"rx":{"te":{"any":["H054","H055"]},"sy":{"any":["P036"]},"ty":{"any":["L035"]},"se":{"any":["R014"]}}},{"cat":"내상·장부·장부겸병","jeung":"心脾兩虛證","sx":["心悸怔忡","失眠健忘","食少倦怠","腹脹便溏","面色萎黃","頭暈目花","月經不調","閉經","崩漏","皮下紫斑","舌質淡嫩","脈細無力"],"rx":{"te":{"any":["H092","H093"]},"sy":{"any":["P030"]},"ty":{"any":["L050"]},"se":{"any":["R050"]}}},{"cat":"내상·장부·장부겸병","jeung":"心腎陽虛證","sx":["形寒肢冷","心悸氣短動則尤甚","尿少身重","下肢浮腫","面色暗滯","心胸痞悶甚則疼痛","脣甲靑紫","腰脊冷痛","自汗","神疲體倦","舌暗淡或靑紫","苔白滑","脈沈微"],"rx":{"te":{"any":["H068"]},"sy":{"any":["P042"]},"se":{"any":["R018"]}}},{"cat":"내상·장부·장부겸병","jeung":"心腎不交證","sx":["心煩驚悸","健忘少眠","多夢遺精","眩暈耳鳴","口乾咽燥","潮熱盜汗","五心煩熱","腰膝酸軟","尿黃便乾","舌紅無苔或苔薄少津","脈細數"],"rx":{"te":{"any":["H043","H044"]},"sy":{"any":["P029"]},"ty":{"any":["L027"]},"se":{"any":["R036"]}}},{"cat":"내상·장부·장부겸병","jeung":"脾胃濕熱證","sx":["脘腹痞悶懊憹","口苦","口粘","嘔惡吐出飮食物味酸苦","食少","便溏臭穢","肢體困重","小便短赤","面目肌膚發黃","皮膚搔痒","身熱起伏","汗出熱不解","舌苔黃膩","脈滑數"],"rx":{"te":{"any":["H024","H079"]},"sy":{"any":["P052"]},"ty":{"any":["L041"]},"se":{"any":["R045"]}}},{"cat":"내상·장부·장부겸병","jeung":"食傷脾胃證(食滯中脘)","sx":["胃脘脹滿疼痛拒按","嘔吐酸腐","噯氣饜食","腸鳴腹痛","瀉下糞便臭如敗卵","或大便秘結","苔厚膩","脈滑或弦滑"],"rx":{"te":{"any":["H019","H020"]},"sy":{"any":["P014","P023"]},"ty":{"any":["L011"]},"se":{"any":["R003"]}}},{"cat":"내상·장부·장부겸병","jeung":"脾肺氣虛證","sx":["咳嗽氣短","痰多淸白","自汗","易感冒","面色無華","神疲懶言","飮食減少","腹脹滿","便溏","浮腫","舌淡苔薄白","脈細弱"],"rx":{"te":{"any":["H054","H055"]},"sy":{"any":["P036"]},"ty":{"any":["L033"]},"se":{"any":["R041"]}}},{"cat":"내상·장부·장부겸병","jeung":"肺腎陰虛證","sx":["咳嗽氣促","痰中帶血","喀血","腰膝酸軟","骨蒸潮熱","咳痰不爽","口乾咽燥","聲音嘶啞","形體消瘦","顴紅","五心煩熱","盜汗","男子遺精","女子月經量少","經閉","舌紅少苔","脈細數"],"rx":{"te":{"any":["H056","H057"]},"sy":{"any":["P037"]},"ty":{"any":["L036"]},"se":{"any":["R043"]}}},{"cat":"내상·장부·장부겸병","jeung":"脾腎陽虛證","sx":["腰膝冷痛","少腹冷痛","大便溏泄","完穀不化","五更泄瀉","形寒肢冷","面色晄白","少氣懶言","精神萎弱","小便不利","面浮肢腫","甚則腹滿膨脹","舌淡苔白","脈沈細"],"rx":{"te":{"any":["H051"]},"sy":{"any":["P035"]},"ty":{"any":["L032"]},"se":{"any":["R018"]}}},{"cat":"내상·음양기혈진액·음양","jeung":"亡陰證","sx":["汗出如粘稠","身熱","精神煩躁或昏迷譫妄","呼吸氣粗","肌肉乾燥","皮膚皺折","脣乾齒燥","目眶深陷","渴喜冷飮","舌質乾紅","脈虛數或細數無力"],"rx":{"te":{"any":["H029","H030"]},"sy":{"any":["P019"]},"ty":{"any":["L015"]},"se":{"any":["R026"]}}},{"cat":"내상·음양기혈진액·음양","jeung":"亡陽證","sx":["汗出不止冷汗淋漓","四肢厥冷","呼吸微弱","精神萎靡或恍惚","畏寒倦臥","渴喜熱飮","面色蒼白","舌淡潤","脈微欲絶或浮大無力"],"rx":{"te":{"any":["H019"]},"sy":{"any":["P035"]},"ty":{"any":["L033"]},"se":{"any":["R051"]}}},{"cat":"내상·음양기혈진액·음양","jeung":"淸陽不升證","sx":["頭暈眼花","視物不淸","耳鳴耳聾","畏寒肢冷","困倦無力","食不知味","納呆便溏","舌淡","苔薄白","脈弱或虛"],"rx":{"te":{"any":["H051","H050"]},"sy":{"any":["P020"]},"ty":{"any":["L033"]},"se":{"any":["R014"]}}},{"cat":"내상·음양기혈진액·음양","jeung":"濁陰不降證","sx":["脘悶腹脹","食少便溏或便秘","小便不利或不通","身體困重","倦怠乏力","甚則下肢浮腫","舌苔濁膩","脈濡滑"],"rx":{"te":{"any":["H019","H020"]},"sy":{"any":["P013"]},"ty":{"any":["L010"]},"se":{"any":["R003","R017"]}}},{"cat":"내상·음양기혈진액·음양","jeung":"陰陽兩虛證","sx":["形體萎弱","精神萎頓","倦怠無力","少氣懶言","形寒肢冷","稍動則發熱汗出","潮熱盜汗","五心煩熱","心悸目眩","頭暈耳鳴","舌淡而少津","或有齒痕","脈微細而數"],"rx":{"te":{"any":["H065","H064"]},"sy":{"any":["P040"]},"ty":{"any":["L038"]},"se":{"any":["R019"]}}},{"cat":"내상·음양기혈진액·기혈","jeung":"氣滯證","sx":["脘腹胸脇乳房腰背疼痛","脹悶","時輕時重痛無定處竄痛或攻痛","噯氣太息","結塊聚散無常","噯氣失氣後症狀輕減","肩肘腿膝流走疼痛","月經時少腹竄痛","苔薄","脈弦"],"rx":{"te":{"any":["H031","H086","H032"]},"sy":{"any":["P022","P023"]},"ty":{"any":["L020"]},"se":{"any":["R029"]}}},{"cat":"내상·음양기혈진액·기혈","jeung":"氣陷證","sx":["氣短乏力","脘腹墜脹","泄瀉","脫肛","婦人陰挺","腰痠欲折","遺尿","經水漏下","流産","神疲懶言","頭暈目眩","舌淡胖","脈細緩無力"],"rx":{"te":{"any":["H051","H050"]},"sy":{"any":["P020"]},"ty":{"any":["L033"]},"se":{"any":["R014"]}}},{"cat":"내상·음양기혈진액·기혈","jeung":"氣閉證","sx":["昏迷","牙關緊閉","兩手握固","大便秘結","小便不通","躁動不安","舌强","言語蹇澁","譫語煩躁","氣粗鼻鼾","喉間痰聲漉漉","手足拘攣","半身不遂","小腹脹滿","噯氣頻作","苔膩","脈弦滑或沈滑"],"rx":{"te":{"any":["H033","H034","H047"]},"sy":{"any":["P024"]},"ty":{"any":["L021"]},"se":{"any":["R031"]}}},{"cat":"내상·음양기혈진액·기혈","jeung":"血瘀證","sx":["局部疼痛","腫脹腫塊不移刺痛拒按一點常痛","面色黎黑","口脣靑紫","皮膚瘀斑","出血","口渴欲漱而不欲飮","肌膚甲錯","腹壁靑筋怒脹","皮膚絲狀紅縷","魚際部位紅斑","月時腹痛血塊色紫暗","或經閉"],"rx":{"te":{"hot":["H096"],"cold":["H094","H095"]},"sy":{"hot":["P054"],"cold":["P053"]},"ty":{"any":["L052"]},"se":{"any":["R052"]}}},{"cat":"내상·음양기혈진액·기혈","jeung":"血熱證","sx":["出血鮮紅鼻衄吐血尿血便血","身熱夜重","斑疹","心煩易怒","面紅目赤","月經先期而量多色紅","神志昏糊","譫語狂亂","煩躁不寧","齒齦腫痛","舌深絳","苔焦黃少津","脈細數或弦數"],"rx":{"te":{"any":["H027","H097"]},"sy":{"any":["P055"]},"ty":{"any":["L053"]},"se":{"any":["R025"]}}},{"cat":"내상·음양기혈진액·기혈","jeung":"血寒證","sx":["疼痛頭四肢胸少腹","手足冷色靑紫","四肢攣急","肌肉麻痺","胸痛徹背","背痛徹心","脘腹冷痛","月經疼痛","月經量少","經色暗有塊","或閉經","舌暗淡或靑紫","苔白膩","脈緊或沈細"],"rx":{"te":{"any":["H098","H099"]},"sy":{"any":["P056"]},"ty":{"any":["L054"]},"se":{"any":["R053"]}}},{"cat":"내상·음양기혈진액·기혈","jeung":"血脫證","sx":["出血外傷性大出血咳血吐血崩漏産後出血不止","面色蒼白","譫妄神昏","汗出如珠","二便失禁","口脣爪甲淡白","瞳孔散大","舌質淡","脈散大或芤"],"rx":{"te":{"any":["H092","H093"]},"sy":{"any":["P030"]},"ty":{"any":["L055"]},"se":{"any":["R054"]}}},{"cat":"내상·음양기혈진액·기혈","jeung":"血燥證","sx":["口脣乾裂","咽乾喀痛","手燥足裂","皮膚乾燥","毛髮乾枯","鼻腔乾燥出血","大便乾結","乾咳無痰","口乾咯血","頭暈眼花","肌膚甲錯","肢軟筋萎","指甲髮脆","經少經閉","舌燥無津","脈細數或沈澁"],"rx":{"te":{"any":["H100","H101"]},"sy":{"any":["P057"]},"ty":{"any":["L056"]},"se":{"any":["R055"]}}},{"cat":"내상·음양기혈진액·기혈","jeung":"氣血兩虛證","sx":["面色蒼白","眼瞼口脣淡白","神疲乏力","呼吸氣短","食無味","頭暈眼花","心悸怔忡","失眠多夢","聲音低微","健忘脫髮","手足麻木","肢體痿軟","肌肉瘦削","經少色淡如水","舌淡嫩","脈細弱無力"],"rx":{"te":{"any":["H092","H093"]},"sy":{"any":["P030"]},"se":{"any":["R050"]}}},{"cat":"내상·음양기혈진액·기혈","jeung":"氣陰兩虛證","sx":["神疲乏力","聲音低微","汗出氣短","食慾不振","便溏","口乾咽痛","顴紅","低熱盜汗","五心煩熱","午後潮熱","乾咳少痰","咳嗆咯血","上氣喘促","脘痛灼熱","頭暈目眩","心悸肢腫","腰痠耳鳴","舌質紅","苔少而剝"],"rx":{"te":{"hot":["H056"],"cold":["H059","H055"]},"sy":{"hot":["P037"],"cold":["P036"]},"ty":{"hot":["L036"],"cold":["L033"]},"se":{"hot":["R043"],"cold":["R014"]}}},{"cat":"내상·음양기혈진액·진액","jeung":"津液虧損證","sx":["口渴","咽乾舌燥","口乾少津","皮膚不潤","鼻脣乾燥","乾咳少痰","津少舌强","目澁少漏","小便短少","大便乾結","多食反瘦","嘔吐","皮膚乾枯","舌紅且乾","苔乾或剝","脈細或澁"],"rx":{"te":{"any":["H056","H057"]},"sy":{"any":["P037"]},"ty":{"any":["L036"]},"se":{"any":["R043"]}}},{"cat":"내상·음양기혈진액·진액","jeung":"水飮內停證","sx":["胃中振水音","腸間漉漉有聲","四肢重腫","胸脇掣痛","咳唾引痛","背冷如掌大","素盛今瘦","脘腹痞脹","氣短息促","痰多","嘔吐涎沫","頭暈目眩","顔面浮腫","苔白膩","脈弦滑或沈弦"],"rx":{"te":{"any":["H061","H062"]},"sy":{"any":["P013"]},"ty":{"any":["L037"]},"se":{"any":["R006"]}}},{"cat":"내상·음양기혈진액·진액","jeung":"陽虛水泛證","sx":["浮腫顔面眼瞼微腫四肢浮腫甚則胸腹腰背水腫","小便不利","身重胸悶","惡心欲嘔","脘腹脹滿","形寒肢冷","腰痛痠重","發熱惡寒","苔白膩","脈浮滑或沈緩"],"rx":{"te":{"any":["H068","H069"]},"sy":{"any":["P013"]},"ty":{"any":["L031"]},"se":{"any":["R018"]}}},{"cat":"내상·음양기혈진액·진액","jeung":"寒濕證","sx":["頭身困重","脘悶腹脹","形寒肢冷","肢節屈伸不利","不飢不食","腹脹","腹痛","便溏","下利淸穀","小便不利","吐瀉","身痛浮腫","喘咳稀痰","肢體麻痺","疝瘕作痛","舌淡","苔白膩","脈濡緩"],"rx":{"te":{"any":["H019"]},"sy":{"any":["P013"]},"ty":{"any":["L010"]},"se":{"any":["R003"]}}},{"cat":"내상·음양기혈진액·진액","jeung":"風痰證","sx":["頭暈目眩","嘔吐痰涎","甚則卒然昏倒","口眼喎斜","半身不遂","胸脇滿悶","喉中痰鳴","抽搐痙厥","舌苔薄膩","脈弦滑"],"rx":{"te":{"any":["H102","H103"]},"sy":{"any":["P058"]},"ty":{"any":["L030"]},"se":{"any":["R040"]}}},{"cat":"내상·음양기혈진액·진액","jeung":"寒痰證","sx":["痰白淸稀","咳嗽喘促","形寒肢冷","胸部滿悶","口淡不渴","大便溏泄","舌質淡","苔白潤","脈沈滑"],"rx":{"te":{"any":["H007","H055"]},"sy":{"any":["P005"]},"ty":{"any":["L037"]},"se":{"any":["R006"]}}},{"cat":"내상·음양기혈진액·진액","jeung":"熱痰證","sx":["痰稠色黃","痰膠結難喀","咳嗽喘促","喉中痰鳴","心中煩熱","胸中悶痛","口乾咽燥","小便短赤","大便燥結","舌質紅","苔黃膩","脈滑數"],"rx":{"te":{"any":["H008","H009"]},"sy":{"any":["P006"]},"ty":{"any":["L049"]},"se":{"any":["R007"]}}},{"cat":"내상·음양기혈진액·진액","jeung":"燥痰證","sx":["痰少膠粘","口鼻乾燥","咳嗽氣促","咽喉乾痒","口渴喜飮","尿少便乾","皮膚乾燥","舌紅少津","脈弦細數或細澁"],"rx":{"te":{"any":["H056","H057"]},"sy":{"any":["P037"]},"ty":{"any":["L036"]},"se":{"any":["R043"]}}},{"cat":"내상·음양기혈진액·진액","jeung":"濕痰證","sx":["咳喘","痰多色白","胸部痞悶","食慾不振","惡心嘔吐","腹脹便溏","眩暈心悸","肢重嗜臥","舌體胖大","苔滑膩","脈滑或緩"],"rx":{"te":{"any":["H007"]},"sy":{"any":["P013"]},"ty":{"any":["L010"]},"se":{"any":["R017"]}}},{"cat":"내상·음양기혈진액·진액","jeung":"痰氣鬱結證","sx":["梅核氣","胸膈痞悶或竄痛","情志抑鬱","躁急易怒","咳嗽痰稠","善太息","月經不調","舌苔膩","脈弦滑"],"rx":{"te":{"any":["H031","H032"]},"sy":{"any":["P022"]},"ty":{"any":["L020"]},"se":{"any":["R029"]}}},{"cat":"내상·오사·풍","jeung":"風在頭","sx":["頭痛","或左或右或在顚頂"],"rx":{"te":{"hot":["H012"],"cold":["H003","H002"]},"sy":{"hot":["P007"],"cold":["P002"]},"ty":{"hot":["L007"],"cold":["L003"]},"se":{"hot":["R009"],"cold":["R009"]}}},{"cat":"내상·오사·풍","jeung":"風邪中面部絡脈","sx":["口眼喎斜","或肌肉抽動"],"rx":{"te":{"any":["H102","H103"]},"sy":{"any":["P058"]},"ty":{"any":["L030"]},"se":{"any":["R040"]}}},{"cat":"내상·오사·풍","jeung":"風邪傷皮膚","sx":["皮膚搔痒","紅疹突起"],"rx":{"te":{"any":["H104","H105"]},"sy":{"any":["P059"]},"ty":{"any":["L057"]},"se":{"any":["R056"]}}},{"cat":"내상·오사·풍","jeung":"風在肌肉關節","sx":["肌肉關節痛","竄痛不定","左右相移"],"rx":{"te":{"any":["H012","H002"]},"sy":{"any":["P002"]},"ty":{"any":["L007"]},"se":{"any":["R009"]}}},{"cat":"내상·오사·풍","jeung":"風在筋骨","sx":["四肢抽搐","牙關緊急","角弓反張"],"rx":{"te":{"any":["H102","H103"]},"sy":{"any":["P058"]},"ty":{"any":["L030"]},"se":{"any":["R040"]}}},{"cat":"내상·오사·화","jeung":"火熱上炎","sx":["目赤","喉腫","齒痛"],"rx":{"te":{"any":["H106","H107"]},"sy":{"any":["P060"]},"ty":{"any":["L058"]},"se":{"any":["R057"]}}},{"cat":"내상·오사·화","jeung":"虛火上炎","sx":["口舌生瘡"],"rx":{"te":{"any":["H045"]},"sy":{"any":["P031"]},"ty":{"any":["L028"]},"se":{"any":["R037"]}}},{"cat":"내상·오사·화","jeung":"陰虛肺熱","sx":["咳嗽少痰或痰少而粘"],"rx":{"te":{"any":["H056","H057"]},"sy":{"any":["P037"]},"ty":{"any":["L036"]},"se":{"any":["R043"]}}},{"cat":"내상·오사·습","jeung":"濕在上在外","sx":["頭暈沈","耳鳴聾","皮膚濕疹"],"rx":{"te":{"hot":["H109"],"cold":["H007","H108"]},"sy":{"hot":["P007"],"cold":["P013"]},"ty":{"hot":["L001"],"cold":["L002"]},"se":{"hot":["R017"],"cold":["R003"]}}},{"cat":"내상·오사·습","jeung":"濕溢肌膚","sx":["浮腫","小便不利"],"rx":{"te":{"any":["H019","H013"]},"sy":{"any":["P013"]},"ty":{"any":["L002"]},"se":{"any":["R017"]}}},{"cat":"내상·오사·습","jeung":"濕在經絡","sx":["四肢沈倦麻木痠痛","關節重痛"],"rx":{"te":{"hot":["H112"],"cold":["H110","H111"]},"sy":{"hot":["P062"],"cold":["P061"]},"ty":{"hot":["L060"],"cold":["L059"]},"se":{"hot":["R059"],"cold":["R058"]}}},{"cat":"내상·오사·습","jeung":"濕痰在肺","sx":["咳喘","痰多色白","胸滿"],"rx":{"te":{"any":["H007"]},"sy":{"any":["P013"]},"ty":{"any":["L010"]},"se":{"any":["R017"]}}},{"cat":"내상·오사·습","jeung":"濕熱在肝膽","sx":["赤白帶下","小便黃赤不利"],"rx":{"te":{"hot":["H033","H034"],"cold":["H086","H032"]},"sy":{"hot":["P024"],"cold":["P022"]},"ty":{"hot":["L021"],"cold":["L020"]},"se":{"hot":["R031"],"cold":["R029"]}}},{"cat":"내상·오사·습","jeung":"濕在脾胃","sx":["胸悶脘痞","納少嘔惡","腹脹便溏"],"rx":{"te":{"any":["H019","H020"]},"sy":{"any":["P013"]},"ty":{"any":["L010"]},"se":{"any":["R003","R017"]}}},{"cat":"내상·오사·습","jeung":"寒濕在腎","sx":["下肢浮腫","腰痛","足跟痛","形寒肢冷","肢節屈伸不利"],"rx":{"te":{"any":["H068","H069"]},"sy":{"any":["P042"]},"ty":{"any":["L031"]},"se":{"any":["R018"]}}},{"cat":"내상·오사·조","jeung":"燥邪傷肺","sx":["咳嗽","痰少而粘","難于咳出","喘息胸痛"],"rx":{"te":{"any":["H056","H057"]},"sy":{"any":["P037"]},"ty":{"any":["L036"]},"se":{"any":["R043"]}}},{"cat":"내상·오사·조","jeung":"燥邪傷胃","sx":["胃脘灼痛","乾嘔","呃逆"],"rx":{"te":{"any":["H076","H077"]},"sy":{"any":["P046"]},"ty":{"any":["L043"]},"se":{"any":["R042"]}}},{"cat":"내상·오사·조","jeung":"燥在大腸","sx":["大便乾結","排便困難努責難下","數日一行","形體消瘦"],"rx":{"te":{"any":["H052","H053"]},"sy":{"any":["P034"]},"ty":{"any":["L043"]},"se":{"any":["R042"]}}},{"cat":"내상·오사·한","jeung":"寒在肌肉關節","sx":["頭與肢體關節肌肉劇痛","固定不移"],"rx":{"te":{"any":["H011","H002"]},"sy":{"any":["P002"]},"ty":{"any":["L002"]},"se":{"any":["R009"]}}},{"cat":"내상·오사·한","jeung":"寒在肺","sx":["咳喘胸悶","呼吸氣促"],"rx":{"te":{"any":["H113","H002"]},"sy":{"any":["P005"]},"ty":{"any":["L007"]},"se":{"any":["R006"]}}},{"cat":"내상·오사·한","jeung":"心寒胸痺","sx":["胸背徹痛","心悸"],"rx":{"te":{"any":["H046"]},"sy":{"any":["P032"]},"ty":{"any":["L029"]},"se":{"any":["R038"]}}},{"cat":"내상·오사·한","jeung":"腎寒腰痛","sx":["腰脊冷痛","小便淸長"],"rx":{"te":{"any":["H065","H066"]},"sy":{"any":["P040"]},"ty":{"any":["L040"]},"se":{"any":["R044"]}}},{"cat":"내상·오사·한","jeung":"胃寒痛","sx":["胃脘劇痛","得溫熱則痛減"],"rx":{"te":{"any":["H019","H020"]},"sy":{"any":["P045"]},"ty":{"any":["L010"]},"se":{"any":["R003"]}}},{"cat":"내상·오사·한","jeung":"寒結大腸","sx":["腹痛","手足不溫","久痢赤白","或冷積便秘"],"rx":{"te":{"any":["H019","H083"]},"sy":{"any":["P045"]},"ty":{"any":["L010"]},"se":{"any":["R012"]}}}];
+const BJ_CK   = {taeum:'te',soyang:'sy',taeyang:'ty',soeum:'se'};
+const BJ_ROLE = {hot:{ko:'열',cls:'hot'},cold:{ko:'한',cls:'cold'},any:{ko:'단일',cls:'any'}};
+
+/* ── §7 매칭 로직 ──
+   체질·한열 필터 + 음양형 점수 + 주소증(부분 일치) + 부증상 메모(보너스). */
+function symContains(symList, q){
+  if (!symList || !symList.length || !q) return false;
+  q = String(q).trim(); if (!q) return false;
+  for (var i = 0; i < symList.length; i++){
+    var s = symList[i]; if (!s) continue;
+    if (s === q) return true;
+    if (s.indexOf(q) >= 0 || q.indexOf(s) >= 0) return true;   // 부분 일치
+  }
+  return false;
+}
+
+/* ── 류주열식 매칭 엔진 (W4 신규) ──
+   1) 환자 주소증·부증상 → SX_DICT lookup → 한문 후보 키워드 풀
+   2) BYEONJEUNG 변증 중 sx 부분 일치하는 후보 변증 추출
+   3) 환자 체질(BJ_CK)·한열에 해당하는 류주열 코드 수집 (코드별 hit 카운트 누적)
+   4) RX_FULL에서 코드 일치 처방 + 큐레이션 즐겨찾기 boost 반영해 top N 정렬
+*/
+
+// 한글 토큰 → 한문 키워드 후보 풀 (SX_DICT 부분 키 매칭 포함)
+function ko2hans(token){
+  if (!token) return [];
+  token = String(token).trim();
+  if (!token) return [];
+  // 정확 매칭 우선
+  if (SX_DICT[token]) return SX_DICT[token].slice();
+  // 부분 키 매칭 (예: "변비기" 입력 시 "변비" 키 hit)
+  const out = [];
+  const keys = Object.keys(SX_DICT);
+  for (var i = 0; i < keys.length; i++){
+    var k = keys[i];
+    if (token.indexOf(k) >= 0 || k.indexOf(token) >= 0){
+      var arr = SX_DICT[k];
+      for (var j = 0; j < arr.length; j++) if (out.indexOf(arr[j]) < 0) out.push(arr[j]);
+    }
+  }
+  return out;
+}
+
+// 부증상 메모(자유 텍스트)에서 SX_DICT 키와 일치하는 한글 단어 스캔
+function freeTextToHans(freeText){
+  if (!freeText) return { hans:[], hitKeys:[] };
+  const ft = String(freeText);
+  const hans = [], hitKeys = [];
+  const keys = Object.keys(SX_DICT);
+  for (var i = 0; i < keys.length; i++){
+    var k = keys[i];
+    if (k.length >= 2 && ft.indexOf(k) >= 0){
+      hitKeys.push(k);
+      var arr = SX_DICT[k];
+      for (var j = 0; j < arr.length; j++) if (hans.indexOf(arr[j]) < 0) hans.push(arr[j]);
+    }
+  }
+  return { hans:hans, hitKeys:hitKeys };
+}
+
+// 변증의 sx 배열이 한문 후보 풀 중 하나라도 포함하는지 (부분 일치)
+function bjSxMatches(sxList, hansPool){
+  if (!sxList || !sxList.length || !hansPool.length) return 0;
+  let hits = 0;
+  for (var i = 0; i < sxList.length; i++){
+    var s = sxList[i]; if (!s) continue;
+    for (var j = 0; j < hansPool.length; j++){
+      var h = hansPool[j];
+      if (s === h || s.indexOf(h) >= 0 || h.indexOf(s) >= 0){ hits++; break; }
+    }
+  }
+  return hits;
+}
+
+// 큐레이션 8종의 류주열 코드 셋 (즐겨찾기 boost용)
+function curatedFavCodes(constitution){
+  const out = {};
+  for (var i = 0; i < RX_CURATED.length; i++){
+    var c = RX_CURATED[i];
+    if (c.constitution === constitution && c.ryuCode) out[c.ryuCode] = c;
+  }
+  return out;
+}
+
+// 메인: 류주열 처방 풀에서 주소증 기반 추천 top N
+function matchPrescriptionsRyu(profile, chiefComplaints, freeText, topN){
+  topN = topN || 5;
+  freeText = String(freeText || '').trim();
+  const ck = BJ_CK[profile.constitution];
+  if (!ck) return { matches:[], diag:{ reason:'unknown-constitution' } };
+  const wantedHanyul = (profile.hanyul === 'mixed') ? null : profile.hanyul; // null=both
+
+  // 1) 환자 입력 → 한문 후보 풀
+  const ccHansMap = {};  // hans -> [원본 한글 주소증]
+  chiefComplaints.forEach(function(cc){
+    const hans = ko2hans(cc);
+    hans.forEach(function(h){
+      if (!ccHansMap[h]) ccHansMap[h] = [];
+      if (ccHansMap[h].indexOf(cc) < 0) ccHansMap[h].push(cc);
+    });
+  });
+  const ccHansPool = Object.keys(ccHansMap);
+  const ftScan = freeTextToHans(freeText);
+  const ftHansPool = ftScan.hans;
+  const allHansPool = ccHansPool.concat(ftHansPool.filter(function(h){ return ccHansPool.indexOf(h)<0; }));
+
+  // 2) 변증 후보 추출 + 코드별 hit 누적
+  const codeScore = {};  // code -> {score, jeungList:[], sxMatched:[]}
+  let bjMatched = 0;
+  for (var i = 0; i < BYEONJEUNG.length; i++){
+    var bj = BYEONJEUNG[i];
+    var ccHit = bjSxMatches(bj.sx, ccHansPool);
+    var ftHit = bjSxMatches(bj.sx, ftHansPool);
+    if (ccHit === 0 && ftHit === 0) continue;
+    bjMatched++;
+    var rxBranch = (bj.rx && bj.rx[ck]) || null;
+    if (!rxBranch) continue;
+    // 한열별 코드 수집
+    var pickRoles = wantedHanyul ? [wantedHanyul, 'any'] : ['hot', 'cold', 'any'];
+    for (var r = 0; r < pickRoles.length; r++){
+      var role = pickRoles[r];
+      var codes = rxBranch[role] || [];
+      for (var c = 0; c < codes.length; c++){
+        var code = codes[c];
+        if (!codeScore[code]) codeScore[code] = { score:0, jeung:[], sxMatched:[], roleSet:{} };
+        codeScore[code].score += ccHit * 3 + ftHit * 1;
+        if (codeScore[code].jeung.indexOf(bj.jeung) < 0) codeScore[code].jeung.push(bj.jeung);
+        codeScore[code].roleSet[role] = true;
+        // 어떤 한문 sx가 맞았는지 기록
+        for (var s = 0; s < bj.sx.length; s++){
+          var sx = bj.sx[s];
+          for (var p = 0; p < allHansPool.length; p++){
+            var h = allHansPool[p];
+            if (sx === h || sx.indexOf(h) >= 0 || h.indexOf(sx) >= 0){
+              if (codeScore[code].sxMatched.indexOf(sx) < 0) codeScore[code].sxMatched.push(sx);
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // 3) 큐레이션 즐겨찾기 boost
+  const fav = curatedFavCodes(profile.constitution);
+  Object.keys(codeScore).forEach(function(code){
+    if (fav[code]) codeScore[code].score += 8;  // 즐겨찾기 boost
+  });
+
+  // 4) RX_FULL과 조인 + top N
+  const ranked = Object.keys(codeScore)
+    .map(function(code){
+      var rxRef = null;
+      for (var i = 0; i < RX_FULL.length; i++) if (RX_FULL[i].code === code){ rxRef = RX_FULL[i]; break; }
+      if (!rxRef) return null;
+      return {
+        code: code,
+        rx: rxRef,
+        score: codeScore[code].score,
+        jeung: codeScore[code].jeung,
+        sxMatched: codeScore[code].sxMatched,
+        isFav: !!fav[code],
+        favRef: fav[code] || null
+      };
+    })
+    .filter(function(x){ return x !== null; })
+    .sort(function(a,b){
+      if (b.score !== a.score) return b.score - a.score;
+      if (b.isFav !== a.isFav) return b.isFav ? 1 : -1;
+      return 0;
+    })
+    .slice(0, topN);
+
+  return {
+    matches: ranked,
+    diag: {
+      ccHansPool: ccHansPool,
+      ccHansMap: ccHansMap,
+      ftHansPool: ftHansPool,
+      ftHitKeys: ftScan.hitKeys,
+      bjMatched: bjMatched,
+      totalCandidates: Object.keys(codeScore).length,
+      missingCC: chiefComplaints.filter(function(cc){ return ko2hans(cc).length === 0; })
+    }
+  };
+}
+function matchPrescriptions(profile, chiefComplaints, rxList, freeText){
+  freeText = String(freeText || '').trim();
+  return rxList
+    .filter(function(rx){
+      if (rx.constitution !== profile.constitution) return false;
+      if (rx.hanyul !== 'any' && profile.hanyul !== 'mixed' && rx.hanyul !== profile.hanyul) return false;
+      return true;
+    })
+    .map(function(rx){
+      let score = 40 + 25;
+      if (profile.constitution === 'taeum'){
+        if (rx.yangyin === 'any' || rx.yangyin === profile.yangyin) score += 15;
+      } else { score += 15; }
+      // ── 주소증 매칭 (부분 일치 허용) ── 처방의 주증이 환자 주소증을 포함하거나 그 반대
+      let hit = 0;
+      chiefComplaints.forEach(function(c){ if (symContains(rx.symptoms, c)) hit++; });
+      const ratio = chiefComplaints.length ? hit / chiefComplaints.length : 0;
+      score += Math.round(22 * ratio);
+      // ── 부증상 메모(freeText)에 처방의 주증 키워드가 포함되면 가산 ──
+      let freeHits = 0;
+      if (freeText && rx.symptoms){
+        for (var j = 0; j < rx.symptoms.length; j++){
+          var s = rx.symptoms[j]; if (!s) continue;
+          if (freeText.indexOf(s) >= 0) freeHits++;
+        }
+      }
+      if (freeHits > 0) score += Math.min(12, freeHits * 4);
+      return { rx:rx, score:score, hitCount:hit, freeHits:freeHits };
+    })
+    .sort(function(a,b){ return b.score - a.score; })
+    .slice(0, 3);
+}
+
+/* ── 상태 ── */
+let step = 0;  // 0:info, 1:recommend, 2:final
+let session = JSON.parse(localStorage.getItem('onnuri_session') || '{}');
+let profile = null;          // {constitution,hanyul,yangyin}
+let chiefComplaints = [];
+let freeText = '';
+let chosenRx = null;
+let finalForm = { prescription:'', period:'', revisit:'', note:'' };
+let searchQuery = '';
+let confirmed = false;
+let bjQuery = '';            // 변증 패널 검색어
+let bjOpen = '';             // 펼쳐진 변증 (cat¦jeung)
+let customSym = '';          // 주소증 직접 입력 중인 텍스트
+let searched = false;        // "처방 검색" 버튼 클릭 후에만 추천 표시
+let selectedGamga = {};      // {rxId: [선택된 가감 인덱스 배열]} — 가감을 환자에게 적용 표시
+
+/* ── 유틸 ── */
+function esc(s){
+  return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ── 세션 ── */
+function loadSession(){
+  session = JSON.parse(localStorage.getItem('onnuri_session') || '{}');
+  const md = session.moduleD;
+  const mc = session.moduleC;
+  const ma = session.moduleA;
+  // 이전 검사 결과로 체질·한열 자동 채움. 우선순위: D(원장 판정) > C(태음↔소양 확정) > A(자가설문 우세)
+  // 모듈 A는 단축 코드(te/sy/ty/se), D·C는 긴 키(taeum/soyang/…)를 쓰므로 정규화.
+  const C_NORM = { te:'taeum', sy:'soyang', ty:'taeyang', se:'soeum',
+                   taeum:'taeum', soyang:'soyang', taeyang:'taeyang', soeum:'soeum' };
+  let constitution = null, hanyul = null, yangyin = 'none';
+  if (md && md.finalConstitution){
+    constitution = C_NORM[md.finalConstitution] || md.finalConstitution;
+    hanyul       = md.finalHanyul || null;
+    yangyin      = md.finalYangYin || 'none';
+  } else if (mc && mc.verdict && mc.verdict !== 'pending'){
+    constitution = C_NORM[mc.verdict] || mc.verdict;          // 'taeum' / 'soyang'
+  } else if (ma && ma.result && ma.result.top){
+    constitution = C_NORM[ma.result.top] || ma.result.top;    // A의 우세 체질
+  }
+  if (!hanyul && ma && ma.hanyul) hanyul = ma.hanyul;          // 한열은 모듈 A에서 보강
+  if (constitution){
+    profile = { constitution: constitution, hanyul: hanyul || 'mixed', yangyin: yangyin };
+  }
+  const me = session.moduleE;
+  if (me){
+    chiefComplaints = (me.chiefComplaints || []).slice();
+    freeText = me.freeText || '';
+    finalForm = Object.assign({prescription:'',period:'',revisit:'',note:''}, me.selected || {});
+    confirmed = true;
+    searched = true;   // 이전 세션이 있으면 추천도 자동 표시
+    step = 2;
+  }
+}
+function saveSession(){
+  const top3 = profile ? matchPrescriptions(profile, chiefComplaints, RX_CURATED, freeText) : [];
+  session.moduleE = {
+    chiefComplaints: chiefComplaints.slice(),
+    freeText: freeText,
+    candidates: top3.map(function(m){ return {id:m.rx.id, name:m.rx.name, score:m.score}; }),
+    selected: {
+      prescription: finalForm.prescription,
+      period: finalForm.period,
+      revisit: finalForm.revisit,
+      note: finalForm.note,
+    },
+    completedAt: Date.now(),
+  };
+  localStorage.setItem('onnuri_session', JSON.stringify(session));
+}
+
+/* ── 환자 표시 ── */
+function patientName(){
+  const p = session.patient || {};
+  const bits = [];
+  if (p.name) bits.push(esc(p.name));
+  if (p.gender) bits.push(esc(p.gender));
+  if (p.age) bits.push(esc(String(p.age)) + '세');
+  return bits.length ? bits.join(' · ') : '환자 정보 없음';
+}
+function moduleDBasis(){
+  const md = session.moduleD;
+  if (!md) return '';
+  const dt = md.drugTrial || {};
+  const parts = [];
+  if (dt.prescription) parts.push('약물 시험 ' + esc(dt.prescription));
+  if (dt.fitness === 'fit') parts.push('적합(4대 기준 ' + (dt.improveCount||0) + '개 호전)');
+  else if (dt.fitness === 'unfit') parts.push('부적합');
+  return parts.join(' · ');
+}
+function getChips(p){
+  const bc = SYMPTOM_CHIPS[p.constitution] || {};
+  if (p.hanyul === 'mixed') return (bc.cold||[]).concat(bc.hot||[], bc.any||[]);
+  return bc[p.hanyul] || bc.any || [];
+}
+
+/* ── 공통 조각 ── */
+function banner(){
+  return '<div class="safety-banner no-print">본 도구는 임상 의사결정 지원 도구이며 의료기기가 아닙니다. '
+    + '최종 진단·처방은 원장님이 환자를 직접 확인하고 결정합니다.</div>';
+}
+function caveat(){
+  return '<div class="caveat"><b>※ 처방 결정 시 유의사항</b> &nbsp;|&nbsp; '
+    + '본 추천은 자료에서 추출한 매칭 결과이며, 최종 처방은 원장님이 환자 상태를 직접 확인하고 결정합니다. '
+    + '부적합 시그널(불면·심계·구갈·피부건조·설사·무기력) 발생 시 즉시 재평가가 필요합니다.</div>';
+}
+function footer(){
+  return '<div class="foot">'
+    + '<div class="safe-notes">'
+    +   '<div>※ 한 가지 증상의 호전만으로 체질·처방을 확정하지 않습니다 (안준철)</div>'
+    +   '<div>※ 체질과 한열은 항상 전제로 하고 약물 적합성을 확인합니다 (안준철)</div>'
+    + '</div>'
+    + '<div class="source">처방 데이터 출처: 류주열 사상처방개정판 · 안준철 강의록 · 사상임상의학회</div>'
+    + '</div>';
+}
+function headBlock(title, sub){
+  return '<div class="head">'
+    + '<div class="h-top"><span class="clinic">온누리 한의원</span>'
+    + '<span class="ver">v1 · 처방 추천 E</span></div>'
+    + '<div class="h-title">' + title + '</div>'
+    + '<div class="h-sub">' + sub + '</div></div>';
+}
+
+/* ═══ 화면 0 — screen-info ═══ */
+function renderInfo(){
+  let body;
+  if (profile){
+    body = '<div class="patient-card">'
+      + '<div class="pc-row">'
+      +   '<div><span class="pc-label">환자</span>' + patientName() + '</div>'
+      +   '<div><span class="pc-label">확정 체질</span><span class="pc-type">' + esc(CONST_LABEL[profile.constitution]||profile.constitution) + '</span></div>'
+      +   '<div><span class="pc-label">한열</span><span class="pc-chip ' + (HANYUL_CLASS[profile.hanyul]||'none') + '">' + esc(HANYUL_LABEL[profile.hanyul]||profile.hanyul) + '</span></div>'
+      +   '<div><span class="pc-label">음양형</span><span class="pc-chip ' + (YANGYIN_CLASS[profile.yangyin]||'none') + '">' + esc(YANGYIN_LABEL[profile.yangyin]||profile.yangyin) + '</span></div>'
+      + '</div>'
+      + (moduleDBasis() ? '<div class="pc-basis">감별 근거: ' + esc(moduleDBasis()) + '</div>' : '')
+      + '</div>'
+      + '<div class="actions"><button class="btn btn-dark" onclick="startRecommend()">처방 추천 시작 →</button></div>';
+  } else {
+    body = '<div class="notice">기능 검사(모듈 D) 결과가 없습니다. 모듈 D를 먼저 완료하면 체질·한열·음양형이 자동 전달됩니다. '
+      + '아래에서 직접 선택해 진행할 수도 있습니다.<br><br>'
+      + '<button class="btn btn-line btn-sm" onclick="goToModuleD()">→ 모듈 D (기능 검사) 열기</button></div>'
+      + '<div class="info-sec"><div class="info-row"><span class="info-lbl">체질·한열·음양형 직접 선택</span></div>'
+      + '<div class="sel-grid">'
+      + '<select id="sel-const" class="fld"><option value="">체질</option>'
+      +   '<option value="taeum">태음인</option><option value="soyang">소양인</option>'
+      +   '<option value="taeyang">태양인</option><option value="soeum">소음인</option></select>'
+      + '<select id="sel-hanyul" class="fld"><option value="">한열</option>'
+      +   '<option value="cold">한증</option><option value="hot">열증</option><option value="mixed">한열 협잡</option></select>'
+      + '<select id="sel-yangyin" class="fld"><option value="none">음양형(태음만)</option>'
+      +   '<option value="yang">양형</option><option value="yin">음형</option></select>'
+      + '</div></div>'
+      + '<div class="actions"><button class="btn btn-dark" onclick="startRecommend()">처방 추천 시작 →</button></div>';
+  }
+  return banner()
+    + '<div class="card">'
+    +   headBlock('처방 추천 모듈', '체질·한열·음양형이 확정된 환자에게 주소증 기반 추천 처방을 제시합니다. 최종 결정은 원장님이 합니다.')
+    +   body
+    + '</div>'
+    + footer();
+}
+
+/* ═══ 화면 1 — screen-recommend ═══ */
+function ryuExtraHtml(rx){
+  let out = '';
+  if (rx.classicRef){
+    out += '<div class="rx-line"><span class="rs-lbl ref">고전 참조</span>' + esc(rx.classicRef) + '</div>';
+  }
+  if (rx.ryuAltCodes && rx.ryuAltCodes.length){
+    const items = rx.ryuAltCodes.map(function(code){
+      const r = RX_FULL.filter(function(x){ return x.code === code; })[0];
+      if (!r) return '<div class="ryu-item">' + esc(code) + '</div>';
+      return '<div class="ryu-item"><b>' + esc(r.code) + ' ' + esc(r.name) + '</b>'
+        + '<div class="ryu-comp">' + esc(r.composition || '구성 정보 없음') + '</div></div>';
+    }).join('');
+    out += '<div class="rx-line"><span class="rs-lbl ref">류주열 다른 버전</span>'
+      + '<span class="ryu-note">구성 비교용</span>' + items + '</div>';
+  }
+  return out;
+}
+/* ── 류주열식 매칭 결과 카드 (matchPrescriptionsRyu 반환 항목용) ── */
+function renderRyuRxCard(m, rank){
+  const rx = m.rx;
+  const favBadge = m.isFav
+    ? '<span class="ryu-badge" style="background:var(--gold-l);color:#7a5a14;border:1px solid #d9b86c">★ 원장 즐겨찾기</span>'
+    : '';
+  const codeBadge = '<span class="ryu-badge">류주열 ' + esc(m.code) + '</span>';
+  const jeungList = (m.jeung || []).slice(0, 4).map(function(j){
+    return '<span class="bj-rxcode" style="background:var(--bg2);padding:2px 7px;border-radius:3px;margin-right:4px;display:inline-block;margin-bottom:3px;">' + esc(j) + '</span>';
+  }).join('');
+  const jeungMore = (m.jeung && m.jeung.length > 4) ? '<span class="rx-source"> 외 ' + (m.jeung.length-4) + '개</span>' : '';
+  const sxLine = (m.sxMatched && m.sxMatched.length)
+    ? '<div class="rx-line"><span class="rs-lbl match">매칭 한문 sx</span>' + esc(m.sxMatched.slice(0,12).join(' · ')) + (m.sxMatched.length>12 ? ' …':'') + '</div>'
+    : '';
+  // 즐겨찾기인 경우 RX_CURATED의 상세 정보(추천 근거·주의·가감) 보강
+  let extraLines = '';
+  let gamgaBox = '';
+  if (m.favRef){
+    const fr = m.favRef;
+    if (fr.basis)   extraLines += '<div class="rx-line"><span class="rs-lbl">추천 근거</span>' + esc(fr.basis) + '</div>';
+    if (fr.caution) extraLines += '<div class="rx-line"><span class="rs-lbl warn">주의</span>' + esc(fr.caution) + '</div>';
+    if (fr.signal)  extraLines += '<div class="rx-line"><span class="rs-lbl signal">부적합 시그널</span>' + esc(fr.signal) + '</div>';
+    if (fr.gamga && fr.gamga.length){
+      const cues = chiefComplaints.concat(
+        String(freeText || '').split(/[\s,.·;\/()]+/).filter(function(w){ return w && w.length >= 2; })
+      );
+      const sel = selectedGamga[m.code] || [];
+      let hitCount = 0;
+      const gamgaLines = fr.gamga.map(function(g, gi){
+        const hit = cues.some(function(c){ return c && g.indexOf(c) >= 0; });
+        if (hit) hitCount++;
+        const isSel = sel.indexOf(gi) >= 0;
+        return '<button type="button" class="gm-line'
+          + (hit ? ' hit' : '') + (isSel ? ' sel' : '') + '" '
+          + 'onclick="toggleGamga(\'' + m.code + '\',' + gi + ')" '
+          + 'title="' + (isSel ? '클릭하면 선택 해제' : '클릭하면 이 환자에게 적용할 가감으로 선택') + '">'
+          + esc(g) + '</button>';
+      }).join('');
+      const selN = sel.length;
+      const title = selN > 0
+        ? '▣ 가감 후보 — 선택 ' + selN + '건 · 매칭 ' + hitCount + '건 ✓ (클릭으로 토글)'
+        : (hitCount > 0
+            ? '▣ 가감 후보 — 매칭 ' + hitCount + '건 ✓ (클릭하면 이 환자에게 적용)'
+            : '▣ 가감 후보 (클릭하면 이 환자에게 적용)');
+      gamgaBox = '<div class="gamga"><div class="gm-t">' + title + '</div>' + gamgaLines + '</div>';
+    }
+  }
+  return '<div class="rx-card' + (rank===1?' top':'') + '">'
+    + '<div class="rx-head">'
+    +   '<div class="rx-rank">' + rank + '</div>'
+    +   '<div class="rx-name">' + esc(rx.name) + codeBadge + favBadge + '</div>'
+    +   '<div class="rx-match">매칭도 <div class="match-bar"><div style="width:' + Math.min(100, m.score*4) + '%"></div></div> ' + m.score + '점</div>'
+    + '</div>'
+    + '<div class="rx-body">'
+    +   '<div class="rx-line"><span class="rs-lbl">구성 (류주열 ' + esc(m.code) + ')</span>' + esc(rx.composition || '구성 정보 없음') + '</div>'
+    +   sxLine
+    +   '<div class="rx-line"><span class="rs-lbl ref">대응 변증</span>' + (jeungList || '<span class="rs-na">없음</span>') + jeungMore + '</div>'
+    +   extraLines
+    +   gamgaBox
+    + '</div>'
+    + '<div class="rx-foot">'
+    +   '<button class="btn btn-dark btn-sm" onclick="selectRx(\'' + m.code + '\')">이 처방으로 선택</button>'
+    +   '<span class="rx-source">출처: 류주열 사상처방개정판 ' + esc(m.code) + '</span>'
+    + '</div></div>';
+}
+
+function renderRxCard(m, rank){
+  const rx = m.rx;
+  const na = '<span class="rs-na">원장 확인 필요</span>';
+  const naCaution = rx.caution ? esc(rx.caution) : na;
+  const naSignal  = rx.unfitSignal ? esc(rx.unfitSignal) : na;
+  const compTxt   = rx.composition ? esc(rx.composition)
+                   : '<span class="rs-na">류주열 처방 미연결 — 원장 확인 필요</span>';
+  const compLbl   = rx.ryuCode ? '구성 (류주열 ' + esc(rx.ryuCode) + ')' : '구성';
+
+  // ── 매칭 사유: 어느 주소증/메모 단어가 처방의 주증과 부합하는지 ──
+  const matchedCC = chiefComplaints.filter(function(c){ return symContains(rx.symptoms, c); });
+  const matchedFree = [];
+  if (freeText && rx.symptoms){
+    rx.symptoms.forEach(function(s){
+      if (s && freeText.indexOf(s) >= 0) matchedFree.push(s);
+    });
+  }
+  let matchReasonLine = '';
+  if (matchedCC.length || matchedFree.length){
+    const parts = [];
+    if (matchedCC.length)   parts.push('주소증 「' + matchedCC.join('·') + '」 부합');
+    if (matchedFree.length) parts.push('부증상 메모에서 「' + matchedFree.join('·') + '」 확인');
+    matchReasonLine = '<div class="rx-line"><span class="rs-lbl match">매칭 사유</span>'
+      + esc(parts.join('  ·  ')) + '</div>';
+  }
+
+  // ── 가감: 환자 주소증/부증상에 부합하는 줄을 ✓ 하이라이트 + 클릭 선택 ──
+  let gamgaBox = '';
+  if (rx.gamga && rx.gamga.length){
+    const cues = chiefComplaints.concat(
+      String(freeText || '').split(/[\s,.·;\/()]+/).filter(function(w){ return w && w.length >= 2; })
+    );
+    const sel = selectedGamga[rx.id] || [];
+    let hitCount = 0;
+    const gamgaLines = rx.gamga.map(function(g, gi){
+      const hit = cues.some(function(c){ return c && g.indexOf(c) >= 0; });
+      if (hit) hitCount++;
+      const isSel = sel.indexOf(gi) >= 0;
+      return '<button type="button" class="gm-line'
+        + (hit ? ' hit' : '') + (isSel ? ' sel' : '') + '" '
+        + 'onclick="toggleGamga(\'' + rx.id + '\',' + gi + ')" '
+        + 'title="' + (isSel ? '클릭하면 선택 해제' : '클릭하면 이 환자에게 적용할 가감으로 선택') + '">'
+        + esc(g) + '</button>';
+    }).join('');
+    const selN = sel.length;
+    const title = selN > 0
+      ? '▣ 가감 후보 — 선택 ' + selN + '건 · 매칭 ' + hitCount + '건 ✓ (클릭으로 토글)'
+      : (hitCount > 0
+          ? '▣ 가감 후보 — 매칭 ' + hitCount + '건 ✓ (클릭하면 이 환자에게 적용)'
+          : '▣ 가감 후보 (클릭하면 이 환자에게 적용)');
+    gamgaBox = '<div class="gamga"><div class="gm-t">' + title + '</div>' + gamgaLines + '</div>';
+  }
+
+  const revBadge = rx.verified ? '' : '<span class="rev-badge">원장 검수 전</span>';
+  const ryuBadge = rx.ryuCode ? '<span class="ryu-badge">류주열 ' + esc(rx.ryuCode) + '</span>' : '';
+  return '<div class="rx-card' + (rank===1?' top':'') + '">'
+    + '<div class="rx-head">'
+    +   '<div class="rx-rank">' + rank + '</div>'
+    +   '<div class="rx-name">' + esc(rx.name) + '<span class="hanja">' + esc(rx.hanja||'') + '</span>' + ryuBadge + revBadge + '</div>'
+    +   '<div class="rx-match">매칭도 <div class="match-bar"><div style="width:' + m.score + '%"></div></div> ' + m.score + '%</div>'
+    + '</div>'
+    + '<div class="rx-body">'
+    +   '<div class="rx-line"><span class="rs-lbl">' + compLbl + '</span>' + compTxt + '</div>'
+    +   ryuExtraHtml(rx)
+    +   matchReasonLine
+    +   '<div class="rx-line"><span class="rs-lbl">추천 근거</span>' + (rx.basis?esc(rx.basis):na) + '</div>'
+    +   '<div class="rx-line"><span class="rs-lbl warn">주의</span>' + naCaution + '</div>'
+    +   '<div class="rx-line"><span class="rs-lbl signal">부적합 시그널</span>' + naSignal + '</div>'
+    +   gamgaBox
+    + '</div>'
+    + '<div class="rx-foot">'
+    +   '<button class="btn btn-dark btn-sm" onclick="selectRx(\'' + rx.id + '\')">이 처방으로 선택</button>'
+    +   '<span class="rx-source">출처: ' + esc(rx.source||'미확인') + '</span>'
+    + '</div></div>';
+}
+function renderRecommend(){
+  const baseChips = getChips(profile);
+  // 큐레이션 칩 + 직접 입력으로 추가된 주소증(중복 제외)
+  const customSel = chiefComplaints.filter(function(c){ return baseChips.indexOf(c) < 0; });
+  const allChips = baseChips.concat(customSel);
+  const chipHtml = (allChips.length
+    ? allChips.map(function(c){
+        const on = chiefComplaints.indexOf(c) >= 0 ? ' on' : '';
+        const isCustom = baseChips.indexOf(c) < 0;
+        return '<button class="chip' + on + (isCustom ? ' custom' : '') + '" '
+          + 'onclick="onChipToggle(\'' + esc(c).replace(/'/g,"\\'") + '\')" '
+          + (isCustom ? 'title="직접 입력 — 다시 누르면 제거">' : '>')
+          + (isCustom ? '✎ ' : '') + esc(c) + '</button>';
+      }).join('')
+    : '<span class="is-hint">이 체질·한열의 등록된 칩이 없습니다 — 아래에 직접 입력하세요.</span>')
+    + '<div class="custom-sym-row">'
+    +   '<input class="custom-sym-input" placeholder="주소증을 직접 입력 (예: 비염, 두통, 변비) — Enter 또는 +추가" '
+    +     'value="' + esc(customSym) + '" oninput="onCustomSymInput(this.value)" onkeydown="onCustomSymKey(event)">'
+    +   '<button class="btn btn-line btn-sm" onclick="addCustomSym()">+ 추가</button>'
+    + '</div>';
+
+  // 검색 트리거 — searched=true 일 때만 매칭 계산 + 추천 카드 표시
+  let rxSection = '';
+  if (searched){
+    // ── 류주열식 매칭 (W4 신규) ──
+    const ryuResult = matchPrescriptionsRyu(profile, chiefComplaints, freeText, 5);
+    const matches = ryuResult.matches;
+    const diag = ryuResult.diag;
+    const cName = CONST_LABEL[profile.constitution] || profile.constitution || '?';
+    const hName = HANYUL_LABEL[profile.hanyul] || profile.hanyul || '?';
+    const ccN = chiefComplaints.length;
+    const ftLen = String(freeText||'').trim().length;
+    const hasInputs = ccN > 0 || ftLen > 0;
+    const favCount = matches.filter(function(m){ return m.isFav; }).length;
+    const missingCC = diag.missingCC || [];
+
+    // ── 진단 메시지 결정 ──
+    let diagHtml = '';
+    if (!hasInputs){
+      // 입력 없이 검색만 누른 경우
+      diagHtml = '<div class="rx-diag info">'
+        + '<span class="dg-t">처방 조회 안내</span>'
+        + '<b>' + esc(cName) + ' · ' + esc(hName) + '</b> — '
+        + '주소증·부증상 입력이 없어 추천을 산출하지 않았습니다.'
+        + '<div class="dg-hint">▣ 위에서 주소증 칩을 선택하거나 부증상 메모를 입력하신 뒤 다시 「🔍 처방 검색」을 눌러주세요.</div>'
+        + '</div>';
+    } else if (matches.length === 0){
+      // 매칭 0건 — 사전 미수록일 가능성 큼
+      const missHtml = missingCC.length
+        ? '<div class="dg-hint">▣ <b>한문 동의어 사전 미수록 주소증</b>: ' + esc(missingCC.join(', '))
+          + ' — 임상에서 자주 쓰시는 단어이면 알려주세요. <code>data/sx_dict.json</code>에 추가됩니다.</div>'
+        : '<div class="dg-hint">▣ 입력하신 주소증·부증상과 일치하는 변증이 없습니다. 다른 단어로 시도하거나 아래 처방명 검색을 활용하세요.</div>';
+      diagHtml = '<div class="rx-diag warn">'
+        + '<span class="dg-t">처방 조회 안내</span>'
+        + '<b>' + esc(cName) + ' · ' + esc(hName) + '</b> — 류주열 매칭 0건.'
+        + '<div class="dg-row">'
+        +   '주소증 입력 <b>' + ccN + '개</b><span>·</span>'
+        +   '한문 변환 <b>' + diag.ccHansPool.length + '개</b><span>·</span>'
+        +   '메모 hit <b>' + diag.ftHitKeys.length + '개</b><span>·</span>'
+        +   '변증 매칭 <b>0건</b>'
+        + '</div>'
+        + missHtml
+        + '</div>';
+    } else {
+      // 정상 매칭
+      const missLine = missingCC.length
+        ? '<div class="dg-hint" style="color:var(--crimson)">⚠ 사전 미수록 주소증: <b>' + esc(missingCC.join(', '))
+          + '</b> — 이 단어는 매칭에 사용되지 않았습니다.</div>'
+        : '';
+      diagHtml = '<div class="rx-diag ok">'
+        + '<span class="dg-t">류주열식 매칭 결과</span>'
+        + '<b>' + esc(cName) + ' · ' + esc(hName) + '</b> — '
+        + '류주열 처방 <b>' + matches.length + '건</b>'
+        + (favCount ? ' (★ 즐겨찾기 <b>' + favCount + '건</b> 포함)' : '')
+        + ' · 주소증·부증상 부합 변증 <b>' + diag.bjMatched + '건</b>에서 도출.'
+        + '<div class="dg-row">'
+        +   '주소증 <b>' + ccN + '개</b> → 한문 <b>' + diag.ccHansPool.length + '개</b><span>·</span>'
+        +   '메모 hit <b>' + diag.ftHitKeys.length + '개</b>'
+        +   (diag.ftHitKeys.length ? ' (' + esc(diag.ftHitKeys.join(',')) + ')' : '') + '<span>·</span>'
+        +   '후보 처방 <b>' + diag.totalCandidates + '개</b>'
+        + '</div>'
+        + missLine
+        + '</div>';
+    }
+
+    let rxArea;
+    if (matches.length){
+      rxArea = diagHtml + matches.map(function(m,i){ return renderRyuRxCard(m, i+1); }).join('');
+    } else {
+      const q = searchQuery.trim();
+      let results = '';
+      if (q){
+        const found = RX_FULL.filter(function(r){ return r.name.indexOf(q) >= 0; }).slice(0, 30);
+        results = found.length
+          ? '<div class="search-results">' + found.map(function(r){
+              return '<div class="sr-item"><div class="sr-name">' + esc(r.name)
+                + ' <span class="rx-source">' + esc(r.code) + '</span></div>'
+                + '<div class="sr-comp">' + esc(r.composition || '구성 정보 없음') + '</div></div>';
+            }).join('') + '</div>'
+          : '<div class="is-hint">검색 결과 없음</div>';
+      }
+      rxArea = diagHtml
+        + '<div class="notice">아래에서 전체 처방(' + RX_FULL.length + '개)을 처방명으로 검색하거나, 최종 결정란에 직접 입력하세요.'
+        + '<div class="search-box"><input class="fld" style="width:100%" placeholder="처방명 검색" '
+        + 'value="' + esc(searchQuery) + '" oninput="onSearch(this.value)"></div>' + results + '</div>'
+        + '<div class="actions"><button class="btn btn-line" onclick="selectRx(null)">직접 입력으로 최종 결정 →</button></div>';
+    }
+    rxSection = '<div class="rx-sec-title"><span class="pill">류주열식 추천</span>'
+      + (matches.length ? '상위 ' + matches.length + '건 (변증 기반)' : '매칭 없음')
+      + '<span class="sub">★ 즐겨찾기는 가감 후보 포함 · 「이 처방으로 선택」 클릭</span></div>'
+      + rxArea;
+  } else {
+    rxSection = '<div class="rx-empty no-print">'
+      + '<div style="font-size:.95rem;color:var(--sub);text-align:center;padding:30px 16px;border:1px dashed var(--line);border-radius:8px;background:var(--pale);">'
+      +   '↑ 주소증과 부증상을 입력하신 뒤,<br>'
+      +   '<b>「🔍 처방 검색」</b> 버튼을 누르면<br>'
+      +   '주소증에 맞는 처방이 여기에 표시됩니다.</div></div>';
+  }
+
+  return banner()
+    + '<div class="card">'
+    +   headBlock('처방 추천 — ' + esc(CONST_LABEL[profile.constitution]||'') + ' ' + esc(HANYUL_LABEL[profile.hanyul]||''),
+          patientName())
+    +   '<div class="input-sec">'
+    +     '<div class="is-title"><span class="is-num">1</span>주소증 (주요 호소 증상, 3개까지 권장)</div>'
+    +     '<div class="is-hint">▣ 자주 쓰는 주소증 — 체질·한열에 맞게 자동 필터링. 클릭해서 선택하세요.</div>'
+    +     '<div class="chips">' + chipHtml + '</div>'
+    +     (chiefComplaints.length > 3 ? '<div class="is-hint" style="color:var(--crimson)">주소증 3개 이하 권장 (현재 ' + chiefComplaints.length + '개)</div>' : '')
+    +     '<div class="is-title" style="margin-top:14px"><span class="is-num">2</span>부증상 · 임상 메모</div>'
+    +     '<div class="is-hint">▣ 한열·주소증 외에 함께 기록할 사항 — 부증상 / 발생 시기·기간 / 강도 / 병력 / 식습관 / 기타 관찰</div>'
+    +     '<textarea class="free-input" rows="5" oninput="onFreeText(this.value)" '
+    +       'placeholder="예) 환절기마다 비염 악화 (5년 경과). 식후 더부룩 빈번. 대변 2일 1회·단단함. 잠은 잘 자나 환절기엔 불면. 과거 위염 진단. 평소 찬 음식 즐겨 먹음...">' + esc(freeText) + '</textarea>'
+    +     '<div class="is-hint" style="font-size:.72rem;color:var(--sub);margin-top:4px">※ 이 메모는 처방·진료 차트에 함께 저장되며, 원장님이 최종 처방을 결정할 때 참고합니다.</div>'
+    +   '</div>'
+    +   '<div class="search-trigger no-print">'
+    +     '<button class="btn btn-dark" onclick="searchRx()" style="font-size:.98rem;padding:13px 32px;font-weight:700">🔍  처방 검색</button>'
+    +     '<span class="search-hint">' + (searched ? '✓ 검색됨 — 입력 변경 시 자동 재계산됩니다.' : '주소증·부증상을 입력하고 위 버튼을 누르세요.') + '</span>'
+    +   '</div>'
+    +   rxSection
+    +   caveat()
+    + '</div>'
+    + '<div class="actions-card no-print">'
+    +   '<button class="btn btn-line" onclick="backToInfo()">← 환자 요약으로</button>'
+    + '</div>'
+    + footer();
+}
+
+/* ── 변증 기반 전체 처방 패널 ── */
+function renderByeonjeungPanel(){
+  if (!profile) return '';
+  const ck = BJ_CK[profile.constitution];
+  let list = BYEONJEUNG.filter(function(e){
+    const b = e.rx[ck];
+    return b && ((b.hot&&b.hot.length)||(b.cold&&b.cold.length)||(b.any&&b.any.length));
+  });
+  const total = list.length;
+  const q = bjQuery.trim();
+  if (q){
+    list = list.filter(function(e){
+      if (e.jeung.indexOf(q) >= 0 || e.cat.indexOf(q) >= 0) return true;
+      for (let i=0;i<e.sx.length;i++){ if (e.sx[i].indexOf(q) >= 0) return true; }
+      return false;
+    });
+  }
+  const cap = 60;
+  const rows = list.slice(0, cap).map(function(e){
+    const key  = e.cat + '¦' + e.jeung;
+    const open = bjOpen === key;
+    const b    = e.rx[ck];
+    let nRx = 0;
+    ['hot','cold','any'].forEach(function(r){ if (b[r]) nRx += b[r].length; });
+    const head = '<div class="bj-rh" onclick="onBjToggle(\'' + esc(key).replace(/'/g,"\\'") + '\')">'
+      + '<span class="bj-jeung">' + esc(e.jeung) + '</span>'
+      + '<span class="bj-cat">' + esc(e.cat) + '</span>'
+      + '<span class="bj-sxp">' + esc(e.sx.slice(0,6).join(', ')) + '</span>'
+      + '<span class="bj-cat">처방 ' + nRx + '</span></div>';
+    let detail = '';
+    if (open){
+      const rxHtml = ['hot','cold','any'].map(function(role){
+        if (!b[role] || !b[role].length) return '';
+        return b[role].map(function(code){
+          const r    = RX_FULL.filter(function(x){ return x.code===code; })[0];
+          const nm   = r ? r.name : code;
+          const comp = r ? (r.composition||'') : '';
+          const isMatch = (role==='hot'  && profile.hanyul==='hot')
+                       || (role==='cold' && profile.hanyul==='cold')
+                       || (role==='any')
+                       || (profile.hanyul==='mixed');
+          return '<div class="bj-rx' + (isMatch?' match':'') + '">'
+            + '<span class="bj-role ' + BJ_ROLE[role].cls + '">' + BJ_ROLE[role].ko + '</span>'
+            + '<span class="bj-rxname">' + esc(nm) + '</span>'
+            + '<span class="bj-rxcode">류주열 ' + esc(code) + '</span>'
+            + '<button class="btn btn-dark btn-sm" onclick="pickRxByCode(\'' + esc(code) + '\')">이 처방으로 →</button>'
+            + (comp ? '<div class="bj-comp">' + esc(comp) + '</div>' : '')
+            + '</div>';
+        }).join('');
+      }).join('');
+      detail = '<div class="bj-detail">'
+        + '<div class="bj-sxf"><b>증상(證):</b> ' + esc(e.sx.join(', ')) + '</div>'
+        + rxHtml + '</div>';
+    }
+    return '<div class="bj-row' + (open?' open':'') + '">' + head + detail + '</div>';
+  }).join('');
+  const cLabel = CONST_LABEL[profile.constitution] || '';
+  const cnt = q
+    ? ('검색 ' + list.length + '건' + (list.length>cap?(' (상위 '+cap+'건 표시 — 검색어를 좁히세요)'):''))
+    : (cLabel + ' 변증 ' + total + '건' + (total>cap?(' — 상위 '+cap+'건 표시, 검색 권장'):''));
+  return '<div class="bj-sec">'
+    + '<div class="bj-title"><span class="pill">변증 기반 전체 처방</span> 류주열 변증 처방 조회</div>'
+    + '<div class="bj-note">큐레이션 8처방 외에, 외감·내상변증편 전사 데이터로 <b>' + esc(cLabel)
+    + '</b>의 변증(證)별 류주열 처방을 조회합니다. 책 전사 자료이며 <b>한열·증상은 원장 검수 전</b>입니다. '
+    + '변증명·증상은 한자로 검색하세요.</div>'
+    + '<div class="bj-search"><input class="fld" placeholder="변증·증상 한자 검색 (예: 鼻塞 · 頭痛 · 泄瀉 · 浮腫 · 비염편→鼻)" '
+    + 'value="' + esc(bjQuery) + '" oninput="onBjSearch(this.value)"></div>'
+    + '<div class="bj-cnt">' + esc(cnt) + '</div>'
+    + (rows || '<div class="is-hint">검색 결과 없음 — 다른 한자 키워드로 시도하세요.</div>')
+    + '</div>';
+}
+
+/* ═══ 화면 2 — screen-final ═══ */
+function renderFinal(){
+  return banner()
+    + '<div class="card">'
+    +   headBlock('최종 처방 결정', patientName() + ' · ' + esc(CONST_LABEL[profile.constitution]||'') + ' ' + esc(HANYUL_LABEL[profile.hanyul]||''))
+    +   (chosenRx ? '<div class="patient-card"><div class="pc-row"><div><span class="pc-label">추천에서 선택</span>'
+          + '<span class="pc-type">' + esc(chosenRx.name) + '</span> <span style="font-size:.72rem;color:var(--sub)">' + esc(chosenRx.hanja||'') + '</span></div></div></div>'
+        : '<div class="notice" style="margin-bottom:14px">추천 목록에서 선택하지 않고 직접 입력하는 경우입니다.</div>')
+    +   '<div class="fb-lbl">선택 처방 (가감 포함, 자유 수정 가능)</div>'
+    +   '<textarea class="f-area" rows="2" oninput="onFinal(\'prescription\',this.value)" '
+    +     'placeholder="처방명 + 가감...">' + esc(finalForm.prescription) + '</textarea>'
+    +   '<div class="final-grid" style="margin-top:12px">'
+    +     '<div class="final-box"><div class="fb-lbl">처방 기간</div>'
+    +       '<input class="f-input" oninput="onFinal(\'period\',this.value)" placeholder="예: 반제(15일)" value="' + esc(finalForm.period) + '"></div>'
+    +     '<div class="final-box"><div class="fb-lbl">재진 시점</div>'
+    +       '<input class="f-input" oninput="onFinal(\'revisit\',this.value)" placeholder="예: D+7, D+15" value="' + esc(finalForm.revisit) + '"></div>'
+    +   '</div>'
+    +   '<div class="fb-lbl" style="margin-bottom:5px">처방 의도 · 환자 설명 · 다음 단계 메모</div>'
+    +   '<textarea class="f-area" rows="3" oninput="onFinal(\'note\',this.value)" '
+    +     'placeholder="처방 의도 · 환자 설명 사항 · 다음 단계 계획...">' + esc(finalForm.note) + '</textarea>'
+    +   caveat()
+    +   (confirmed ? '<div class="status-box done">처방 확정·저장됨 — onnuri_session.moduleE</div>' : '')
+    +   '<div class="actions no-print">'
+    +     '<button class="btn btn-dark" onclick="confirmRx()"' + (finalForm.prescription.trim()?'':' disabled') + '>처방 확정 · 차트 저장</button>'
+    +     '<button class="btn btn-line" onclick="printResult()">결과 인쇄</button>'
+    +     '<button class="btn btn-line" onclick="backToRecommend()">← 추천으로 돌아가기</button>'
+    +   '</div>'
+    + '</div>'
+    + footer();
+}
+
+/* ── 이벤트 핸들러 ── */
+function startRecommend(){
+  if (!profile){
+    const c = document.getElementById('sel-const');
+    const h = document.getElementById('sel-hanyul');
+    const y = document.getElementById('sel-yangyin');
+    const cv = c ? c.value : '', hv = h ? h.value : '';
+    if (!cv || !hv){ alert('체질과 한열을 선택하세요.'); return; }
+    profile = { constitution:cv, hanyul:hv, yangyin:(y?y.value:'none') || 'none' };
+  }
+  step = 1;
+  render();
+}
+function onChipToggle(sym){
+  const i = chiefComplaints.indexOf(sym);
+  if (i >= 0) chiefComplaints.splice(i, 1);
+  else chiefComplaints.push(sym);
+  render();
+}
+function onFreeText(v){ freeText = v; }
+function onSearch(v){ searchQuery = v; render(); }
+function onCustomSymInput(v){ customSym = v; }
+function addCustomSym(){
+  const v = (customSym || '').trim();
+  if (!v) return;
+  if (chiefComplaints.indexOf(v) < 0) chiefComplaints.push(v);
+  customSym = '';
+  render();
+}
+function onCustomSymKey(e){
+  if (e && e.key === 'Enter'){
+    if (e.preventDefault) e.preventDefault();
+    addCustomSym();
+  }
+}
+function searchRx(){ searched = true; render(); window.scrollTo({top: document.body.scrollHeight*0.4, behavior:'smooth'}); }
+function toggleGamga(rxId, idx){
+  if (!selectedGamga[rxId]) selectedGamga[rxId] = [];
+  const i = selectedGamga[rxId].indexOf(idx);
+  if (i >= 0) selectedGamga[rxId].splice(i, 1);
+  else selectedGamga[rxId].push(idx);
+  render();
+}
+function selectRx(id){
+  chosenRx = null;
+  if (id){
+    // 1) 큐레이션 8종에서 찾기 (id 기반)
+    chosenRx = RX_CURATED.filter(function(r){ return r.id===id; })[0] || null;
+    // 2) 없으면 RX_FULL에서 류주열 코드로 찾기
+    if (!chosenRx){
+      const rxFull = RX_FULL.filter(function(r){ return r.code===id; })[0];
+      if (rxFull){
+        chosenRx = {
+          id: rxFull.code,
+          name: rxFull.name,
+          composition: rxFull.composition,
+          ryuCode: rxFull.code,
+          source: '류주열 사상처방개정판 ' + rxFull.code,
+          gamga: []
+        };
+      }
+    }
+  }
+  if (chosenRx){
+    const sel = (selectedGamga[id] || []).slice().sort(function(a,b){return a-b;});
+    const gamgaList = sel.map(function(i){ return chosenRx.gamga && chosenRx.gamga[i]; }).filter(Boolean);
+    finalForm.prescription = chosenRx.name
+      + (chosenRx.composition ? ' — ' + chosenRx.composition : '')
+      + (gamgaList.length ? '\n[가감] ' + gamgaList.join(' / ') : '');
+  }
+  confirmed = false;
+  step = 2;
+  render();
+}
+function onFinal(field, v){ finalForm[field] = v; }
+function confirmRx(){
+  if (!finalForm.prescription.trim()) return;
+  saveSession();
+  confirmed = true;
+  render();
+}
+function backToInfo(){ step = 0; render(); }
+function backToRecommend(){ step = 1; render(); }
+function printResult(){ window.print(); }
+function goToModuleD(){ location.href = '온누리_기능검사_D_v1.html'; }
+function onBjSearch(v){ bjQuery = v; render(); }
+function onBjToggle(key){ bjOpen = (bjOpen===key ? '' : key); render(); }
+function pickRxByCode(code){
+  const r = RX_FULL.filter(function(x){ return x.code===code; })[0];
+  if (!r){ alert('처방 정보를 찾을 수 없습니다: ' + code); return; }
+  chosenRx = { name:r.name, hanja:'', composition:r.composition||'' };
+  finalForm.prescription = r.name
+    + (r.composition ? ' — ' + r.composition : '')
+    + '  [류주열 ' + code + ']';
+  confirmed = false;
+  step = 2;
+  render();
+}
+
+/* ── 렌더 ── */
+function render(){
+  const screens = [renderInfo, renderRecommend, renderFinal];
+  if (step < 0 || step > 2) step = 0;
+  if ((step === 1 || step === 2) && !profile){ step = 0; }
+  document.getElementById('wrap').innerHTML = screens[step]();
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+/* ── 진입점 ── */
+loadSession();
+render();
+</script>
+</body>
+</html>

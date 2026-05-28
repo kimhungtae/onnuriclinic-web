@@ -1,0 +1,30 @@
+# Obesity File Collection — Configuration
+# This file is loaded by obesity_collect.ps1 as UTF-8.
+# Lines starting with # are comments. Edit values as needed.
+
+source=F:\새 폴더
+destination=F:\비만자료_모음
+
+[keywords]
+비만
+다이어트
+체중
+살빼
+살빠
+감량
+뱃살
+복부
+비대
+저열량
+초저열량
+식이요법
+체감의이인탕
+방기
+마황
+체질량
+지방간
+칼로리
+obesity
+diet
+BMI
+calorie

@@ -1,0 +1,16 @@
+{
+ "onnuri_session": {
+  "intake": {
+   "name": "테스트환자",
+   "sex": "여",
+   "age": "58세"
+  },
+  "moduleD": {
+   "constitution": "taeum",
+   "hanyul": "cold",
+   "yangyin": "yang"
+  },
+  "timestamp": 1779852290888
+ },
+ "onnuri_trial_log": []
+}

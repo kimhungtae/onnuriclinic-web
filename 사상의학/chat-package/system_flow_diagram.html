@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>온누리 사상체질 시스템 — 전체 흐름도</title>
+<style>
+  :root{
+    --ink:#1a1a1a;
+    --sub:#555;
+    --line:#d5d5d5;
+    --bg:#faf8f3;
+    --pale:#f7f5f0;
+    --gold:#C49A3F;
+    --crimson:#c9302c;
+    --taeum:#2D7D46;
+    --soyang:#D4691E;
+    --taeyang:#6B5B95;
+    --soeum:#2E5C8A;
+    --done:#7a8c5c;
+    --progress:#d4a017;
+    --new:#5680b8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Noto Sans KR',-apple-system,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    padding:30px;
+    line-height:1.5;
+  }
+  .wrap{max-width:1200px;margin:0 auto;background:#fff;border:1px solid var(--line);padding:36px 40px}
+
+  .head{
+    text-align:center;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:18px;
+    margin-bottom:30px;
+  }
+  .head .clinic{font-size:11px;color:var(--sub);letter-spacing:2px;margin-bottom:6px}
+  .head h1{font-size:24px;font-weight:700;margin-bottom:6px}
+  .head .desc{font-size:12px;color:var(--sub)}
+
+  /* 범례 */
+  .legend{
+    display:flex;
+    justify-content:center;
+    gap:24px;
+    margin-bottom:36px;
+    flex-wrap:wrap;
+    font-size:12px;
+  }
+  .legend-item{display:flex;align-items:center;gap:6px}
+  .legend-dot{
+    width:14px;height:14px;border-radius:3px;
+    display:inline-block;
+  }
+  .ld-done{background:var(--done)}
+  .ld-progress{background:var(--progress)}
+  .ld-new{background:var(--new)}
+
+  /* 흐름 단계 */
+  .flow{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:0;
+  }
+
+  .step{
+    width:100%;
+    max-width:880px;
+    border:2px solid var(--line);
+    border-radius:6px;
+    background:#fff;
+    padding:18px 22px;
+    position:relative;
+  }
+  .step.done{border-color:var(--done);background:#f6faf0}
+  .step.progress{border-color:var(--progress);background:#fefbed}
+  .step.new{border-color:var(--new);background:#f3f7fb}
+
+  .step-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:10px;
+  }
+  .step-num{
+    background:var(--ink);
+    color:#fff;
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+    font-weight:700;
+    flex-shrink:0;
+  }
+  .step.done .step-num{background:var(--done)}
+  .step.progress .step-num{background:var(--progress)}
+  .step.new .step-num{background:var(--new)}
+
+  .step-title{
+    font-size:16px;
+    font-weight:700;
+    flex:1;
+  }
+  .step-module{
+    font-size:11px;
+    color:var(--sub);
+    background:#fff;
+    border:1px solid var(--line);
+    padding:3px 10px;
+    border-radius:12px;
+  }
+  .step-status{
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:1px;
+    padding:3px 9px;
+    border-radius:3px;
+  }
+  .ss-done{background:var(--done);color:#fff}
+  .ss-progress{background:var(--progress);color:#fff}
+  .ss-new{background:var(--new);color:#fff}
+
+  .step-body{
+    font-size:12px;
+    color:var(--sub);
+    margin-left:40px;
+    line-height:1.65;
+  }
+  .step-body b{color:var(--ink);font-weight:600}
+
+  .features{
+    margin-top:8px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:4px;
+  }
+  .feat-chip{
+    background:#fff;
+    border:1px solid var(--line);
+    padding:2px 8px;
+    border-radius:10px;
+    font-size:10px;
+    color:var(--sub);
+  }
+
+  /* 화살표 */
+  .arrow{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin:14px 0;
+  }
+  .arrow-line{
+    width:2px;
+    height:22px;
+    background:var(--sub);
+  }
+  .arrow-head{
+    width:0;
+    height:0;
+    border-left:6px solid transparent;
+    border-right:6px solid transparent;
+    border-top:8px solid var(--sub);
+    margin-top:-2px;
+  }
+  .arrow-label{
+    font-size:11px;
+    color:var(--sub);
+    background:var(--bg);
+    padding:1px 8px;
+    margin-top:-32px;
+    margin-bottom:4px;
+    z-index:2;
+    position:relative;
+  }
+  .arrow-label.warn{color:var(--crimson);font-weight:600}
+
+  /* 분기 박스 */
+  .branch{
+    width:100%;
+    max-width:880px;
+    border:1px dashed var(--gold);
+    border-radius:5px;
+    background:#fef9e8;
+    padding:14px 18px;
+    margin:8px 0;
+  }
+  .branch-title{
+    font-size:12px;
+    font-weight:700;
+    color:var(--gold);
+    margin-bottom:6px;
+    letter-spacing:1px;
+  }
+  .branch-content{
+    font-size:11px;
+    color:#5a4d20;
+    line-height:1.6;
+  }
+
+  /* 데이터 흐름 박스 */
+  .data-flow{
+    margin-top:40px;
+    padding:24px;
+    background:var(--pale);
+    border:1px solid var(--line);
+    border-radius:6px;
+  }
+  .data-flow h2{
+    font-size:16px;
+    font-weight:700;
+    margin-bottom:14px;
+    padding-bottom:8px;
+    border-bottom:1px solid var(--line);
+  }
+  .data-list{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px 24px;
+    font-size:12px;
+    line-height:1.7;
+  }
+  .data-list b{color:var(--new)}
+
+  /* 우선순위 표 */
+  .phases{
+    margin-top:30px;
+  }
+  .phases h2{
+    font-size:16px;
+    font-weight:700;
+    margin-bottom:14px;
+    padding-bottom:8px;
+    border-bottom:2px solid var(--ink);
+  }
+  .phase{
+    margin-bottom:14px;
+    padding:14px 18px;
+    border:1px solid var(--line);
+    border-radius:5px;
+    background:#fafafa;
+  }
+  .phase-head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:6px;
+  }
+  .phase-num{
+    background:var(--new);
+    color:#fff;
+    padding:3px 10px;
+    border-radius:3px;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:1px;
+  }
+  .phase-title{font-size:13px;font-weight:700}
+  .phase-time{margin-left:auto;font-size:11px;color:var(--sub)}
+  .phase-items{
+    margin-top:4px;
+    margin-left:0;
+    font-size:12px;
+    color:var(--sub);
+    line-height:1.7;
+  }
+  .phase-items li{margin-left:18px}
+
+  /* 푸터 */
+  .ft{
+    margin-top:36px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    text-align:center;
+    font-size:11px;
+    color:var(--sub);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div class="clinic">ONNURI KOREAN MEDICINE CLINIC</div>
+    <h1>온누리 사상체질 디지털 진료 시스템 — 전체 흐름도</h1>
+    <div class="desc">자가설문 → 의사결정나무 → 정밀시진 → 기능검사 → 처방추천까지의 6단계 통합 워크플로우</div>
+  </div>
+
+  <!-- 범례 -->
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot ld-done"></span> 완성 (Done)</div>
+    <div class="legend-item"><span class="legend-dot ld-progress"></span> 진행 중 (In Progress)</div>
+    <div class="legend-item"><span class="legend-dot ld-new"></span> 신규 개발 (New)</div>
+  </div>
+
+  <!-- 흐름 단계 -->
+  <div class="flow">
+
+    <!-- STEP 1 -->
+    <div class="step done">
+      <div class="step-head">
+        <div class="step-num">1</div>
+        <div class="step-title">자가 설문지 (환자용)</div>
+        <span class="step-module">모듈 A</span>
+        <span class="step-status ss-done">DONE</span>
+      </div>
+      <div class="step-body">
+        25문항 6섹션 구성. 환자가 대기실 또는 모바일로 직접 응답. <b>인쇄용 A4 + HTML 앱</b> 양 버전 운영.
+        <div class="features">
+          <span class="feat-chip">A-1 종이 설문 (A4)</span>
+          <span class="feat-chip">A-2 HTML 앱 v24</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+    <!-- STEP 2 -->
+    <div class="step done">
+      <div class="step-head">
+        <div class="step-num">2</div>
+        <div class="step-title">설문 결과 산출</div>
+        <span class="step-module">모듈 A</span>
+        <span class="step-status ss-done">DONE</span>
+      </div>
+      <div class="step-body">
+        4 체질별 점수 % 자동 계산. 결과를 원장에게 전달.
+      </div>
+    </div>
+
+    <div class="arrow"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+    <!-- STEP 3 -->
+    <div class="step progress">
+      <div class="step-head">
+        <div class="step-num">3</div>
+        <div class="step-title">의사결정나무 — 시진 / 소증 / 성정</div>
+        <span class="step-module">모듈 B</span>
+        <span class="step-status ss-progress">IN PROGRESS</span>
+      </div>
+      <div class="step-body">
+        원장이 직접 사용. <b>배제법(★/✗/skip 3-모드)</b>으로 3단계 체크포인트. 가중치 스코어링 + 킬러문항 시스템.
+        <div class="features">
+          <span class="feat-chip">B-1 3단계 의사결정 트리</span>
+          <span class="feat-chip">B-2 체크포인트 화면 3개</span>
+          <span class="feat-chip">B-3 킬러문항 6 페어</span>
+          <span class="feat-chip">B-4 판독 근거 로그</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 분기 -->
+    <div class="branch">
+      <div class="branch-title">▣ 분기 판단</div>
+      <div class="branch-content">
+        <b>신뢰도 ≥70%</b> → 체질·한열 확정 → STEP 6 직접 진행<br>
+        <b>신뢰도 &lt;70% (혼동)</b> → STEP 4 정밀 시진으로 분기
+      </div>
+    </div>
+
+    <div class="arrow">
+      <div class="arrow-line"></div>
+      <div class="arrow-head"></div>
+      <div class="arrow-label warn">신뢰도 &lt; 70%</div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step new">
+      <div class="step-head">
+        <div class="step-num">4</div>
+        <div class="step-title">정밀 시진 차트 (6 페어)</div>
+        <span class="step-module">모듈 C</span>
+        <span class="step-status ss-new">NEW</span>
+      </div>
+      <div class="step-body">
+        혼동되는 두 체질의 변별점만 집중 점검. <b>★ 일반 단서 + ★★ 결정타</b> 2단계 가중치 시스템.
+        설문에서 후보로 남은 페어가 자동 선택됨.
+        <div class="features">
+          <span class="feat-chip">C-1 태음 ↔ 소양 ★mockup완성</span>
+          <span class="feat-chip">C-2 태양 ↔ 소음</span>
+          <span class="feat-chip">C-3 태음 ↔ 소음</span>
+          <span class="feat-chip">C-4 소양 ↔ 소음</span>
+          <span class="feat-chip">C-5 태양 ↔ 태음</span>
+          <span class="feat-chip">C-6 태양 ↔ 소양</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="branch">
+      <div class="branch-title">▣ 판정 로직 (3분기)</div>
+      <div class="branch-content">
+        <b>① 한쪽만 ★★</b> → 그 체질 확정 → STEP 6<br>
+        <b>② 양쪽 ★★ 충돌</b> → STEP 5 기능검사로<br>
+        <b>③ ★★ 없음, ★ 3개 이상 차이</b> → 다수 쪽 확정 → STEP 6<br>
+        <b>④ ★★ 없음, ★ 1~2개 차이</b> → STEP 5 기능검사로
+      </div>
+    </div>
+
+    <div class="arrow">
+      <div class="arrow-line"></div>
+      <div class="arrow-head"></div>
+      <div class="arrow-label warn">미확정 또는 결정타 충돌</div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="step new">
+      <div class="step-head">
+        <div class="step-num">5</div>
+        <div class="step-title">기능 검사 차트 (맥·복·반응·약물시험)</div>
+        <span class="step-module">모듈 D</span>
+        <span class="step-status ss-new">NEW</span>
+      </div>
+      <div class="step-body">
+        4개 섹션 통합. 안준철 원장 강조 — <b>"체질 확진은 결국 약 반응으로 한다"</b>.
+        <br>마지막 단계인 약물 시험에서 4대 적합성 기준(대변·소변·수면·피로감) 중 <b>3개 이상 호전 시 적합</b>.
+        <div class="features">
+          <span class="feat-chip">D-1 맥진 (장이긴/미세불현/양음형)</span>
+          <span class="feat-chip">D-2 복진 (상복부 가스)</span>
+          <span class="feat-chip">D-3 반응 (커피·산약·우유)</span>
+          <span class="feat-chip">D-4 약물시험 (3~7일)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <div class="arrow-line"></div>
+      <div class="arrow-head"></div>
+      <div class="arrow-label">체질·한열·음양형 확정</div>
+    </div>
+
+    <!-- STEP 6 -->
+    <div class="step new">
+      <div class="step-head">
+        <div class="step-num">6</div>
+        <div class="step-title">처방 추천 모듈</div>
+        <span class="step-module">모듈 E</span>
+        <span class="step-status ss-new">NEW</span>
+      </div>
+      <div class="step-body">
+        체질·한열·음양형 + 주소증 → <b>추천 처방 3순위</b> 자동 매칭.
+        각 처방마다 <b>추천 근거·주의·부적합 시그널·임상례 가감</b> 자동 제시.
+        <br>안준철·하만종·권재식 자료 통합 처방 DB 기반.
+        <div class="features">
+          <span class="feat-chip">E-1 환자 요약 (자동 전달)</span>
+          <span class="feat-chip">E-2 주소증 입력 (필터 자동)</span>
+          <span class="feat-chip">E-3 매칭 엔진 (가중치 4축)</span>
+          <span class="feat-chip">E-4 추천 처방 카드 ×3</span>
+          <span class="feat-chip">E-5 최종 결정 + 메모</span>
+          <span class="feat-chip">E-6 재진 추적</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+    <!-- 처방 확정 -->
+    <div class="step" style="background:#fafafa;border-style:dashed">
+      <div class="step-head">
+        <div class="step-num" style="background:var(--gold)">✓</div>
+        <div class="step-title">처방 확정 · 차트 저장 · 재진 추적</div>
+      </div>
+      <div class="step-body">
+        선택 처방 + 기간 + 메모 저장. <b>D+7, D+15 재진 시점</b>에 자동으로 4대 적합성 체크리스트 제시.
+        부적합 시그널 발생 시 자동으로 대체 처방 후보 표시.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 데이터 전달 흐름 -->
+  <div class="data-flow">
+    <h2>▣ 단계 간 데이터 전달</h2>
+    <div class="data-list">
+      <div><b>STEP 1→2</b> 25문항 raw 응답</div>
+      <div><b>STEP 2→3</b> 체질별 점수 % + 답변 데이터</div>
+      <div><b>STEP 3→4</b> 후보 체질 페어 + 신뢰도 + 게이트별 선택·배제</div>
+      <div><b>STEP 4→5</b> ★/★★ 체크 결과 + 잠정 체질</div>
+      <div><b>STEP 5→6</b> 확정 체질 + 한열 + 음양형 + 감별 근거</div>
+      <div><b>STEP 6→재진</b> 처방 내역 + 부적합 시그널 추적 항목</div>
+    </div>
+  </div>
+
+  <!-- 개발 단계 -->
+  <div class="phases">
+    <h2>▣ 개발 우선순위 (Phase 별)</h2>
+
+    <div class="phase">
+      <div class="phase-head">
+        <span class="phase-num">PHASE 1</span>
+        <span class="phase-title">핵심 신규 모듈 + 기존 이슈 해결</span>
+        <span class="phase-time">2~3주</span>
+      </div>
+      <ul class="phase-items">
+        <li>모듈 C-1 (태음↔소양) 실제 구현</li>
+        <li>모듈 D 전체 (기능 검사)</li>
+        <li>모듈 E MVP (E-1, E-2, E-4, E-5)</li>
+        <li>모듈 B 잔존 이슈 해결 (판정 패널 디자인, 다중 후보 결과 반영)</li>
+      </ul>
+    </div>
+
+    <div class="phase">
+      <div class="phase-head">
+        <span class="phase-num">PHASE 2</span>
+        <span class="phase-title">정밀화 + 매칭 엔진 고도화</span>
+        <span class="phase-time">3~4주</span>
+      </div>
+      <ul class="phase-items">
+        <li>모듈 C-2~C-6 (정밀 시진 나머지 5종 페어)</li>
+        <li>모듈 E-3 매칭 엔진 고도화 (가중치·임상례 DB 연계)</li>
+        <li>모듈 E-6 재진 추적 시스템</li>
+        <li>모듈 F-1 환자 데이터 모델 통합</li>
+      </ul>
+    </div>
+
+    <div class="phase">
+      <div class="phase-head">
+        <span class="phase-num">PHASE 3</span>
+        <span class="phase-title">운영 기능 · 출력 · 임상례 DB</span>
+        <span class="phase-time">2주</span>
+      </div>
+      <ul class="phase-items">
+        <li>모듈 F-2 자동 분기 통합 로직</li>
+        <li>모듈 F-3 진료 차트 PDF 출력</li>
+        <li>모듈 F-4 임상례 데이터베이스 확장 (안준철·하만종·권재식 자료 통합)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 푸터 -->
+  <div class="ft">
+    온누리 한의원 · 사상체질 디지털 진료 시스템 · 안준철·하만종·권재식 사상의학 방법론 기반<br>
+    명세서 v1.0 · Cowork 전달용 · 2026년 5월
+  </div>
+
+</div>
+</body>
+</html>

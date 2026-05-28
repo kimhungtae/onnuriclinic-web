@@ -1,0 +1,2170 @@
+[
+ {
+  "code": "L001",
+  "constitution": "taeyang",
+  "name": "류씨오가피장척탕",
+  "composition": "목적8 포도근8 향유8 모과4 양총피4 송절4 산장과4 오가피4"
+ },
+ {
+  "code": "L002",
+  "constitution": "taeyang",
+  "name": "잠사해표탕",
+  "composition": "곽향8 향유6 오가피6 잠사4 양총피4 포도근4 모과4 송절4",
+  "compositionOld": "향유8 잠사6 곽향6 오가피4 양총피4 포도근4 모과4 송절4"
+ },
+ {
+  "code": "L003",
+  "constitution": "taeyang",
+  "name": "오가피장척탕",
+  "composition": "오가피16 모과8 송절8 앵도육4 교맥4 포도근4"
+ },
+ {
+  "code": "L004",
+  "constitution": "taeyang",
+  "name": "목적쌍해산",
+  "composition": "오가피12 포도근8 모과8 앵도육4 목적4 송화4 잠사4"
+ },
+ {
+  "code": "L005",
+  "constitution": "taeyang",
+  "name": "오가피청열탕",
+  "composition": "향유8 백강잠6 목적6 어성초4 구인4 오가피4 산장4 백모근4"
+ },
+ {
+  "code": "L006",
+  "constitution": "taeyang",
+  "name": "잠사청열탕",
+  "composition": "곽향8 오가피8 어성초6 목적6 향유4 모과4 양총피4 잠사4 산장2",
+  "compositionOld": "오가피8 향유8 어성초4 모과4 양총피4 잠사4 산장4 곽향4 목적4"
+ },
+ {
+  "code": "L007",
+  "constitution": "taeyang",
+  "name": "오가피쌍해산",
+  "composition": "포도근8 목적8 백강잠8 오가피4 모과4 송절4 향유4"
+ },
+ {
+  "code": "L008",
+  "constitution": "taeyang",
+  "name": "석옥승기탕",
+  "composition": "생석곡20 생옥죽20 적하수오6 백모근6 산앵도인4 미후도4 구인4"
+ },
+ {
+  "code": "L009",
+  "constitution": "taeyang",
+  "name": "미후도승기탕",
+  "composition": "생석곡10 생옥죽10 미후도8 산앵도인6 저두강6 교맥4 구인4"
+ },
+ {
+  "code": "L010",
+  "constitution": "taeyang",
+  "name": "교맥관장탕",
+  "composition": "교맥12 곽향6 모과초6 향유4 저두강4 백편두4 앵도육4 송화4 양강4"
+ },
+ {
+  "code": "L011",
+  "constitution": "taeyang",
+  "name": "류씨미후도식장탕",
+  "composition": "연조미후도8 곽향6 모과6 백편두4 오가피4 저두강4 양강4 앵도육4 송화4"
+ },
+ {
+  "code": "L012",
+  "constitution": "taeyang",
+  "name": "미후도식장탕",
+  "composition": "연조미후도16 모과8 포도근8 앵도육4 노근4 오가피4 저두강4 송화4"
+ },
+ {
+  "code": "L013",
+  "constitution": "taeyang",
+  "name": "산장청영탕",
+  "composition": "석곡12 산장8 백모근8 구인4 백강잠4 어성초4"
+ },
+ {
+  "code": "L014",
+  "constitution": "taeyang",
+  "name": "어성초청영탕",
+  "composition": "어성초12 백모근8 연조미후도8 구인4 석곡4 산장과4 옥죽4"
+ },
+ {
+  "code": "L015",
+  "constitution": "taeyang",
+  "name": "석곡옥죽탕",
+  "composition": "석곡12 옥죽8 회우슬주증8 백모근4 구인4 적하수오4 진주모4"
+ },
+ {
+  "code": "L016",
+  "constitution": "taeyang",
+  "name": "미후도옥죽탕",
+  "composition": "연조미후도12 옥죽8 백모근4 적하수오4 석곡4 회우슬주증4 적하수오4"
+ },
+ {
+  "code": "L017",
+  "constitution": "taeyang",
+  "name": "모과실비탕",
+  "composition": "비해12 백편두초8 모과초4 오가피4 송화4 곽향4",
+  "compositionOld": "비해12 백편두초8 적소두8 모과초4 오가피4 송화4 곽향4"
+ },
+ {
+  "code": "L018",
+  "constitution": "taeyang",
+  "name": "백모근탕",
+  "composition": "백모근12 천우슬8 구인4 적소두4 비해4 번행4",
+  "compositionOld": "옥미수백모근탕: 백모근12 천우슬8 구인4 적소두4 비해4 교맥4"
+ },
+ {
+  "code": "L019",
+  "constitution": "taeyang",
+  "name": "어성초제습탕",
+  "composition": "비해8 어성초8 연조미후도4 오가피4 백모근4 천우슬4 번행4",
+  "compositionOld": "비해8 어성초8 연조미후도4 앵도육4 오가피4 백모근4 천우슬4"
+ },
+ {
+  "code": "L020",
+  "constitution": "taeyang",
+  "name": "현호색소간탕",
+  "composition": "미후도8 교맥8 현호색4 모과4 초룡담4 석곡4 양강2 석결명2 진주모2 적하수오2",
+  "compositionOld": "미후도8 교맥8 현호색4 모과4 석곡4 양강2 석결명2 진주모2 적하수오2"
+ },
+ {
+  "code": "L021",
+  "constitution": "taeyang",
+  "name": "용담청간탕",
+  "composition": "적하수오8 석결명6 진주모6 석곡4 산장4 미후도4 초룡담4 구인4 야관문4",
+  "compositionOld": "적하수오8 석곡8 석결명6 진주모6 산장4 미후도4 초룡담4 구인4"
+ },
+ {
+  "code": "L022",
+  "constitution": "taeyang",
+  "name": "미후도양간탕",
+  "composition": "미후도12 적하수오증8 회우슬주증6 야관문6 백하수오4 석결명4 옥죽4",
+  "compositionOld": "미후도12 적하수오증8 회우슬주증8 백하수오4 석결명4 석곡4 옥죽4"
+ },
+ {
+  "code": "L023",
+  "constitution": "taeyang",
+  "name": "계혈등보간탕",
+  "composition": "계혈등8 백하수오8 적하수오증6 회우슬주증6 미후도4 모과4"
+ },
+ {
+  "code": "L024",
+  "constitution": "taeyang",
+  "name": "백모근보간탕",
+  "composition": "미후도12 백하수오8 회우슬주증8 백모근4 적하수오증4 옥죽4 계혈등2"
+ },
+ {
+  "code": "L025",
+  "constitution": "taeyang",
+  "name": "음양곽난간전",
+  "composition": "음양곽8 미후도8 회우슬주증8 모과4 오가피4 포도근4 현호색4 양강4"
+ },
+ {
+  "code": "L026",
+  "constitution": "taeyang",
+  "name": "당삼보심탕",
+  "composition": "당삼12 야교등6 송엽6 앵도육4 송화4 자오가피4 진주모4"
+ },
+ {
+  "code": "L027",
+  "constitution": "taeyang",
+  "name": "야교등양심탕",
+  "composition": "야교등12 석곡8 옥죽4 진주모4 연조미후도4 미후도4",
+  "compositionOld": "야교등12 석곡8 옥죽8 진주모4 연조미후도4"
+ },
+ {
+  "code": "L028",
+  "constitution": "taeyang",
+  "name": "석곡청심탕",
+  "composition": "석곡12 야교등8 진주모6 백모근6 초룡담4 연조미후도4 구인4"
+ },
+ {
+  "code": "L029",
+  "constitution": "taeyang",
+  "name": "도인현호색탕",
+  "composition": "현호색8 강황6 양총피6 도인4 도초4 홍국4 송화4 홍화4 천우슬4 야교등4",
+  "compositionOld": "현호색8 도인6 양총피6 도초4 홍국4 송화4 홍화4 천우슬4 야교등4"
+ },
+ {
+  "code": "L030",
+  "constitution": "taeyang",
+  "name": "야교등백강잠탕",
+  "composition": "백강잠8 야교등8 진주모4 자오가피4 석곡4 양총피4 구인4 송엽4"
+ },
+ {
+  "code": "L031",
+  "constitution": "taeyang",
+  "name": "비해송화탕",
+  "composition": "비해12 송화8 향유4 저두강4 문합4 양강4"
+ },
+ {
+  "code": "L032",
+  "constitution": "taeyang",
+  "name": "교맥건비탕",
+  "composition": "당삼12 저두강6 아삼6 모과초4 교맥4 백편두초4 앵도육4 곡아4"
+ },
+ {
+  "code": "L033",
+  "constitution": "taeyang",
+  "name": "당삼보기탕",
+  "composition": "당삼12 교맥8 송화8 백하수오4 아삼4 앵도육4 백편두초4 향유2 곽향2",
+  "compositionOld": "당삼12 교맥8 송화8 백하수오4 아삼4 앵도육4 백편두초4 향유1.2 곽향1.2"
+ },
+ {
+  "code": "L034",
+  "constitution": "taeyang",
+  "name": "석곡양비탕",
+  "composition": "백하수오8 연조미후도8 석곡4 저두강4 적하수오4 교맥4",
+  "compositionOld": "석곡12 백하수오8 옥죽8 저두강4 연조미후도4 도인4 적하수오4"
+ },
+ {
+  "code": "L035",
+  "constitution": "taeyang",
+  "name": "이삼보폐탕",
+  "composition": "아삼12 송화6 당삼6 양총피4 백개자4 동충하초4",
+  "compositionOld": "아삼12 송화6 당삼6 양총피4 동충하초4"
+ },
+ {
+  "code": "L036",
+  "constitution": "taeyang",
+  "name": "옥죽양폐탕",
+  "composition": "옥죽8 야관문8 백모근6 석결명6 백하수오4 동충하초4 석곡4 구인4",
+  "compositionOld": "옥죽12 백모근6 석결명6 백하수오4 동충하초4 석곡4 구인4"
+ },
+ {
+  "code": "L037",
+  "constitution": "taeyang",
+  "name": "아삼온폐탕",
+  "composition": "백개자8 양총피8 숭자4 향유4 아삼4 산앵도인4 송화4 배해4 동충하초4",
+  "compositionOld": "숭자8 양총피8 향유4 아삼4 산앵도인4 송화4 비해4 동충하초4"
+ },
+ {
+  "code": "L038",
+  "constitution": "taeyang",
+  "name": "원잠보음탕",
+  "composition": "야관문8 적하수오증8 회우슬주증6 백하수오4 석곡4 원잠4",
+  "compositionOld": "옥죽12 회우슬주증8 적하수오증8 백하수오4 석결명4 석곡4 원잠4 미후도4"
+ },
+ {
+  "code": "L039",
+  "constitution": "taeyang",
+  "name": "당삼보신탕",
+  "composition": "당삼12 자오가피6 산앵도6 회우슬주증4 음양곽4 발계4",
+  "compositionOld": "백하수오8 회우슬주증8 자오가피6 산앵도6 옥죽4 당삼4 양총피4"
+ },
+ {
+  "code": "L040",
+  "constitution": "taeyang",
+  "name": "충초보양탕",
+  "composition": "당삼8 음양곽6 오가피6 파극천6 회우슬주증4 발계4 원잠아2 동충하초2",
+  "compositionOld": "옥죽주증12 백하수오8 회우슬주증6 음양곽6 동충하초4 발계4 원잠아4"
+ },
+ {
+  "code": "L041",
+  "constitution": "taeyang",
+  "name": "산장온담탕",
+  "composition": "연조미후도8 초룡담4 저두강4 문합4 백모근4 산장4 와송4 번행4",
+  "compositionOld": "연조미후도8 초룡담4 저두강4 문합4 백모근4 산장4 와송4"
+ },
+ {
+  "code": "L042",
+  "constitution": "taeyang",
+  "name": "당삼보위탕",
+  "composition": "당삼8 홍국6 교맥6 곡아4 연조미후도4 모과초4 현호색4 송화4 번행4",
+  "compositionOld": "당삼8 곡아6 홍국6 연조미후도4 모과초4 현호색4 앵도육4 교맥4 송화4"
+ },
+ {
+  "code": "L043",
+  "constitution": "taeyang",
+  "name": "석곡양위탕",
+  "composition": "백하수오8 연조미후도8 석곡6 번행6 백편두4 저두강4 미후리엽2",
+  "compositionOld": "석곡12 백하수오8 연조미후도8 미후리엽4 백모근4 백편두4 저두강4 옥죽4"
+ },
+ {
+  "code": "L044",
+  "constitution": "taeyang",
+  "name": "미후도청위탕",
+  "composition": "연조미후도12 번행8 백모근4 미후리엽4 초룡담4 저두강4 야관문4",
+  "compositionOld": "연조미후도12 백모근8 미후리엽8 초룡담4 저두강4 석곡4 옥죽4"
+ },
+ {
+  "code": "L045",
+  "constitution": "taeyang",
+  "name": "당삼양장탕",
+  "composition": "당삼8 백편두초6 산앵도6 교맥4 발계4 곡아4 연조미후도4 송화4"
+ },
+ {
+  "code": "L046",
+  "constitution": "taeyang",
+  "name": "미후도청장탕",
+  "composition": "번행8 현지초6 백모근6 선학초4 곡아4 연조미후도4 산장4",
+  "compositionOld": "현지초8 선학초8 백모근6 적하수오6 곡아4 백편두4 연조미후도4 산장4 적소두4"
+ },
+ {
+  "code": "L047",
+  "constitution": "taeyang",
+  "name": "당삼소간탕",
+  "composition": "교맥8 당삼8 백편두초4 현호색4 모과초4 미후도4 곡아4 진주모2 석결명2"
+ },
+ {
+  "code": "L048",
+  "constitution": "taeyang",
+  "name": "현호색화위탕",
+  "composition": "연조미후도8 번행6 현호색6 모과초4 저두강4 백모근4 진주모4 미후리엽2 곡아2",
+  "compositionOld": "연조미후도12 모과초6 현호색6 저두강4 곡아4 백모근4 미후리엽4 잠사4 진주모2"
+ },
+ {
+  "code": "L049",
+  "constitution": "taeyang",
+  "name": "문합청폐탕",
+  "composition": "적하수오8 백모근8 구인6 야관문6 문합4 산장4 석결명4 숭자4",
+  "compositionOld": "적하수오8 백모근8 문합6 구인6 산장4 석결명4 숭자4"
+ },
+ {
+  "code": "L050",
+  "constitution": "taeyang",
+  "name": "백하오양혈탕",
+  "composition": "당삼8 백하수오6 야교등6 교맥4 백편두4 저두강4 송화4 계혈등4 진주모2"
+ },
+ {
+  "code": "L051",
+  "constitution": "taeyang",
+  "name": "야교등음양곽탕",
+  "composition": "당삼12 음양곽6 야교등6 진주모4 앵도육4 송화4 동충하초4"
+ },
+ {
+  "code": "L052",
+  "constitution": "taeyang",
+  "name": "도인백모근탕",
+  "composition": "도인8 천우슬8 계혈등4 현호색4 홍국4 오가피4 미후도근4 송절4 백모근4"
+ },
+ {
+  "code": "L052-1",
+  "constitution": "taeyang",
+  "name": "가미도인백모근탕",
+  "composition": "도인백모근탕 중용현호색 오가피 가 구인"
+ },
+ {
+  "code": "L053",
+  "constitution": "taeyang",
+  "name": "가감산장청영탕",
+  "composition": "백모근8 산장8 목적4 연조미후도4 구인4 석곡4 와송4"
+ },
+ {
+  "code": "L054",
+  "constitution": "taeyang",
+  "name": "계혈등통맥탕",
+  "composition": "송절8 오가피8 계혈등6 야교등6 포도근4 도초4 양강4 모과4"
+ },
+ {
+  "code": "L055",
+  "constitution": "taeyang",
+  "name": "백하오당삼탕",
+  "composition": "당삼16 백하수오16"
+ },
+ {
+  "code": "L056",
+  "constitution": "taeyang",
+  "name": "백하오윤조탕",
+  "composition": "옥죽12 앵도육6  야교등6 적하수오4 백강잠4 선학초4 송엽4 목적4",
+  "compositionOld": "옥죽12 앵도육6 어성초6 적하수오4 백강잠4 선학초4 송엽4 야교등4 와송4"
+ },
+ {
+  "code": "L057",
+  "constitution": "taeyang",
+  "name": "어성초백강잠탕",
+  "composition": "어성초6 백강잠6 송엽4 선학초4 야교등4 잠사4 연조미후도4 번행4 와송2 적하수오2",
+  "compositionOld": "어성초8 송엽8 백강잠6 목적6 선학초4 야교등4 잠사4 와송2 적하수오2"
+ },
+ {
+  "code": "L058",
+  "constitution": "taeyang",
+  "name": "산장청인탕",
+  "composition": "어성초8 산장8 백강잠4 구인4 번행4 미후도근4 도엽4 와송4 야관문4",
+  "compositionOld": "어성초8 산장8 백강잠4 구인4 목적4 미후도근4 도엽4 와송4"
+ },
+ {
+  "code": "L059",
+  "constitution": "taeyang",
+  "name": "잠사오가피탕",
+  "composition": "발계8 음양곽8 송절8 모과4 오가피4 포도근4 저두강4 천우슬4 잠사4 위령선4",
+  "compositionOld": "발계12 음양곽8 송절8 모과4 오가피4 포도근4 저두강4 천우슬4 잠사4"
+ },
+ {
+  "code": "L060",
+  "constitution": "taeyang",
+  "name": "포도근오가피탕",
+  "composition": "포도근12 석곡8 오가피4 비해4 백강잠4 천우슬4 야교등4",
+  "compositionOld": "포도근12 석곡8 오가피4 미후리엽4 비해4 백강잠4 천우슬4 야교등4"
+ },
+ {
+  "code": "L061",
+  "constitution": "taeyang",
+  "name": "이향정기산",
+  "composition": "곽향6 모과4 오가피4 향유4 저두강2 발계2 목적2 양강2 백편두2 양총피2 잠사2"
+ },
+ {
+  "code": "L062",
+  "constitution": "taeyang",
+  "name": "백모근청폐탕",
+  "composition": "백모근8 구인6 어성초6 석곡4 문합4 옥죽4 숭자4 산장4 야관문4",
+  "compositionOld": "백모근8 구인6 어성초6 석곡4 문합4 옥죽4 숭자4 산장4"
+ },
+ {
+  "code": "L063",
+  "constitution": "taeyang",
+  "name": "도인생화탕",
+  "composition": "오가피8 영실6 저두강6 적하수오주증4 옥죽4 회우슬4 미후도근4 도인4",
+  "compositionOld": "적하수오주증8 옥죽8 회우슬6 영실6 오가피4 미후도근4 백모근4 도인4"
+ },
+ {
+  "code": "L064",
+  "constitution": "taeyang",
+  "name": "현호색생화탕",
+  "composition": "백하수오8 오가피8 회우슬6 택란6 계혈등4 현호색4 당삼4 영실4"
+ },
+ {
+  "code": "L065",
+  "constitution": "taeyang",
+  "name": "이어성초백강잠탕",
+  "composition": "연조미후도16 선학초4 야교등4 목적4 어성초4 송화4 모과4 저두강4 백강잠4 포도근4"
+ },
+ {
+  "code": "L066",
+  "constitution": "taeyang",
+  "name": "우슬오가피탕",
+  "composition": "회우슬주증8 오가피8 음양곽6 송절6 적하수오주증4 발계4 잠사4 모과4"
+ },
+ {
+  "code": "L067",
+  "constitution": "taeyang",
+  "name": "가감도인백모근탕",
+  "composition": "우슬8 영실8 현호색4 백모근4 도인4 교맥4 미후도4"
+ },
+ {
+  "code": "L068",
+  "constitution": "taeyang",
+  "name": "가감현호색생화탕",
+  "composition": "우슬8 현호색6 택란6 계혈등4 오가피4 홍국4 잠사4 양강2"
+ },
+ {
+  "code": "L069",
+  "constitution": "taeyang",
+  "name": "교맥총피탕",
+  "composition": "교맥8 양총피8 백편두6 곽향6 모과4 곡아4 홍국4 백강잠4",
+  "compositionOld": "적소두총피탕: 적소두12 양총피6 백편두6 교맥4 모과4 곡아4 홍국4 곽향4"
+ },
+ {
+  "code": "L070",
+  "constitution": "taeyang",
+  "name": "가감교맥총피탕",
+  "composition": "연조미후도12 백모근6 교맥6 문합4 백강잠4 구인4 양총피4 모과4",
+  "compositionOld": "가감적소두총피탕: 연조미후도12 적소두6 백모근6 문합4 백강잠4 구인4 양총피4 교맥4 모과4"
+ },
+ {
+  "code": "H001",
+  "constitution": "taeum",
+  "name": "가미해기탕",
+  "composition": "갈근8 맥문동6 황금6 길경4 행인4 고본4 마황4 백지4 승마4"
+ },
+ {
+  "code": "H002",
+  "constitution": "taeum",
+  "name": "갈근해표탕",
+  "composition": "백부근8 갈근8 창이자4 고본4 백지4 길경4 황금4 상백피4 상엽4 마황2"
+ },
+ {
+  "code": "H003",
+  "constitution": "taeum",
+  "name": "류씨한다열소탕",
+  "composition": "의이인8 백부근8 길경4 백지4 고본4 갈근4 나복자4 창이자4 마황2 상엽2"
+ },
+ {
+  "code": "H004",
+  "constitution": "taeum",
+  "name": "백부근청열탕",
+  "composition": "백부근8 황금6 상백피6 길경6 갈근4 감국4 상엽4 승마4 선태4 백지2 창이자2",
+  "compositionOld": "백부근8 갈근8 황금6 상백피6 감국4 길경4 상엽4 승마4 선태4 백지2 창이자2"
+ },
+ {
+  "code": "H005",
+  "constitution": "taeum",
+  "name": "자완청열탕",
+  "composition": "백부근8 감국6 길경6 자완4 창이자4 황금4 상백피4 선태4 고본2 백지2",
+  "compositionOld": "백부근8 감국6 자완6 창이자4 길경4 황금4 상백피4 선태4 고본2 백지2"
+ },
+ {
+  "code": "H006",
+  "constitution": "taeum",
+  "name": "갈근청열탕",
+  "composition": "갈근12 황금6 길경6 포공영4 행인4 담두시4 선태4 백지4 고본4"
+ },
+ {
+  "code": "H007",
+  "constitution": "taeum",
+  "name": "한다열소탕",
+  "composition": "의이인12 건율12 나복자8 행인4 황금4 마황4 맥문동4 길경4"
+ },
+ {
+  "code": "H008",
+  "constitution": "taeum",
+  "name": "갈근포공영탕",
+  "composition": "갈근12 황금8 포공영8 노근6 사간6 길경4 자완4 절패모4",
+  "compositionOld": "갈근12 황금8 포공영8 노근8 행인4 길경4 자완4 절패모4"
+ },
+ {
+  "code": "H009",
+  "constitution": "taeum",
+  "name": "자완상백피탕",
+  "composition": "백부근8 상백피8 자완6 황금6 감국4 노근4 삼백초4 행인4 길경4 사간4",
+  "compositionOld": "백부근8 상백피8 자완6 황금6 감국4 노근4 백선피4 삼백초4 행인4"
+ },
+ {
+  "code": "H010",
+  "constitution": "taeum",
+  "name": "가미발표탕",
+  "composition": "갈근8 길경6 마황6 고본4 행인4 황금4 백지4 맥문동4 승마4"
+ },
+ {
+  "code": "H011",
+  "constitution": "taeum",
+  "name": "마황발표탕",
+  "composition": "길경12 마황6 황금4 행인4 맥문동4"
+ },
+ {
+  "code": "H012",
+  "constitution": "taeum",
+  "name": "갈근해기탕",
+  "composition": "갈근12 고본6 황금6 길경4 백지4 승마4"
+ },
+ {
+  "code": "H013",
+  "constitution": "taeum",
+  "name": "상지부평탕",
+  "composition": "의이인12 갈근12 부평초8 상지8 나복자4 길경4"
+ },
+ {
+  "code": "H014",
+  "constitution": "taeum",
+  "name": "마황부평탕",
+  "composition": "의이인12 건율12 길경8 부평초4 마황4 나복자4"
+ },
+ {
+  "code": "H015",
+  "constitution": "taeum",
+  "name": "갈근승기탕",
+  "composition": "갈근16 대황8 황금8 길경4 백지4 승마4"
+ },
+ {
+  "code": "H016",
+  "constitution": "taeum",
+  "name": "의이인승기탕",
+  "composition": "갈근8 황금8 유근피8 사삼4 의이인4 승마4 행인4 대황2"
+ },
+ {
+  "code": "H017",
+  "constitution": "taeum",
+  "name": "열다한소탕",
+  "composition": "갈근16 고본8 황금8 길경4 백지4 나복자4 승마4"
+ },
+ {
+  "code": "H018",
+  "constitution": "taeum",
+  "name": "갈근나복자탕",
+  "composition": "의이인8 갈근8 맥문동6 황금4 마황4 길경4 나복자4 오미자4 석창포4"
+ },
+ {
+  "code": "H019",
+  "constitution": "taeum",
+  "name": "태음조위탕",
+  "composition": "의이인12 건율12 나복자8 마황4 맥문동4 길경4 오미자4 석창포4"
+ },
+ {
+  "code": "H020",
+  "constitution": "taeum",
+  "name": "류씨태음조위탕",
+  "composition": "의이인12 건율12 나복자8 신곡4 오미자4 오매4 석창포4 유근피4"
+ },
+ {
+  "code": "H021",
+  "constitution": "taeum",
+  "name": "웅담산",
+  "composition": "웅담 3~5푼 온수조하"
+ },
+ {
+  "code": "H022",
+  "constitution": "taeum",
+  "name": "가감갈근해기탕",
+  "composition": "갈근12 길경6 고본6 황금4 백지4 창이자4 행인4 백부근4 담두시4"
+ },
+ {
+  "code": "H023",
+  "constitution": "taeum",
+  "name": "갈근의이인탕",
+  "composition": "의이인12 갈근12 황금8 건율4 맥문동4 나복자4 유근피4"
+ },
+ {
+  "code": "H024",
+  "constitution": "taeum",
+  "name": "황금의이인탕",
+  "composition": "의이인12 갈근12 황금8 길경4 대두황권4 나복자4 포공영4 승마4"
+ },
+ {
+  "code": "H025",
+  "constitution": "taeum",
+  "name": "의이인삼백초탕",
+  "composition": "의이인12 삼백초8 갈근6 황금6 해동피4 백지4 유근피4 길경4 승마4"
+ },
+ {
+  "code": "H026",
+  "constitution": "taeum",
+  "name": "두황의이인탕",
+  "composition": "의이인12 대두황권6 황금6 길경4 갈근4 마황4 나복자4 석창포4"
+ },
+ {
+  "code": "H027",
+  "constitution": "taeum",
+  "name": "우각청영탕",
+  "composition": "우각12 맥문동8 황금8 단삼4 패장4 포공영4 대황4"
+ },
+ {
+  "code": "H028",
+  "constitution": "taeum",
+  "name": "담삼청영탕",
+  "composition": "우각12 포공영8 황금8 맥문동4 패장4 길경4 단삼4"
+ },
+ {
+  "code": "H029",
+  "constitution": "taeum",
+  "name": "맥문동양액탕",
+  "composition": "맥문동8 진교6 천문동6 마자인4 사삼4 상심자4 황금4"
+ },
+ {
+  "code": "H030",
+  "constitution": "taeum",
+  "name": "여정실양액탕",
+  "composition": "사삼8 여정실주증6 황금6 해송자4 맥문동4 상심자4 지부자4"
+ },
+ {
+  "code": "H031",
+  "constitution": "taeum",
+  "name": "갈근소간탕",
+  "composition": "백질려염수초8 갈근8 담두시4 백렴4 조구등4 나복자4 산조인4 여정실4 연자육4"
+ },
+ {
+  "code": "H032",
+  "constitution": "taeum",
+  "name": "산조인소간탕",
+  "composition": "사삼8 여정실8 감국4 조구등4 나복자4 백렴4 산조인4 유근피4 백질려염수초4"
+ },
+ {
+  "code": "H033",
+  "constitution": "taeum",
+  "name": "갈근청간탕",
+  "composition": "갈근8 황금8 백질려염수초8 맥문동4 괴화4 조구등4 청호4 저실자4 대황2"
+ },
+ {
+  "code": "H034",
+  "constitution": "taeum",
+  "name": "하고초청간탕",
+  "composition": "갈근8 여정실8 백질려염수초4 하고초4 황금4 조구등4 산조인4 감국4 괴화2 상엽2"
+ },
+ {
+  "code": "H035",
+  "constitution": "taeum",
+  "name": "백자양간탕",
+  "composition": "상황8 저실자6 여정실주증6 백자인4 맥문동4 산조인4 산약4 오미자증4"
+ },
+ {
+  "code": "H036",
+  "constitution": "taeum",
+  "name": "상자양간탕",
+  "composition": "여정실주증12 상심자8 산조인8 저실자4 감국4",
+  "compositionOld": "여정실주증12 상심자8 산조인8 사삼4 저실자4 감국4"
+ },
+ {
+  "code": "H037",
+  "constitution": "taeum",
+  "name": "연자보간탕",
+  "composition": "연자육8 용안육6 산약6 산조인4 백자인4 녹각교초주4 여정실주증4 홍화2"
+ },
+ {
+  "code": "H038",
+  "constitution": "taeum",
+  "name": "여정자보간탕",
+  "composition": "여정실주증12 산조인6 용안육6 상심자4 단삼초4 녹각교초주2 홍화2"
+ },
+ {
+  "code": "H039",
+  "constitution": "taeum",
+  "name": "단삼보간탕",
+  "composition": "여정실주증8 단삼초8 저실자4 맥문동4 백자인4 산조인4 상심자4"
+ },
+ {
+  "code": "H040",
+  "constitution": "taeum",
+  "name": "여두난간전",
+  "composition": "건율12 나복자6 여두6 조각자4 오미자4 마황4 여정실4 해백4"
+ },
+ {
+  "code": "H041",
+  "constitution": "taeum",
+  "name": "연자보심탕",
+  "composition": "연자육8 용안육8 산약4 나복자4 석창포4 산조인초4 자노아4 원지4 맥문동2 호박2",
+  "compositionOld": "산약8 연자육8 나복자4 석창포4 산조인초4 자노아4 원지4 용안육4 맥문동4 호박2"
+ },
+ {
+  "code": "H042",
+  "constitution": "taeum",
+  "name": "소맥보심탕",
+  "composition": "부소맥8 연자육8 오미자4 백합4 석창포4 산조인초4 원지4 용안육4 호박2 황금2"
+ },
+ {
+  "code": "H043",
+  "constitution": "taeum",
+  "name": "백자양심탕",
+  "composition": "백자인8 맥문동8 천문동4 자노아4 목통4 산조인4 원지4 용안육4"
+ },
+ {
+  "code": "H044",
+  "constitution": "taeum",
+  "name": "사삼양심탕",
+  "composition": "백합8 산조인8 사삼4 호박4 황금4 오미자4 백자인4 원지4 용안육4 부소맥4"
+ },
+ {
+  "code": "H045",
+  "constitution": "taeum",
+  "name": "황금청심탕",
+  "composition": "황금8 맥문동8 대황4 등심4 백합4 목통4 우각4 울금4",
+  "compositionOld": "황금8 맥문동8 대황4 등심4 백합4 목통4 천축황4 우각4 울금4"
+ },
+ {
+  "code": "H046",
+  "constitution": "taeum",
+  "name": "단삼해백탕",
+  "composition": "단삼8 녹용6 해백6 백렴4 호박4 홍화4 길경4 원지4 울금4"
+ },
+ {
+  "code": "H047",
+  "constitution": "taeum",
+  "name": "이씨우황청심환",
+  "composition": ""
+ },
+ {
+  "code": "H048",
+  "constitution": "taeum",
+  "name": "창포천마탕",
+  "composition": "단삼주초8 석창포8 천마6 천패모6 원지6 목통4 백렴4 맥문동4 호박2",
+  "compositionOld": "단삼주초8 맥문동8 천마6 천패모6 목통4 백렴4 석창포4 원지4 천축황2 호박2"
+ },
+ {
+  "code": "H049",
+  "constitution": "taeum",
+  "name": "가감승청탕",
+  "composition": "의이인12 건율12 나복자6 해백4 마황4 목통4 길경4 오미자4 석창포4 원지4"
+ },
+ {
+  "code": "H050",
+  "constitution": "taeum",
+  "name": "연자건비탕",
+  "composition": "의이인초12 연자육6 용안육6 나복자초4 산약초4 사삼4 건율4 오미자증4 석창포4"
+ },
+ {
+  "code": "H051",
+  "constitution": "taeum",
+  "name": "의이인건비탕",
+  "composition": "의이인초12 건율12 산약초8 용안육4 나복자초4 오미자증4 석창포4"
+ },
+ {
+  "code": "H052",
+  "constitution": "taeum",
+  "name": "갈근양비탕",
+  "composition": "노근12 맥문동8 갈근8 행인4 용안육4 천문동4 나복자초4 백자인4"
+ },
+ {
+  "code": "H053",
+  "constitution": "taeum",
+  "name": "사삼양비탕",
+  "composition": "사삼12 맥문동6 나복자초6 용안육4 행인4 백자인4 의이인4",
+  "compositionOld": "사삼12 노근8 유근피6 맥문동6 나복자초4 용안육4 행인4 백자인4"
+ },
+ {
+  "code": "H054",
+  "constitution": "taeum",
+  "name": "마황보폐탕",
+  "composition": "의이인8 산약8 길경4 나복자4 행인4 오미자4 마황2 황금2",
+  "compositionOld": "의이인8 산약8 길경8 나복자4 행인4 마황4 오미자2 황금2"
+ },
+ {
+  "code": "H055",
+  "constitution": "taeum",
+  "name": "사삼보폐탕",
+  "composition": "의이인8 산약8 나복자4 사삼4 오미자4 길경4 행인4",
+  "compositionOld": "의이인8 산약8 나복자4 사삼4 천패모4 오미자4 길경4 행인4"
+ },
+ {
+  "code": "H056",
+  "constitution": "taeum",
+  "name": "맥문동양폐탕",
+  "composition": "맥문동12 천문동6 백합6 길경4 황금4 용안육4 오미자4"
+ },
+ {
+  "code": "H057",
+  "constitution": "taeum",
+  "name": "백합양폐탕",
+  "composition": "백합8 사삼8 천패모4 황금4 맥문동4 용안육4 상엽4 오미자4"
+ },
+ {
+  "code": "H058",
+  "constitution": "taeum",
+  "name": "산약보폐탕",
+  "composition": "의이인8 산약8 녹용6 호도육4 길경4 마황4 맥문동4 오미자4 행인4 해백4"
+ },
+ {
+  "code": "H059",
+  "constitution": "taeum",
+  "name": "녹용대보탕",
+  "composition": "의이인6 맥문동6 행인4 마황4 천문동4 녹용4 오미자4 산약4"
+ },
+ {
+  "code": "H060",
+  "constitution": "taeum",
+  "name": "공진흑원단",
+  "composition": ""
+ },
+ {
+  "code": "H061",
+  "constitution": "taeum",
+  "name": "가감정천탕",
+  "composition": "마황12 행인6 길경6 황금4 관동화4 맥문동4 나복자4 녹각상4 오미자4"
+ },
+ {
+  "code": "H062",
+  "constitution": "taeum",
+  "name": "동과자온폐탕",
+  "composition": "동과자8 행인6 마황6 자완4 길경4 나복자4 녹각상4 오미자4 상백피4"
+ },
+ {
+  "code": "H063",
+  "constitution": "taeum",
+  "name": "상황보음탕",
+  "composition": "여정실주증12 상황8 상심자8 저실자4 산약4 지부자4 천문동4",
+  "compositionOld": "상황12 여정실주증8 저실자8 흑두4 지부자4 오미자증4 상심자4"
+ },
+ {
+  "code": "H064",
+  "constitution": "taeum",
+  "name": "정심보음탕",
+  "composition": "여정실주증12 저실자8 상심자8 오미자증4 상황4 산약4 지부자4 천문동4",
+  "compositionOld": "여정실주증12 저실자8 상심자8 오미자증4 상황4 사삼4 지부자4"
+ },
+ {
+  "code": "H065",
+  "constitution": "taeum",
+  "name": "건율보양탕",
+  "composition": "건율12 연자육8 산약8 호도육4 녹각교4 쇄양4 속단주초4 상황4",
+  "compositionOld": "건율12 연자육8 산약6 호도육6 녹용4 쇄양4 속단주초4"
+ },
+ {
+  "code": "H066",
+  "constitution": "taeum",
+  "name": "연자보양탕",
+  "composition": "연자12 산약8 여정실주증4 상심자4 오미자증4 속단주초4 호도육4 쇄양4 지부자4",
+  "compositionOld": "연자8 여정실주증6 상심자6 오미자증4 속단주초4 호도육4 건율4 쇄양4 지부자4"
+ },
+ {
+  "code": "H067",
+  "constitution": "taeum",
+  "name": "호도육보신탕",
+  "composition": "건율12 호도육8 나복자6 산약6 녹용4 오미자4 맥문동4 여두4"
+ },
+ {
+  "code": "H068",
+  "constitution": "taeum",
+  "name": "건율온신탕",
+  "composition": "건율12 의이인12 산약4 마황4 나복자4 녹각상4 오미자4 지부자4"
+ },
+ {
+  "code": "H069",
+  "constitution": "taeum",
+  "name": "여정자건율탕",
+  "composition": "건율12 여정실주증6 지부자6 산약4 오미자4 삼백초4 상백피4 녹각상4"
+ },
+ {
+  "code": "H070",
+  "constitution": "taeum",
+  "name": "청호온담탕",
+  "composition": "의이인8 청호6 비파엽4 황금4 동과인4 나복자4 절패모4",
+  "compositionOld": "의이인8 청호6 죽여6 비파엽4 황금4 동과인4 나복자4 절패모4"
+ },
+ {
+  "code": "H071",
+  "constitution": "taeum",
+  "name": "감국온담탕",
+  "composition": "사삼8 감국6 유근피6 황금4 청호4 비파엽4 절패모4 울금4",
+  "compositionOld": "사삼8 감국6 유근피6 황금4 죽여4 청호4 비파엽4 절패모4 울금4"
+ },
+ {
+  "code": "H072",
+  "constitution": "taeum",
+  "name": "마황정통탕",
+  "composition": "의이인12 건율12 나복자4 행인4 백자인4 석창포4 사군자4 용안육4",
+  "compositionOld": "의이인12 건율12 마황8 나복자8 행인 백자인 맥문동 길경 오미자 석창포 사군자 용안육4"
+ },
+ {
+  "code": "H073",
+  "constitution": "taeum",
+  "name": "천문동도적산",
+  "composition": "천문동8 등심4 호장근4 목통4 포공영4 포황4 지부자4 진교4"
+ },
+ {
+  "code": "H074",
+  "constitution": "taeum",
+  "name": "유근피도적산",
+  "composition": "백합8 등심4 호박4 목통4 포황4 삼백초4 유근피4 지부자4"
+ },
+ {
+  "code": "H075",
+  "constitution": "taeum",
+  "name": "건율보위탕",
+  "composition": "의이인초12 건율6 산약초6 사삼4 나복자초4 석창포4 신곡4 사당4 오매2 유근피2"
+ },
+ {
+  "code": "H076",
+  "constitution": "taeum",
+  "name": "맥문동양위탕",
+  "composition": "갈근8 노근8 맥문동8 황금4 황정4 천문동4 나복자초4 비파엽4"
+ },
+ {
+  "code": "H077",
+  "constitution": "taeum",
+  "name": "백합양위탕",
+  "composition": "사삼8 노근8 맥문동8 유근피6 나복자초6 황금4 비파엽4 백합4",
+  "compositionOld": "사삼8 노근8 유근피6 맥문동6 황금4 나복자초4 비파엽4 백합4"
+ },
+ {
+  "code": "H078",
+  "constitution": "taeum",
+  "name": "갈근청위탕",
+  "composition": "갈근12 황금8 맥문동6 유근피6 노근4 절패모4 나복자초4 비파엽4"
+ },
+ {
+  "code": "H079",
+  "constitution": "taeum",
+  "name": "유근피청위탕",
+  "composition": "황금8 유근피8 의이인4 감국4 절패모4 비파엽4 나복자초4 삼백초4 노근4"
+ },
+ {
+  "code": "H080",
+  "constitution": "taeum",
+  "name": "건율청위탕",
+  "composition": "사삼8 유근피8 건율6 황금6 의이인4 나복자초4 감국4 삼백초4 노근4"
+ },
+ {
+  "code": "H081",
+  "constitution": "taeum",
+  "name": "이건율청위탕",
+  "composition": "의이인8 건율8 용안육6 유근피6 나복자초4 오미자4 사삼4 석창포4 노근2 황금2"
+ },
+ {
+  "code": "H082",
+  "constitution": "taeum",
+  "name": "연자육양장탕",
+  "composition": "의이인초12 건율12 갈근외4 나복자초4 오미자4 석창포4 연자육4 춘근피2 해백2"
+ },
+ {
+  "code": "H083",
+  "constitution": "taeum",
+  "name": "오매양장탕",
+  "composition": "의이인8 연자육8 건율4 나복자초4 오미자4 오매4 유근피2 저백피부초2"
+ },
+ {
+  "code": "H084",
+  "constitution": "taeum",
+  "name": "갈근청장탕",
+  "composition": "의이인8 황금6 저근백피부초6 괴화4 해동피4 담두시4 대황4 유근피4 갈근외4"
+ },
+ {
+  "code": "H085",
+  "constitution": "taeum",
+  "name": "유근피청장탕",
+  "composition": "유근피8 황금6 의이인6 해동피4 감국4 저근백피4 괴화4"
+ },
+ {
+  "code": "H086",
+  "constitution": "taeum",
+  "name": "연자소간탕",
+  "composition": "의이인초8 연자육8 백렴4 나복자4 오미자4 석창포4 백질려염수초4 산조인4 해백2 조구등2"
+ },
+ {
+  "code": "H087",
+  "constitution": "taeum",
+  "name": "오매소간탕",
+  "composition": "의이인초8 연자육8 오미자4 오매4 산조인4 여정실4 조구등2 백렴2 유근피2 백질려염수초2",
+  "compositionOld": "의이인초8 연자육8 조구등4 오미자4 오매4 산조인4 유근피4 여정실4 백렴4"
+ },
+ {
+  "code": "H088",
+  "constitution": "taeum",
+  "name": "갈근화위탕",
+  "composition": "의이인8 갈근8 백질려염수초4 담두시4 백렴4 비파엽4 맥문동4 나복자4 유근피4"
+ },
+ {
+  "code": "H089",
+  "constitution": "taeum",
+  "name": "유근피화위탕",
+  "composition": "의이인8 유근피8 백지려염수초4 백합4 나복자4 사삼4 비파엽4 감국2 백렴2"
+ },
+ {
+  "code": "H090",
+  "constitution": "taeum",
+  "name": "천문동청폐탕",
+  "composition": "천문동8 황금6 맥문동6 비파엽4 자완4 절패모4 상백피4"
+ },
+ {
+  "code": "H091",
+  "constitution": "taeum",
+  "name": "상백피청폐탕",
+  "composition": "사삼8 황금6 상백피6 천문동4 감국4 비파엽4 백선피4 상엽4"
+ },
+ {
+  "code": "H092",
+  "constitution": "taeum",
+  "name": "연자양혈탕",
+  "composition": "산약8 연자육8 맥문동4 녹각교초주4 석창포4 산조인초4 단삼초4 원지4 용안육4 백자인4"
+ },
+ {
+  "code": "H093",
+  "constitution": "taeum",
+  "name": "단삼양혈탕",
+  "composition": "백합8 용안육8 백자인4 단삼4 오미자4 산조인초4 원지4 감국2 황금2"
+ },
+ {
+  "code": "H094",
+  "constitution": "taeum",
+  "name": "단삼건율탕",
+  "composition": "건율12 단삼6 홍화6 연자육4 녹각4 포황4 상황4 길경4"
+ },
+ {
+  "code": "H094-1",
+  "constitution": "taeum",
+  "name": "가미단삼건율탕",
+  "composition": "단삼건율탕 + 오공 진교"
+ },
+ {
+  "code": "H095",
+  "constitution": "taeum",
+  "name": "단삼포황탕",
+  "composition": "단삼8 홍화8 백렴4 호박4 여정실주증4 포황4 속단4 상황4"
+ },
+ {
+  "code": "H095-1",
+  "constitution": "taeum",
+  "name": "가미단삼포황탕",
+  "composition": "단삼포황탕 + 오공 진교"
+ },
+ {
+  "code": "H096",
+  "constitution": "taeum",
+  "name": "단삼대황탕",
+  "composition": "단삼8 황금6 맥문동6 길경4 호장근4 대황주증4 백렴4 녹각4 포황4"
+ },
+ {
+  "code": "H096-1",
+  "constitution": "taeum",
+  "name": "가미단삼대황탕",
+  "composition": "단삼대황탕 + 오공 진교"
+ },
+ {
+  "code": "H097",
+  "constitution": "taeum",
+  "name": "가감단삼청영탕",
+  "composition": "사삼8 여정실8 단삼4 황금4 포황4 백렴4 우각4 유근피4 측백엽4"
+ },
+ {
+  "code": "H098",
+  "constitution": "taeum",
+  "name": "마황통맥탕",
+  "composition": "건율8 단삼6 진교6 녹각상4 석창포4 여두4 홍화4 마황2 고본2 백지2"
+ },
+ {
+  "code": "H099",
+  "constitution": "taeum",
+  "name": "홍화통맥탕",
+  "composition": "여정실주증8 사삼8 홍화6 단삼4 고본4 여두4 진교4 백지2 녹각상2"
+ },
+ {
+  "code": "H100",
+  "constitution": "taeum",
+  "name": "이동윤조탕",
+  "composition": "맥문동8 천문동6 백질려6 단삼4 패장4 승마 4 지부자4 부평초4 화피4",
+  "compositionOld": "맥문동8 천문동6 백질려6 단삼4 행인4 패장4 승마 4 지부자4 부평초4"
+ },
+ {
+  "code": "H101",
+  "constitution": "taeum",
+  "name": "사삼윤조탕",
+  "composition": "사삼8 백부근6 상엽6 백선피4 맥문동4 여정실주증4 단삼4 선태4 화피4",
+  "compositionOld": "사삼8 백부근6 상엽6 백선피4 행인4 맥문동4 여정실주증4 단삼4 선태4"
+ },
+ {
+  "code": "H102",
+  "constitution": "taeum",
+  "name": "천마조등탕",
+  "composition": "천마6 조구등6 갈근4 백렴4 조각자4 석창포4 원지4 전충2 오공2"
+ },
+ {
+  "code": "H103",
+  "constitution": "taeum",
+  "name": "감국구풍탕",
+  "composition": "조구등8 감국6 상지6 천마4 백렴4 석창포4 선태4 전충2 원지2"
+ },
+ {
+  "code": "H104",
+  "constitution": "taeum",
+  "name": "갈근질려탕",
+  "composition": "백질려8 부평초8 지부자6 화피6 괴화4 백지4 패장4 승마2 갈근2",
+  "compositionOld": "백질려8 부평초8 지부자6 해동피6 괴화4 백지4 패장4 승마2 갈근2"
+ },
+ {
+  "code": "H105",
+  "constitution": "taeum",
+  "name": "창이자패장탕",
+  "composition": "백선피6 선태6 백부근4 창이자4 감국4 상엽4 화피4 지부자4 패장4 부평초4",
+  "compositionOld": "백선피6 선태6 백부근4 창이자4 감국4 상엽4 해동피4 지부자4 패장4 부평초4"
+ },
+ {
+  "code": "H106",
+  "constitution": "taeum",
+  "name": "갈근해독탕",
+  "composition": "갈근16 황금8 포공영8 백렴4 맥문동4 패장4 길경4 승마4"
+ },
+ {
+  "code": "H107",
+  "constitution": "taeum",
+  "name": "감국해독탕",
+  "composition": "사삼8 감국6 백선피6 황금4 백렴4 삼백초4 상엽4 선태4"
+ },
+ {
+  "code": "H108",
+  "constitution": "taeum",
+  "name": "상지삼백초탕",
+  "composition": "의이인8 부평초6 상지6 나복자4 삼백초4 해동피4 유근피4 지부자4"
+ },
+ {
+  "code": "H109",
+  "constitution": "taeum",
+  "name": "가감갈근부평탕",
+  "composition": "의이인12 부평초8 갈근8 곤포4 길경4 황금4 맥문동4 나복자4"
+ },
+ {
+  "code": "H110",
+  "constitution": "taeum",
+  "name": "마황의이인탕",
+  "composition": "의이인12 나복자6 마황4 백지4 석창포4 녹각상4 해동피4 해백2"
+ },
+ {
+  "code": "H111",
+  "constitution": "taeum",
+  "name": "상지의이인탕",
+  "composition": "의이인12 창이자6 상지6 백선피4 곡기생4 해동피4 진교4"
+ },
+ {
+  "code": "H112",
+  "constitution": "taeum",
+  "name": "진교의이인탕",
+  "composition": "의이인12 진교8 목통6 해동피6 백렴4 나복자4 곡기생4 백자인4"
+ },
+ {
+  "code": "H113",
+  "constitution": "taeum",
+  "name": "마황정천탕",
+  "composition": "백과12 마황12 행인6 관동화4 황금4 길경4 맥문동4 나복자4 상백피4"
+ },
+ {
+  "code": "H114",
+  "constitution": "taeum",
+  "name": "의이인청폐탕",
+  "composition": "천문동8 황금8 비파엽6 길경6 맥문동4 의이인4 승마4 창이자4 포공영4",
+  "compositionOld": "천문동8 황금6 비파엽6 맥문동4 백합4 의이인4 승마4 창이자4 포공영4"
+ },
+ {
+  "code": "H115",
+  "constitution": "taeum",
+  "name": "창이자청폐탕",
+  "composition": "비파엽8 황금8 창이자6 길경6 상엽4 포공영4 사간4 맥문동4",
+  "compositionOld": "비파엽8 황금6 창이자6 백합4 백선피4 상엽4 사삼4 맥문동4"
+ },
+ {
+  "code": "H116",
+  "constitution": "taeum",
+  "name": "백지창이자탕",
+  "composition": "사간8 황금8 갈근8 길경8 백지4 창이자4 패장4 포공영4",
+  "compositionOld": "백지8 황금8 갈근8 창이자4 패장4 길경4 맥문동4 포공영4"
+ },
+ {
+  "code": "H117",
+  "constitution": "taeum",
+  "name": "조위승청탕",
+  "composition": "의이인12 건율12 나복자6 오미자4 석창포4 산조인4 원지4 용안육4 길경4 마황4 맥문동4 천문동4"
+ },
+ {
+  "code": "H118",
+  "constitution": "taeum",
+  "name": "사삼유근피탕",
+  "composition": "비파엽8 행인8 의이인6 나복자6 황금4 유근피4 사삼4 삼백초4 오미자4 맥문동4"
+ },
+ {
+  "code": "H119",
+  "constitution": "taeum",
+  "name": "연자생화탕",
+  "composition": "의이인8 연자육8 상황8 녹각교초주4 포황4 속단4 홍화4 단삼4 호장근2 목통2",
+  "compositionOld": "의이인12 연자육8 상황8 녹각교초주4 포황4 속단4 홍화4 호장근2 목통2"
+ },
+ {
+  "code": "H120",
+  "constitution": "taeum",
+  "name": "상황생화탕",
+  "composition": "상황12 의이인8 녹각교초주4 포황4 호장근4 속단4 목통4 단삼4",
+  "compositionOld": "상황12 의이인12 천문동4 녹각교초주4 포황4 호장근4 속단4 목통4"
+ },
+ {
+  "code": "H121",
+  "constitution": "taeum",
+  "name": "여정자생화탕",
+  "composition": "여정실주증8 상황8 의이인8 오미자4 포황4 단삼4 홍화4 속단4 호장근4 녹각교초주2",
+  "compositionOld": "여정실주증8 상황8 의이인8 백선피4 오미자4 포황4 단삼4 홍화4 속단4 녹각교초주2"
+ },
+ {
+  "code": "H122",
+  "constitution": "taeum",
+  "name": "울금청담탕",
+  "composition": "울금8 유근피8 갈근6 포공영6 대황4 황금4 나복자초4 청호4"
+ },
+ {
+  "code": "H123",
+  "constitution": "taeum",
+  "name": "여정자진교탕",
+  "composition": "여정실주증8 진교8 속단6 곡기생6 자노아4 의이인4 상심자4 녹각상2 마황2"
+ },
+ {
+  "code": "H124",
+  "constitution": "taeum",
+  "name": "가감단삼대황탕",
+  "composition": "단삼8 호장근6 패장6 포황4 백질려4 길경4 홍화4 녹각4"
+ },
+ {
+  "code": "H125",
+  "constitution": "taeum",
+  "name": "가감단삼건율탕",
+  "composition": "건율8 홍화8 단삼8 길경4 자노아4 녹각4 울금4 백자인4"
+ },
+ {
+  "code": "H126",
+  "constitution": "taeum",
+  "name": "가감단삼포황탕",
+  "composition": "홍화8 단삼6 울금6 포황4 상황4 백자인4 속단4"
+ },
+ {
+  "code": "H127",
+  "constitution": "taeum",
+  "name": "길경원지탕",
+  "composition": "의이인12 석창포6 나복자6 길경4 오미자4 천패모4 원지4 노근2 비파엽2",
+  "compositionOld": "길경죽여탕: 의이인12 석창포6 나복자6 길경4 오미자4 천패모4 원지4 죽여2 비파엽2"
+ },
+ {
+  "code": "H128",
+  "constitution": "taeum",
+  "name": "가감길경원지탕",
+  "composition": "비파엽8 노근6 나복자6 길경4 오미자4 천패모4 원지4 황금4 행인4",
+  "compositionOld": "가감길경죽여탕: 비파엽8 죽여6 나복자6 길경4 오미자4 천패모4 원지4 황금4 행인4 노근4"
+ },
+ {
+  "code": "P001",
+  "constitution": "soyang",
+  "name": "이씨형백패독산",
+  "composition": "방풍4 복령4 차전자4 독활4 강활4 형개4 전호4 시호4 지골피4 생지황4"
+ },
+ {
+  "code": "P002",
+  "constitution": "soyang",
+  "name": "방풍해표탕",
+  "composition": "방풍8 형개6 강활6 복령4 전호4 독활4 금은화4 연교4 토창출4",
+  "compositionOld": "방풍8 형개6 강활6 복령4 전호4 독활4 금은화4 연교4 홍모오가피4"
+ },
+ {
+  "code": "P003",
+  "constitution": "soyang",
+  "name": "은교청열탕",
+  "composition": "금은화8 사과락8 차전자4 방풍4 죽엽4 전호4 석고4 우방자4 연교4 생지황4 박하2",
+  "compositionOld": "금은화8 사과락8 차전자4 방풍4 형개4 전호4 석고4 우방자4 연교4 생지황4 박하2"
+ },
+ {
+  "code": "P004",
+  "constitution": "soyang",
+  "name": "방풍청열탕",
+  "composition": "금은화8 사과락8 방풍4 복령4 강활4 전호4 형개4 차전자4 연교4 독활4",
+  "compositionOld": "방풍8 금은화6 사과락6 복령4 강활4 전호4 형개4 차전자4 연교4 독활4"
+ },
+ {
+  "code": "P005",
+  "constitution": "soyang",
+  "name": "방풍차전자탕",
+  "composition": "방풍8 강활6 복령6 차전자4 형개4 사과락4 독활4 전호초4"
+ },
+ {
+  "code": "P006",
+  "constitution": "soyang",
+  "name": "사과락과루인탕",
+  "composition": "사과락8 전호8 차전자4 금은화4 과루인4 죽엽4 시호4 연교4 복령4 백화사설초4",
+  "compositionOld": "사과락8 전호8 차전자4 금은화4 과루인4 방풍4 시호4 연교4 복령4 백화사설초4"
+ },
+ {
+  "code": "P007",
+  "constitution": "soyang",
+  "name": "형방사백산",
+  "composition": "생지황12 택사8 복령8 강활4 형개4 석고4 방풍4 독활4 지모4"
+ },
+ {
+  "code": "P008",
+  "constitution": "soyang",
+  "name": "류씨저령차전자탕",
+  "composition": "복령8 택사8 저령6 차전자6 시호4 지모4 방풍4"
+ },
+ {
+  "code": "P009",
+  "constitution": "soyang",
+  "name": "지황백호탕",
+  "composition": "석고20 생지황16 지모8 독활4 방풍4"
+ },
+ {
+  "code": "P010",
+  "constitution": "soyang",
+  "name": "저령차전자탕",
+  "composition": "복령8 택사8 저령6 차전자6 강활4 형개4 방풍4 석고4 독활4 지모4"
+ },
+ {
+  "code": "P011",
+  "constitution": "soyang",
+  "name": "형방도적산",
+  "composition": "생지황12 과루인6 현삼6 독활4 형개4 전호4 강활4 방풍4 사과락4",
+  "compositionOld": "생지황12 목통8 과루인6 현삼6 독활4 형개4 전호4 강활4 방풍4"
+ },
+ {
+  "code": "P012",
+  "constitution": "soyang",
+  "name": "류씨소시호탕",
+  "composition": "방풍8 복령6 형개6 강활4 과루인4 독활4 시호4 숙지황4"
+ },
+ {
+  "code": "P013",
+  "constitution": "soyang",
+  "name": "형방지황탕",
+  "composition": "복령8 산수유8 택사8 강활4 형개4 방풍4 차전자4 독활4 홍모오가피4",
+  "compositionOld": "복령8 산수유8 택사8 숙지황8 강활4 형개4 방풍4 차전자4 독활4"
+ },
+ {
+  "code": "P014",
+  "constitution": "soyang",
+  "name": "독활지황탕",
+  "composition": "숙지황16 산수유8 택사6 복령6 방풍4 독활4 목단피4"
+ },
+ {
+  "code": "P015",
+  "constitution": "soyang",
+  "name": "활석고삼탕",
+  "composition": "복령8 고삼8 활석8 택사8 방풍4 독활4 황백4 황련4 형개4 강활4"
+ },
+ {
+  "code": "P016",
+  "constitution": "soyang",
+  "name": "황련청장탕",
+  "composition": "생지황16 택사8 복령8 황련4 저령4 방풍4 차전자4 강활4",
+  "compositionOld": "생지황16 목통8 택사8 복령8 황련4 저령4 방풍4 차전자4 강활4"
+ },
+ {
+  "code": "P017",
+  "constitution": "soyang",
+  "name": "지황청영탕",
+  "composition": "생지황12 죽엽8 금은화8 황련4 석고4 연교4 치자4 지모4",
+  "compositionOld": "생지황12 현삼8 금은화8 황련4 석고4 연교4 치자4 지모4"
+ },
+ {
+  "code": "P018",
+  "constitution": "soyang",
+  "name": "양격산화탕",
+  "composition": "인동등8 연교8 생지황8 형개4 방풍4 석고4 박하4 치자4 지모4"
+ },
+ {
+  "code": "P019",
+  "constitution": "soyang",
+  "name": "별갑지골피탕",
+  "composition": "건지황12 지골피8 구판교6 별갑초6 황백4 목단피4 복령4 지모4"
+ },
+ {
+  "code": "P020",
+  "constitution": "soyang",
+  "name": "홍맥건비탕",
+  "composition": "토창출8 복령8 맥아8 홍맥4 토사자4 맥이당4 영지4 연교2",
+  "compositionOld": "홍맥8 복령8 맥아8 토사자4 맥이당4 택사4 영지4 연교2 방풍2"
+ },
+ {
+  "code": "P021",
+  "constitution": "soyang",
+  "name": "숙지황고삼탕",
+  "composition": "숙지황16 산수유8 택사6 복령6 황백4 고삼4 지모4"
+ },
+ {
+  "code": "P022",
+  "constitution": "soyang",
+  "name": "류씨시호소간탕",
+  "composition": "숙지황8 시호6 복령6 맥아초4 박하4 과루피4 토창출4 목단피4",
+  "compositionOld": "숙지황8 시호6 복령6 맥아초4 박하4 과루피4 택사4 목단피4"
+ },
+ {
+  "code": "P023",
+  "constitution": "soyang",
+  "name": "대맥소간탕",
+  "composition": "토창출8 복령8 맥아초6 홍맥4 방풍4 대맥근4 박하2 시호2 과루피2",
+  "compositionOld": "복령8 홍맥8 방풍6 맥아초6 대맥근4 형개4 택사4 박하2 시호2 과루피2"
+ },
+ {
+  "code": "P024",
+  "constitution": "soyang",
+  "name": "결명자청간탕",
+  "composition": "건지황8 결명자8 별갑6 시호6 차전자4 구판4 모려분4 치자4"
+ },
+ {
+  "code": "P025",
+  "constitution": "soyang",
+  "name": "구기자양간탕",
+  "composition": "숙지황16 산수유8 구기자8 목단피4 복령4 택사4 구판4"
+ },
+ {
+  "code": "P026",
+  "constitution": "soyang",
+  "name": "숙지황보간탕",
+  "composition": "산수유8 구기자8 형개6 복령6 택사4 숙지황4 방풍4"
+ },
+ {
+  "code": "P027",
+  "constitution": "soyang",
+  "name": "생지황보간탕",
+  "composition": "숙지황16 생지황8 구기자8 산수유4 택사4 복령4 한련초4"
+ },
+ {
+  "code": "P028",
+  "constitution": "soyang",
+  "name": "복령보심탕",
+  "composition": "복령12 구기자8 영지8 백복신4 홍맥4 시호2 모려분2"
+ },
+ {
+  "code": "P029",
+  "constitution": "soyang",
+  "name": "지황양심탕",
+  "composition": "숙지황12 구기자6 복령6 백복신4 구판4 지골피4 생지황4 천화분4"
+ },
+ {
+  "code": "P030",
+  "constitution": "soyang",
+  "name": "복신보심탕",
+  "composition": "영지8 복령8 홍맥4 토사자4 백복신4 숙지황4 방풍4"
+ },
+ {
+  "code": "P031",
+  "constitution": "soyang",
+  "name": "황련청심탕",
+  "composition": "생지황12 황련6 복령6 현삼4 박하4 모려분4 죽엽4 치자4",
+  "compositionOld": "생지황12 황련6 복령6 현삼4 박하4 모려분4 연교4 치자4"
+ },
+ {
+  "code": "P032",
+  "constitution": "soyang",
+  "name": "목단피과루인탕",
+  "composition": "대맥근12 복령8 과루인초8 토창출4 목단피4 사과락4 생지황4",
+  "compositionOld": "대맥근12 복령8 과루인초8 목단피4 사과락4 생지황4"
+ },
+ {
+  "code": "P033",
+  "constitution": "soyang",
+  "name": "복신과루인탕",
+  "composition": "백복신12 과루인6 영지6 천축황4 대맥근4 복령4 목단피4 모려분4 치자초4",
+  "compositionOld": "백복신12 과루인6 영지6 대맥근4 복령4 목단피4 모려분4 연교4 치자초4"
+ },
+ {
+  "code": "P034",
+  "constitution": "soyang",
+  "name": "천화분양비탕",
+  "composition": "숙지황16 복령8 천화분4 과루인4 석고4 택사4 지모4"
+ },
+ {
+  "code": "P035",
+  "constitution": "soyang",
+  "name": "가감독활지황탕",
+  "composition": "숙지황8 택사8 복령8 독활4 방풍4 토사자4 선모4"
+ },
+ {
+  "code": "P036",
+  "constitution": "soyang",
+  "name": "방풍보폐탕",
+  "composition": "복령8 영지8 홍맥4 방풍4 맥이당4 토사자4 전호초4 토창출4",
+  "compositionOld": "복령8 영지8 홍맥6 방풍6 맥이당4 토사자4 전호초4"
+ },
+ {
+  "code": "P037",
+  "constitution": "soyang",
+  "name": "지황양폐탕",
+  "composition": "숙지황12 현삼6 생지황4 한련초4 지골피4 천화분4 지모4 죽엽4 황백2",
+  "compositionOld": "숙지황12 생지황6 현삼6 한련초4 지골피4 천화분4 지모4 황백2"
+ },
+ {
+  "code": "P038",
+  "constitution": "soyang",
+  "name": "이씨육미지황탕",
+  "composition": "숙지황16 산수유8 구기자8 택사6 복령6 목단피4"
+ },
+ {
+  "code": "P039",
+  "constitution": "soyang",
+  "name": "산수유보신탕",
+  "composition": "산수유8 복령8 토사자8 복분자4 택사4 홍맥4 영지4",
+  "compositionOld": "산수유8 복령8 토사자8 복분자4 택사4 홍맥4 영지4 구기자4"
+ },
+ {
+  "code": "P040",
+  "constitution": "soyang",
+  "name": "토사자보양탕",
+  "composition": "숙지황8 토사자8 복령8 산수유8 구자4 택사4 선모4",
+  "compositionOld": "숙지황8 토사자8 복령8 산수유8 구기자4 구자4 택사4 선모4"
+ },
+ {
+  "code": "P041",
+  "constitution": "soyang",
+  "name": "구판보음탕",
+  "composition": "숙지황16 택사8 산수유8 한련초4 목단피4 복령4 구판4 별갑4",
+  "compositionOld": "숙지황16 택사8 산수유8 한련초4 목단피4 복령4 구기자4 구판4"
+ },
+ {
+  "code": "P042",
+  "constitution": "soyang",
+  "name": "구자온신탕",
+  "composition": "구기자8 택사8 복령8 산수유6 저령6 목단피4 구자4 선모4",
+  "compositionOld": "토사자온신탕: 구기자8 택사8 복령8 산수유6 저령6 목단피4 구자4 선모4"
+ },
+ {
+  "code": "P043",
+  "constitution": "soyang",
+  "name": "치자온담탕",
+  "composition": "복령4 치자4 죽여4 과루피4 황련4 사과락4 시호4 연교4 지모4 토창출4",
+  "compositionOld": "복령4 치자4 과루피4 황련4 사과락4 시호4 연교4 지모4"
+ },
+ {
+  "code": "P044",
+  "constitution": "soyang",
+  "name": "가감팔정산",
+  "composition": "복령4 치자4 차전자4 활석4 저령4 석고4 택사4 죽엽4 생지황4",
+  "compositionOld": "복령4 치자4 차전자4 활석4 저령4 석고4 택사4 생지황4"
+ },
+ {
+  "code": "P045",
+  "constitution": "soyang",
+  "name": "맥아보위탕",
+  "composition": "맥이당8 맥아초8 홍맥초6 토창출6 영지4 복령4 대맥근4 토사자4 방풍4",
+  "compositionOld": "맥이당8 맥아초8 영지8 복령6 홍맥초6 대맥근4 토사자4 방풍4"
+ },
+ {
+  "code": "P046",
+  "constitution": "soyang",
+  "name": "생지황양위탕",
+  "composition": "숙지황12 생지황6 죽여6 복령4 모려분4 택사4 천화분4 지모4 맥아4",
+  "compositionOld": "숙지황12 생지황6 복령6 모려분4 석고4 택사4 천화분4 지모4"
+ },
+ {
+  "code": "P047",
+  "constitution": "soyang",
+  "name": "황련청위탕",
+  "composition": "생지황12 죽여8 지모8 모려분4 석고4 치자초4 황련초4",
+  "compositionOld": "생지황12 복령8 지모8 모려분4 석고4 치자초4 황련초4"
+ },
+ {
+  "code": "P048",
+  "constitution": "soyang",
+  "name": "토사자양장탕",
+  "composition": "복령12 맥아초8 토창출4 홍맥4 금앵자4 토사자4 석류피2 황련초2",
+  "compositionOld": "복령12 맥아초8 택사8 홍맥4 금앵자4 토사자4 석류피2 황련초2"
+ },
+ {
+  "code": "P049",
+  "constitution": "soyang",
+  "name": "삼황사심탕",
+  "composition": "숙지황16 택사6 복령6 생지황4 목단피4 치자초2 시호초2 석고2 활석2 황백초2 황련초2 지모초2"
+ },
+ {
+  "code": "P050",
+  "constitution": "soyang",
+  "name": "토사자소간탕",
+  "composition": "토창출8 맥아초6 시호6 복령4 홍맥4 박하4 차전자4 토사자4 죽여2",
+  "compositionOld": "복령12 맥아초6 시호6 홍맥4 박하4 차전자4 토사자4"
+ },
+ {
+  "code": "P051",
+  "constitution": "soyang",
+  "name": "시호화위탕",
+  "composition": "복령8 맥아초초8 시호6 생지황4 박하4 토창출4 죽여4 모려분4 황련초2",
+  "compositionOld": "복령8 맥아초초8 시호6 생지황6 박하4 택사4 모려분4 황련초2"
+ },
+ {
+  "code": "P052",
+  "constitution": "soyang",
+  "name": "치자황련탕",
+  "composition": "복령8 택사8 차전자4 활석4 황련4 저령4 치자4 백화사설초4"
+ },
+ {
+  "code": "P053",
+  "constitution": "soyang",
+  "name": "숙지황목단피탕",
+  "composition": "숙지황8 복령6 형개6 홍맥4 목단피4 토창출4 영지4 대계4",
+  "compositionOld": "숙지황8 홍맥8 복령6 형개6 목단피4 영지4 대계4"
+ },
+ {
+  "code": "P053-1",
+  "constitution": "soyang",
+  "name": "가미숙지황목단피탕",
+  "composition": "숙지황목단피탕 중용대계 가 강활 독활"
+ },
+ {
+  "code": "P054",
+  "constitution": "soyang",
+  "name": "생지황목단피탕",
+  "composition": "숙지황12 목단피6 시호6 자초4 과루인4 대계4 석고4 생지황4"
+ },
+ {
+  "code": "p054-1",
+  "constitution": "soyang",
+  "name": "가미생지황목단피탕",
+  "composition": "생지황목단피탕 중용대계 가 강활 독활"
+ },
+ {
+  "code": "P055",
+  "constitution": "soyang",
+  "name": "가감지황청영탕",
+  "composition": "생지황12 죽여6 현삼6 한련초4 석고4 금은화4 치자4 택사4",
+  "compositionOld": "생지황12 택사6 현삼6 한련초4 석고4 금은화4 치자4"
+ },
+ {
+  "code": "P056",
+  "constitution": "soyang",
+  "name": "방풍통맥탕",
+  "composition": "숙지황8 방풍8 독활6 강활6 홍모오가피4 목단피4 사과락4 토창출4",
+  "compositionOld": "숙지황8 방풍8 독활6 강활6 홍모오가피4 목단피4 사과락4 홍맥4"
+ },
+ {
+  "code": "P057",
+  "constitution": "soyang",
+  "name": "생지황윤조탕",
+  "composition": "생지황12 한련초6 숙지황6 형개4 목단피4 우방자4 방풍4 천화분4 독활4 금은화4"
+ },
+ {
+  "code": "P058",
+  "constitution": "soyang",
+  "name": "방풍구풍탕",
+  "composition": "방풍8 인동등6 죽엽6 천축황4 형개4 사과락4 백복신4 토창출4 모려분2 시호2",
+  "compositionOld": "방풍8 인동등6 형개6 사과락4 강활4 백복신4 모려분2 시호2"
+ },
+ {
+  "code": "P059",
+  "constitution": "soyang",
+  "name": "자초한련초탕",
+  "composition": "방풍8 독활6 형개6 한련초4 고삼4 금은화4 자초4 우방자4 연교4"
+ },
+ {
+  "code": "P060",
+  "constitution": "soyang",
+  "name": "가감양격산화탕",
+  "composition": "인동등8 연교8 생지황8 황련4 백화사설초4 석고4 박하4 치자4 지모4"
+ },
+ {
+  "code": "P061",
+  "constitution": "soyang",
+  "name": "강활홍오탕",
+  "composition": "방풍8 강활6 독활6 홍모오가피4 토창출4 선모4 대맥근4 복령4 사과락2 인동등2",
+  "compositionOld": "방풍8 강활6 독활6 홍모오가피4 영지4 선모4 대맥근4 복령4 사과락2 인동등2"
+ },
+ {
+  "code": "P062",
+  "constitution": "soyang",
+  "name": "인동등지황탕",
+  "composition": "인동등12 방풍6 사과락6 숙지황4 강활4 시호4 독활4 토창출4",
+  "compositionOld": "인동등12 방풍6 사과락6 숙지황4 강활4 시호4 독활4"
+ },
+ {
+  "code": "P063",
+  "constitution": "soyang",
+  "name": "사과락청폐탕",
+  "composition": "사과락8 금은화8 지모6 현삼6 치자4 석고4 차전자4 과루인4 백화사설초4 박하2",
+  "compositionOld": "사과락8 지모6 현삼6 치자4 숙지황4 석고4 차전자4 과루인4 백화사설초4 박하2"
+ },
+ {
+  "code": "P064",
+  "constitution": "soyang",
+  "name": "양격청폐탕",
+  "composition": "금은화12 연교12 방풍4 형개4 과루인4 황련4 석고4 생지황4 박하4"
+ },
+ {
+  "code": "P065",
+  "constitution": "soyang",
+  "name": "숙지황생화탕",
+  "composition": "숙지황8 복령6 토창출6 형개6 방풍6 택사4 목단피4 대계4 영지4",
+  "compositionOld": "숙지황8 택사8 복령8 형개6 방풍6 목단피4 대계4 영지4"
+ },
+ {
+  "code": "P066",
+  "constitution": "soyang",
+  "name": "생지황생화탕",
+  "composition": "숙지황16 택사8 목단피4 대계4 구판4 형개4 생지황4 토창출4",
+  "compositionOld": "숙지황16 택사8 목단피4 대계4 구판4 형개4 생지황4 복령4"
+ },
+ {
+  "code": "P067",
+  "constitution": "soyang",
+  "name": "숙지황독활탕",
+  "composition": "숙지황8 토창출8 방풍6 복령6 독활4 구기자4 강활4 홍모오가피4 인동등4",
+  "compositionOld": "숙지황8 독활8 방풍6 복령6 구기자4 강활4 홍모오가피4 인동등4"
+ },
+ {
+  "code": "P068",
+  "constitution": "soyang",
+  "name": "가감생지황목단피탕",
+  "composition": "숙지황12 목단피6 사과락6 생지황4 별갑4 대계4"
+ },
+ {
+  "code": "P069",
+  "constitution": "soyang",
+  "name": "가감숙지황목단피탕",
+  "composition": "숙지황12 홍맥8 목단피6 독활6 대계4 대맥근4"
+ },
+ {
+  "code": "P070",
+  "constitution": "soyang",
+  "name": "복령과루실탕",
+  "composition": "복령8 홍맥8 과루실4 맥아4 영지4 토창출4 대맥근4 차전자4 죽여2",
+  "compositionOld": "복령과루인탕: 복령8 홍맥8 과루인4 맥아4 영지4 택사4 대맥근4 차전자4"
+ },
+ {
+  "code": "P071",
+  "constitution": "soyang",
+  "name": "가감복령과루실탕",
+  "composition": "사과락8 죽여6 과루실6 복령4 맥아4 택사4 차전자4 황련4 석고4 현삼4",
+  "compositionOld": "가감복령과루인탕: 사과락8 과루인6 복령6 맥아 대맥근4 택사 차전자 황련 석고 현삼4"
+ },
+ {
+  "code": "R001",
+  "constitution": "soeum",
+  "name": "가감천궁계지탕",
+  "composition": "계지4 모당귀4 대조4 생강4 창출4 자감초4 천궁4 진피4 소엽4 신이4"
+ },
+ {
+  "code": "R002",
+  "constitution": "soeum",
+  "name": "궁귀향소산",
+  "composition": "향부자8 총백5 창출4 당귀4 대조4 생강4 자감초4 천궁4 자소엽4 진피4"
+ },
+ {
+  "code": "R003",
+  "constitution": "soeum",
+  "name": "이씨곽향정기산",
+  "composition": "광곽향6 생강4 대조4 자소엽4 백출2 대복피2 반하강제2 계피2 자감초2 창출2 건강2 익지인2 청피2 진피2"
+ },
+ {
+  "code": "R004",
+  "constitution": "soeum",
+  "name": "황기청열탕",
+  "composition": "백작약8 충울자6 신이6 황기4 인진4 반하강제4 소엽4 천궁4 대조4 감초4 총백2",
+  "compositionOld": "황기8 충울자6 신이6 생강4 창출4 모당귀4 인진4 반하강제4 소엽4 총백2 세신2 감초2"
+ },
+ {
+  "code": "R005",
+  "constitution": "soeum",
+  "name": "소엽청열탕",
+  "composition": "신이6 백작약6 인진4 충울자4 계지4 반하강제4 소엽4 대조4 감초4 총백2 세신2",
+  "compositionOld": "창출6 신이6 인진4 충울자4 계지4 생강4 반하강제4 소엽4 진피4 세신4 총백2 감초2"
+ },
+ {
+  "code": "R006",
+  "constitution": "soeum",
+  "name": "계지반하생강탕",
+  "composition": "생강12 반하강제8 계지8 백출4 자감초4 백작약4 진피4"
+ },
+ {
+  "code": "R007",
+  "constitution": "soeum",
+  "name": "황기소엽탕",
+  "composition": "황기12 인진12 백작약8 감초4 당귀4 대조4 생강4 소엽4"
+ },
+ {
+  "code": "R008",
+  "constitution": "soeum",
+  "name": "계지소엽탕",
+  "composition": "계지12 황기8 백작약8 당귀4 감초4 대조4 생강4 소엽4"
+ },
+ {
+  "code": "R009",
+  "constitution": "soeum",
+  "name": "천궁계지탕",
+  "composition": "계지12 백작약8 대조4 생강4 창출4 자감초4 천궁4 진피4"
+ },
+ {
+  "code": "R010",
+  "constitution": "soeum",
+  "name": "황기계지탕",
+  "composition": "계지12 황기8 백작약8 당귀4 자감초4 대조4 생강4"
+ },
+ {
+  "code": "R011",
+  "constitution": "soeum",
+  "name": "계지탕",
+  "composition": "계지12 백작약8 감초4 생강4 대조4"
+ },
+ {
+  "code": "R012",
+  "constitution": "soeum",
+  "name": "이씨이중탕",
+  "composition": "백출8 계지8 건강포8 인삼8 백작약8 자감초4 진피4"
+ },
+ {
+  "code": "R013",
+  "constitution": "soeum",
+  "name": "팔물군자탕",
+  "composition": "인삼8 천궁4 당귀4 대조4 생강4 자감초4 황기4 백출4 백작약4 진피4"
+ },
+ {
+  "code": "R014",
+  "constitution": "soeum",
+  "name": "이씨보중익기탕",
+  "composition": "황기12 인삼12 대조4 생강4 자감초4 백출4 당귀4 진피4 소엽2 광곽향2"
+ },
+ {
+  "code": "R015",
+  "constitution": "soeum",
+  "name": "승양익기탕",
+  "composition": "계지8 황기8 인삼8 백작약8 당귀4 자감초4 대조4 생강4 육계4"
+ },
+ {
+  "code": "R016",
+  "constitution": "soeum",
+  "name": "독삼팔물탕",
+  "composition": "인삼40 천궁4 당귀6 대조4 생강4 자감초4 황기4 백출4 백작약4 진피4"
+ },
+ {
+  "code": "R017",
+  "constitution": "soeum",
+  "name": "류씨인삼양위탕",
+  "composition": "창출8 반하강제6 생강6 대조4 자감초4 광곽향4 후박4 인삼4 백작약4 진피4"
+ },
+ {
+  "code": "R018",
+  "constitution": "soeum",
+  "name": "관계부자이중탕",
+  "composition": "인삼12 육계8 건강포8 백출8 부자포4 자감초4 백작약4 진피4"
+ },
+ {
+  "code": "R019",
+  "constitution": "soeum",
+  "name": "백작약보음탕",
+  "composition": "백작약8 아교8 충울자6 수삼6 사원자4 나도근4",
+  "compositionOld": "백작약8 아교8 충울자6 수삼6 황기4 사원자4 나도근4"
+ },
+ {
+  "code": "R020",
+  "constitution": "soeum",
+  "name": "인삼오수유탕",
+  "composition": "인삼40 생강12 오수유12 당귀4 백작약4 육계4"
+ },
+ {
+  "code": "R021",
+  "constitution": "soeum",
+  "name": "이중탕",
+  "composition": "인삼8 백출8 건강8 자감초4"
+ },
+ {
+  "code": "R022",
+  "constitution": "soeum",
+  "name": "삼미삼유탕",
+  "composition": "오수유12 인삼8 생강4 대조4"
+ },
+ {
+  "code": "R023",
+  "constitution": "soeum",
+  "name": "인삼계지탕",
+  "composition": "자감초7.2 계지7.2 백출6 인삼6 건강6"
+ },
+ {
+  "code": "R024",
+  "constitution": "soeum",
+  "name": "인삼부자이중탕",
+  "composition": "인삼8 백출8 건강포8 자감초4 부자포4"
+ },
+ {
+  "code": "R025",
+  "constitution": "soeum",
+  "name": "작약청영탕",
+  "composition": "충울자12 백작약8 인진8 감초4 나도근4 수삼4"
+ },
+ {
+  "code": "R026",
+  "constitution": "soeum",
+  "name": "가감작약청영탕",
+  "composition": "백작약12 자감초8 충울자8 황기4 아교4 수삼4"
+ },
+ {
+  "code": "R027",
+  "constitution": "soeum",
+  "name": "인진충울자탕",
+  "composition": "인진12 황기8 충울자8 백작약4 백출4 지실4 진피4"
+ },
+ {
+  "code": "R028",
+  "constitution": "soeum",
+  "name": "십이미관중탕",
+  "composition": "청피4 대조4 건강4 향부자4 익지인4 진피4 목향2 후박2 지실2 대복피2"
+ },
+ {
+  "code": "R029",
+  "constitution": "soeum",
+  "name": "향부자소간탕",
+  "composition": "창출6 향부자6 천궁4 백작약초4 소엽4 지각초4 진피초4 후박4 청피2 자감초2",
+  "compositionOld": "창출6 향부자6 천궁4 백작약초4 소엽4 지각초4 진피초4 청피2 자감초2"
+ },
+ {
+  "code": "R030",
+  "constitution": "soeum",
+  "name": "향부자팔물탕",
+  "composition": "당귀8 향부자8 백작약8 대조4 생강4 자감초4 천궁4 백출4 진피4"
+ },
+ {
+  "code": "R031",
+  "constitution": "soeum",
+  "name": "충울자청간탕",
+  "composition": "충울자8 백작약8 향부자4 감초4 인진4 청피4 지실4 희첨4"
+ },
+ {
+  "code": "R032",
+  "constitution": "soeum",
+  "name": "백작약양간탕",
+  "composition": "아교8 백작약8 당귀4 희첨주증4 감초4 충울자4 사원자4"
+ },
+ {
+  "code": "R033",
+  "constitution": "soeum",
+  "name": "당귀보간탕",
+  "composition": "당귀8 백작약8 사원자4 대조4 생강4 자감초4 아교4 천궁4"
+ },
+ {
+  "code": "R034",
+  "constitution": "soeum",
+  "name": "오수유부자이중탕",
+  "composition": "인삼8 백출8 건강포8 육계8 백작약4 진피4 자감초4 오수유4 소회향4 파고지4 부자4~8"
+ },
+ {
+  "code": "R035",
+  "constitution": "soeum",
+  "name": "인삼보심탕",
+  "composition": "인삼12 대조8 옥촉서6 합환피4 자감초4 소엽4 진피4",
+  "compositionOld": "인삼12 대조8 합환피4 자감초4 소엽4 진피4"
+ },
+ {
+  "code": "R036",
+  "constitution": "soeum",
+  "name": "대조양심탕",
+  "composition": "수삼8 대조6 백작약6 합환피4 황기4 당귀4 감초4 아교4 옥촉서4",
+  "compositionOld": "수삼8 대조6 백작약6 합환피4 황기4 당귀4 감초4 아교4"
+ },
+ {
+  "code": "R037",
+  "constitution": "soeum",
+  "name": "합환피청심탕",
+  "composition": "수삼12 향부자6 합환피6 적작약4 인진4 당귀4 감초4 지실4"
+ },
+ {
+  "code": "R038",
+  "constitution": "soeum",
+  "name": "당귀후박탕",
+  "composition": "후박8 계지8 생강4 자감초4 천궁4 적작약4 토당귀4 진피4 산사4"
+ },
+ {
+  "code": "R039",
+  "constitution": "soeum",
+  "name": "삼부탕",
+  "composition": "부자포12 인삼6"
+ },
+ {
+  "code": "R040",
+  "constitution": "soeum",
+  "name": "가감척담탕",
+  "composition": "반하강제6 지실6 생강4 귤홍4 인삼4 남성강제4 천궁4 감초2"
+ },
+ {
+  "code": "R041",
+  "constitution": "soeum",
+  "name": "백출건비탕",
+  "composition": "백출8 인삼6 진피6 생강4 자감초4 후박4 반하강제4 대조4 계내금자4 교이4",
+  "compositionOld": "백출8 인삼6 진피6 생강4 자감초4 후박4 반하강제4 대조4 계내금자4"
+ },
+ {
+  "code": "R042",
+  "constitution": "soeum",
+  "name": "작약양비탕",
+  "composition": "백작약8 수삼8 지실6 대조4 나도근4 감초4 황기4"
+ },
+ {
+  "code": "R043",
+  "constitution": "soeum",
+  "name": "소자양폐탕",
+  "composition": "백작약8 아교6 당귀신4 가자육4 소자밀자6 수삼4 감초4"
+ },
+ {
+  "code": "R044",
+  "constitution": "soeum",
+  "name": "홍삼보양탕",
+  "composition": "홍삼8 사원자6 백작약6 당귀4 익지인4 두충염수초4 보골지4 부자포2 자감초2 건강2",
+  "compositionOld": "홍삼8 사원자6 백작약6 당귀4 익지인4 두충염수초4 부자포2 자감초2 건강2"
+ },
+ {
+  "code": "R045",
+  "constitution": "soeum",
+  "name": "인진온담탕",
+  "composition": "인진8 생강6 반하강제6 옥촉서예 4 자감초4 백작약4 지실초4 진피4",
+  "compositionOld": "인진8 생강6 반하강제6 자감초4 백작약4 지실초4 진피4"
+ },
+ {
+  "code": "R046",
+  "constitution": "soeum",
+  "name": "황기보위탕",
+  "composition": "나교이16 백작약8 계지4 자감초4 대조4 황기4 생강4 계내금자4"
+ },
+ {
+  "code": "R047",
+  "constitution": "soeum",
+  "name": "인진청위탕",
+  "composition": "인진8 백작약초6 지실초6 대조4 나도근4 생강4 수삼4 감초4",
+  "compositionOld": "인진8 백작약초6 지실초6 대조4 나도근4 생강4 수삼4 감초4 황기4"
+ },
+ {
+  "code": "R048",
+  "constitution": "soeum",
+  "name": "가감작약탕",
+  "composition": "백작약12 당귀6 산사초초6 자감초4 빈랑4 목향외4 육계4 지각초4 희첨4"
+ },
+ {
+  "code": "R049",
+  "constitution": "soeum",
+  "name": "향사양위탕",
+  "composition": "백두구4 백출4 반하강제4 대조4 생강4 자감초4 건강4 향부자4 인삼4 백작약4 사인4 산사4 진피4"
+ },
+ {
+  "code": "R050",
+  "constitution": "soeum",
+  "name": "가감귀비탕",
+  "composition": "백출4 당귀신4 대조4 자감초4 합환피4 황기4 인삼4 백작약4 목향2"
+ },
+ {
+  "code": "R051",
+  "constitution": "soeum",
+  "name": "승양익기부자탕",
+  "composition": "계지8 황기8 인삼8 백작약8 부자포4 자감초4 대조4 생강4 육계4"
+ },
+ {
+  "code": "R052",
+  "constitution": "soeum",
+  "name": "당귀작약탕",
+  "composition": "토당귀8 익모초6 적작약6 감초4 천궁4 계지4 오령지4 지각4 당귀미4"
+ },
+ {
+  "code": "R053",
+  "constitution": "soeum",
+  "name": "당귀통맥탕",
+  "composition": "토당귀8 계지8 백작약8 천궁4 자감초4 생강4 오수유2 세신2"
+ },
+ {
+  "code": "R054",
+  "constitution": "soeum",
+  "name": "독삼탕",
+  "composition": "인삼20~40"
+ },
+ {
+  "code": "R055",
+  "constitution": "soeum",
+  "name": "당귀윤조탕",
+  "composition": "당귀8 적작약6 지각초6 천궁4 소엽4 대조4 애엽4 감초2"
+ },
+ {
+  "code": "R056",
+  "constitution": "soeum",
+  "name": "인진지각탕",
+  "composition": "인진8 지각초6 모당귀6 감초4 익모초4 애엽4 소엽4 생강4 진피4"
+ },
+ {
+  "code": "R057",
+  "constitution": "soeum",
+  "name": "황기해독탕",
+  "composition": "황기8 충울자6 인진6 감초4 희첨4 천궁4 수삼4 지유4"
+ },
+ {
+  "code": "R058",
+  "constitution": "soeum",
+  "name": "오약창출탕",
+  "composition": "창출8 토당귀6 오약6 모당귀4 계지4 구척4 생강4 세신2 자감초2"
+ },
+ {
+  "code": "R059",
+  "constitution": "soeum",
+  "name": "황기백출탕",
+  "composition": "백출초12 황기8 모당귀4 생강4 토당귀4 적작약4 오약4 희첨4"
+ },
+ {
+  "code": "R060",
+  "constitution": "soeum",
+  "name": "신이청폐탕",
+  "composition": "신이8 아교6 충울자6 소자밀자4 가자육4 지각4 황기4 수삼4 감초4"
+ },
+ {
+  "code": "R061",
+  "constitution": "soeum",
+  "name": "창출생화탕",
+  "composition": "창출8 당귀6 익모초6 계지4 향부자4 천궁주초4 백작약초4 산사4 인삼2 자감초2"
+ },
+ {
+  "code": "R062",
+  "constitution": "soeum",
+  "name": "익모초생화탕",
+  "composition": "익모초8 당귀6 백출6 향부자4 황기4 천궁주초4 백작약초4 산사4 인삼2 감초2"
+ },
+ {
+  "code": "R063",
+  "constitution": "soeum",
+  "name": "두충구척탕",
+  "composition": "두충염수초8 구척6 모당귀6 백작약4 천궁4 계지4 당귀4 세신2 감초2"
+ },
+ {
+  "code": "R064",
+  "constitution": "soeum",
+  "name": "가감당귀작약탕",
+  "composition": "익모초8 적작약8 향부자8 당귀미4 천궁4 지각4 오령지4 감초4"
+ },
+ {
+  "code": "R065",
+  "constitution": "soeum",
+  "name": "가감창출생화탕",
+  "composition": "향부자8 당귀6 천궁6 토당귀4 애엽4 산사4 계지4 오령지4 감초4"
+ },
+ {
+  "code": "R066",
+  "constitution": "soeum",
+  "name": "반하백출탕",
+  "composition": "백출8 반하제4 진피4 백두구4 생강4 대조4 청피2 자감초2"
+ },
+ {
+  "code": "R067",
+  "constitution": "soeum",
+  "name": "가감반하백출탕",
+  "composition": "지실6 인진6 반하제4 남성제4 소자4 생강4 진피4 청피2 감초2"
+ }
+]

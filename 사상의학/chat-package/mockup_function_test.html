@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>기능 검사 차트 Mockup</title>
+<style>
+  :root{
+    --taeyang: #6B5B95;
+    --taeyang-l: #EFEBF5;
+    --taeyang-bg: #F7F5FB;
+    --taeum: #2D7D46;
+    --taeum-l: #E8F5EC;
+    --taeum-bg: #F4FBF6;
+    --soyang: #D4691E;
+    --soyang-l: #FDF1E5;
+    --soyang-bg: #FEF8F2;
+    --soeum: #2E5C8A;
+    --soeum-l: #E5EDF6;
+    --soeum-bg: #F2F6FB;
+    --gold: #C49A3F;
+    --crimson: #c9302c;
+    --ink: #1a1a1a;
+    --sub: #555;
+    --line: #d5d5d5;
+    --pale: #f7f5f0;
+    --bg: #faf8f3;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family: 'Noto Sans KR', -apple-system, sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    padding:24px;
+    line-height:1.5;
+  }
+  .wrap{max-width:1100px;margin:0 auto;background:#fff;border:1px solid var(--line);padding:28px 32px}
+
+  /* 헤더 */
+  .head{
+    border-bottom:2px solid var(--ink);
+    padding-bottom:14px;
+    margin-bottom:20px;
+  }
+  .h-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:6px;
+  }
+  .clinic{font-size:12px;color:var(--sub);letter-spacing:1px}
+  .step-no{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:1.5px}
+  .h-title{font-size:22px;font-weight:700;margin-top:4px}
+  .h-sub{font-size:13px;color:var(--sub);margin-top:6px}
+
+  /* 이전 단계 결과 표시 */
+  .prev-result{
+    background:var(--pale);
+    border:1px solid var(--line);
+    padding:12px 16px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    margin-bottom:20px;
+    font-size:13px;
+  }
+  .prev-result .lbl{color:var(--sub);font-weight:500}
+  .prev-result .candidates{font-weight:600}
+  .prev-result .arrow{color:var(--gold);margin:0 4px}
+  .badge{
+    display:inline-block;
+    padding:2px 8px;
+    border-radius:3px;
+    font-size:12px;
+    font-weight:600;
+    margin-right:4px;
+  }
+  .badge.taeum{background:var(--taeum-l);color:var(--taeum)}
+  .badge.soyang{background:var(--soyang-l);color:var(--soyang)}
+
+  /* 검사 섹션 */
+  .section{
+    margin-bottom:22px;
+    border:1px solid var(--line);
+  }
+  .sec-head{
+    background:#f1ede4;
+    padding:10px 14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+  }
+  .sec-no{
+    background:var(--ink);
+    color:#fff;
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:700;
+    flex-shrink:0;
+  }
+  .sec-title{font-size:14px;font-weight:700}
+  .sec-sub{font-size:11px;color:var(--sub);margin-left:auto}
+
+  .sec-body{padding:14px 16px}
+
+  /* 검사 그리드 */
+  .check-grid{
+    display:grid;
+    grid-template-columns:160px 1fr 1fr;
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    font-size:12px;
+  }
+  .check-grid > div{
+    background:#fff;
+    padding:9px 11px;
+    line-height:1.55;
+  }
+  .ch-head{
+    background:#faf7f0 !important;
+    font-weight:600;
+    font-size:11px;
+    color:var(--sub);
+    text-align:center;
+    letter-spacing:0.5px;
+  }
+  .ch-cat{
+    background:#f7f4ec !important;
+    font-weight:600;
+    font-size:12px;
+    display:flex;
+    align-items:center;
+  }
+  .ch-cat .sub-n{
+    font-size:10px;
+    color:var(--sub);
+    font-weight:400;
+    display:block;
+    margin-top:2px;
+  }
+  .opt{
+    display:flex;
+    align-items:flex-start;
+    gap:7px;
+    padding:2px 0;
+  }
+  .opt .chk{
+    width:13px;
+    height:13px;
+    border:1.5px solid #888;
+    flex-shrink:0;
+    margin-top:3px;
+  }
+  .opt .tag{
+    display:inline-block;
+    font-size:10px;
+    padding:1px 5px;
+    border-radius:2px;
+    margin-left:3px;
+    font-weight:600;
+    vertical-align:middle;
+  }
+  .tag.t{background:var(--taeum-l);color:var(--taeum)}
+  .tag.s{background:var(--soyang-l);color:var(--soyang)}
+  .tag.heat{background:#fbe4e1;color:#c9302c}
+  .tag.cold{background:#e1ebfb;color:#2E5C8A}
+  .tag.yang{background:#fff4d6;color:#a07600}
+  .tag.yin{background:#e8e0f2;color:#5e4a8a}
+
+  /* 입력 셀 */
+  .input-cell{
+    border:1px dashed #aaa;
+    background:#fcfaf3;
+    padding:6px 9px;
+    font-size:11px;
+    color:#888;
+    font-style:italic;
+    min-height:34px;
+    display:flex;
+    align-items:center;
+  }
+
+  /* 약물 시험 박스 */
+  .rx-test{
+    background:#fff9e8;
+    border:1px solid #e9d896;
+    padding:12px 14px;
+    border-radius:3px;
+    font-size:12px;
+  }
+  .rx-test .rx-lbl{
+    font-weight:700;
+    color:#8a6f1f;
+    margin-bottom:6px;
+    font-size:12px;
+    letter-spacing:0.5px;
+  }
+  .rx-row{
+    display:grid;
+    grid-template-columns:80px 1fr 1fr;
+    gap:8px;
+    margin-bottom:6px;
+    align-items:center;
+  }
+  .rx-day{font-weight:600;color:var(--sub);font-size:11px}
+
+  /* 종합 판정 */
+  .final{
+    margin-top:24px;
+    border:2px solid var(--ink);
+    background:#fafaf7;
+    padding:18px;
+  }
+  .final-title{
+    font-size:14px;
+    font-weight:700;
+    margin-bottom:14px;
+    padding-bottom:8px;
+    border-bottom:1px solid var(--line);
+  }
+
+  .summary-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:14px;
+  }
+  .sum-box{
+    background:#fff;
+    border:1px solid var(--line);
+    padding:11px 14px;
+  }
+  .sum-lbl{
+    font-size:10px;
+    color:var(--sub);
+    letter-spacing:1px;
+    margin-bottom:6px;
+  }
+  .sum-val{font-size:13px;font-weight:600}
+
+  .judge-zone{
+    background:#fff;
+    border:1px solid var(--line);
+    padding:14px;
+  }
+  .judge-row{
+    display:grid;
+    grid-template-columns:130px 1fr;
+    gap:14px;
+    align-items:center;
+    margin-bottom:12px;
+  }
+  .jr-lbl{font-size:12px;color:var(--sub);font-weight:500}
+  .jr-btns{display:flex;gap:6px;flex-wrap:wrap}
+  .j-btn{
+    padding:6px 14px;
+    border:1.5px solid var(--line);
+    background:#fff;
+    font-size:12px;
+    cursor:pointer;
+    font-family:inherit;
+    border-radius:2px;
+  }
+  .j-btn.t{border-color:var(--taeum);color:var(--taeum)}
+  .j-btn.s{border-color:var(--soyang);color:var(--soyang)}
+  .j-btn.cold{border-color:var(--soeum);color:var(--soeum)}
+  .j-btn.heat{border-color:var(--crimson);color:var(--crimson)}
+  .j-btn.yang{border-color:#a07600;color:#a07600}
+  .j-btn.yin{border-color:#5e4a8a;color:#5e4a8a}
+
+  .memo{
+    width:100%;
+    border:1px solid var(--line);
+    padding:8px 10px;
+    font-family:inherit;
+    font-size:12px;
+    min-height:60px;
+    resize:vertical;
+    background:#fcfaf3;
+  }
+
+  /* 푸터 */
+  .ft{
+    margin-top:24px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+    font-size:11px;
+    color:var(--sub);
+    display:flex;
+    justify-content:space-between;
+  }
+
+  /* 안내 */
+  .guide{
+    background:#fef9e8;
+    border-left:3px solid var(--gold);
+    padding:10px 14px;
+    font-size:12px;
+    color:#5a4d20;
+    margin-bottom:16px;
+    line-height:1.6;
+  }
+  .guide b{color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 헤더 -->
+  <div class="head">
+    <div class="h-top">
+      <div class="clinic">온누리한의원 · 사상체질 감별 시스템</div>
+      <div class="step-no">STEP 5 · 기능 검사 (機能 檢査)</div>
+    </div>
+    <div class="h-title">맥진 · 복진 · 반응 확인 차트</div>
+    <div class="h-sub">정밀 시진(STEP 4)으로도 확정되지 않은 경우, 기능적 단서로 체질·한열·음양형을 함께 가립니다.</div>
+  </div>
+
+  <!-- 이전 단계 결과 -->
+  <div class="prev-result">
+    <span class="lbl">이전 단계 결과</span>
+    <span class="candidates">
+      <span class="badge taeum">태음인</span>
+      <span class="arrow">↔</span>
+      <span class="badge soyang">소양인</span>
+      구분 미확정
+    </span>
+    <span class="lbl" style="margin-left:auto">정밀 시진: 태음 ★★ 1개 / 소양 ★★ 1개</span>
+  </div>
+
+  <!-- 안내 -->
+  <div class="guide">
+    <b>운영 원칙</b> &nbsp;|&nbsp;
+    안준철 원장 강조사항 — <b>"체질 확진은 결국 약 반응으로 한다"</b>. 본 차트는 맥·복·반응으로 후보를 더 좁히고,
+    그래도 안 가려지면 마지막 단계인 <b>약물 시험</b>으로 확정합니다. 각 항목 옆 태그(<span class="tag t" style="font-size:9px">태음</span>·<span class="tag s" style="font-size:9px">소양</span>·<span class="tag heat" style="font-size:9px">熱</span>·<span class="tag cold" style="font-size:9px">寒</span>)는 그 소견이 시사하는 방향입니다.
+  </div>
+
+  <!-- 1. 맥진 -->
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-no">1</div>
+      <div class="sec-title">맥진 (脈診)</div>
+      <div class="sec-sub">건강시 기본맥 + 한열·음양형 단서</div>
+    </div>
+    <div class="sec-body">
+      <div class="check-grid">
+        <div class="ch-head">검사 항목</div>
+        <div class="ch-head">소견 1</div>
+        <div class="ch-head">소견 2</div>
+
+        <div class="ch-cat">기본맥 강도<span class="sub-n">전체 강약</span></div>
+        <div>
+          <div class="opt"><span class="chk"></span><div>처음부터 끝까지 눌러도 힘이 있다 (長而緊) <span class="tag t">태음</span></div></div>
+        </div>
+        <div>
+          <div class="opt"><span class="chk"></span><div>미세불현 — 무력하고 실같이 가는 맥 <span class="tag s">소양</span></div></div>
+        </div>
+
+        <div class="ch-cat">관맥 부위별<span class="sub-n">촌맥 vs 척맥</span></div>
+        <div>
+          <div class="opt"><span class="chk"></span><div>촌맥(寸)이 더 강하게 잡힘 <span class="tag yang">양형</span></div></div>
+        </div>
+        <div>
+          <div class="opt"><span class="chk"></span><div>척맥(尺)이 더 강하게 잡힘 → 음허 경향 <span class="tag yin">음형</span></div></div>
+        </div>
+
+        <div class="ch-cat">맥의 한열<span class="sub-n">참고 지표</span></div>
+        <div>
+          <div class="opt"><span class="chk"></span><div>침지(沈遲) 경향 <span class="tag cold">寒</span></div></div>
+        </div>
+        <div>
+          <div class="opt"><span class="chk"></span><div>부삭(浮數) 경향 <span class="tag heat">熱</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 복진 -->
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-no">2</div>
+      <div class="sec-title">복진 (腹診)</div>
+      <div class="sec-sub">상복부 가스 = 소양인 한열 판단의 유일한 기준</div>
+    </div>
+    <div class="sec-body">
+      <div class="check-grid">
+        <div class="ch-head">검사 항목</div>
+        <div class="ch-head">소견 1</div>
+        <div class="ch-head">소견 2</div>
+
+        <div class="ch-cat">상복부 가스<span class="sub-n">과식 후 헛배</span></div>
+        <div>
+          <div class="opt"><span class="chk"></span><div>과식 시 윗배에 가스 잘 차고 헛배부름 <span class="tag s">소양 한자</span></div></div>
+        </div>
+        <div>
+          <div class="opt"><span class="chk"></span><div>과식해도 가스 적고 윗배 편안 <span class="tag s">소양 열자</span></div></div>
+        </div>
+
+        <div class="ch-cat">복부 압통<span class="sub-n">중완·심하 부위</span></div>
+        <div>
+          <div class="opt"><span class="chk"></span><div>심하부 두툼·압통 적음, 복근 두꺼움 <span class="tag t">태음</span></div></div>
+        </div>
+        <div>
+          <div class="opt"><span class="chk"></span><div>심하부·중완 압통, 복근 얇음 <span class="tag s">소양</span></div></div>
+        </div>
+
+        <div class="ch-cat">대변 빈도<span class="sub-n">소증의 한열 기준</span></div>
+        <div>
+          <div class="opt"><span class="chk"></span><div>하루 1회 이상 매일 봄 <span class="tag cold">寒(소증)</span></div></div>
+        </div>
+        <div>
+          <div class="opt"><span class="chk"></span><div>1~2일에 한 번, 변비 경향 <span class="tag heat">熱(소증)</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 반응 확인 -->
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-no">3</div>
+      <div class="sec-title">반응 확인 (反應 確認)</div>
+      <div class="sec-sub">알레르기·기호·음식 반응 — 권재식 히든카드</div>
+    </div>
+    <div class="sec-body">
+      <div class="check-grid">
+        <div class="ch-head">검사 항목</div>
+        <div class="ch-head">태음 시사</div>
+        <div class="ch-head">소양 시사</div>
+
+        <div class="ch-cat">커피 반응<span class="sub-n">불면·심계 여부</span></div>
+        <div>
+          <div class="opt"><span class="chk"></span><div>잘 잠 (위완수한증) <span class="tag t">태음 양형</span></div></div>
+          <div class="opt"><span class="chk"></span><div>불면 (간수열증) <span class="tag t">태음 음형</span></div></div>
+        </div>
+        <div>
+          <div class="opt"><span class="chk"></span><div>심계·정충, 속쓰림 <span class="tag s">소양</span></div></div>
+        </div>
+
+        <div class="ch-cat">우유·산약 반응<span class="sub-n">태음 배제 지표</span></div>
+        <div>
+          <div class="opt"><span class="chk"></span><div>잘 먹음 (배제 안 됨)</div></div>
+        </div>
+        <div>
+          <div class="opt"><span class="chk"></span><div>산약 먹으면 배 아픔 → <b>태음 배제</b> <span class="tag s">소양 시사</span></div></div>
+          <div class="opt"><span class="chk"></span><div>우유 먹고 확실히 설사·복통</div></div>
+        </div>
+
+        <div class="ch-cat">평생 못 먹는 음식<span class="sub-n">히든카드</span></div>
+        <div class="input-cell" style="grid-column:span 2">예: 양파 알러지 → 태양인 시사 / 메밀 알러지 → 태음 시사 등 자유 기재</div>
+
+        <div class="ch-cat">홍삼 반응<span class="sub-n">참고</span></div>
+        <div>
+          <div class="opt"><span class="chk"></span><div>편안 / 무반응</div></div>
+        </div>
+        <div>
+          <div class="opt"><span class="chk"></span><div>얼굴 열·가슴답답 → 소양 열자 가능 <span class="tag s">소양</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 약물 시험 (최종 확진) -->
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-no">4</div>
+      <div class="sec-title">약물 시험 (藥物 試驗) — 최종 확진</div>
+      <div class="sec-sub">3~7일 단기 투여 후 반응 판독 · 안준철 4대 기준</div>
+    </div>
+    <div class="sec-body">
+      <div class="rx-test">
+        <div class="rx-lbl">▣ 테스트 처방 (택일)</div>
+        <div class="rx-row">
+          <div class="rx-day">태음 한자</div>
+          <div>태음조위탕</div>
+          <div style="font-size:11px;color:var(--sub)">맞으면 변 시원·땀 개운</div>
+        </div>
+        <div class="rx-row">
+          <div class="rx-day">태음 열자</div>
+          <div>갈근조위탕</div>
+          <div style="font-size:11px;color:var(--sub)">맞으면 변 좋아짐, 음허자엔 부적</div>
+        </div>
+        <div class="rx-row">
+          <div class="rx-day">소양 한자</div>
+          <div>형방패독산 / 형방지황탕</div>
+          <div style="font-size:11px;color:var(--sub)">맞으면 상복부 편안</div>
+        </div>
+        <div class="rx-row">
+          <div class="rx-day">소양 열자</div>
+          <div>지황백호탕 / 양격산화탕</div>
+          <div style="font-size:11px;color:var(--sub)">맞으면 갈증·열감 해소</div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px">
+        <div style="font-size:12px;font-weight:600;margin-bottom:8px">▣ 반응 판독 (안준철 4대 기준)</div>
+        <div class="check-grid" style="grid-template-columns:140px 1fr 1fr 1fr">
+          <div class="ch-head">기준</div>
+          <div class="ch-head">호전 (적합)</div>
+          <div class="ch-head">무변 / 모호</div>
+          <div class="ch-head">악화 (부적합)</div>
+
+          <div class="ch-cat">대변<span class="sub-n">3~7일 후</span></div>
+          <div><div class="opt"><span class="chk"></span><div>시원하고 매일 봄</div></div></div>
+          <div><div class="opt"><span class="chk"></span><div>큰 변화 없음</div></div></div>
+          <div><div class="opt"><span class="chk"></span><div>설사 / 더 굳음</div></div></div>
+
+          <div class="ch-cat">소변</div>
+          <div><div class="opt"><span class="chk"></span><div>시원·정상량</div></div></div>
+          <div><div class="opt"><span class="chk"></span><div>큰 변화 없음</div></div></div>
+          <div><div class="opt"><span class="chk"></span><div>빈삭·잔뇨감</div></div></div>
+
+          <div class="ch-cat">수면</div>
+          <div><div class="opt"><span class="chk"></span><div>잘 잠·깊어짐</div></div></div>
+          <div><div class="opt"><span class="chk"></span><div>변화 없음</div></div></div>
+          <div><div class="opt"><span class="chk"></span><div>불면·심계</div></div></div>
+
+          <div class="ch-cat">피로감</div>
+          <div><div class="opt"><span class="chk"></span><div>기력·안색 회복</div></div></div>
+          <div><div class="opt"><span class="chk"></span><div>변화 없음</div></div></div>
+          <div><div class="opt"><span class="chk"></span><div>탈진·무기력</div></div></div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;background:#fff;border:1px solid var(--line);padding:10px 12px;font-size:11px;color:var(--sub);line-height:1.6">
+        ※ 한 가지 증상의 호전만으로 체질을 확정하지 않는다 (안준철). 4대 기준 중 <b>3개 이상이 호전</b>되어야 적합 판정.
+        피부 건조 단독은 계절적 원인일 수 있으므로 판단 기준에서 제외.
+      </div>
+    </div>
+  </div>
+
+  <!-- 최종 판정 -->
+  <div class="final">
+    <div class="final-title">▶ 종합 판정</div>
+
+    <div class="summary-grid">
+      <div class="sum-box">
+        <div class="sum-lbl">맥진 · 복진 시사 방향</div>
+        <div class="sum-val">예) 장이긴 + 심하 두툼 + 대변 매일 → 태음 한자 우세</div>
+      </div>
+      <div class="sum-box">
+        <div class="sum-lbl">반응 · 약물 시험 결과</div>
+        <div class="sum-val">예) 태음조위탕 7일 — 대변·수면·피로 모두 호전 (3/4)</div>
+      </div>
+    </div>
+
+    <div class="judge-zone">
+      <div class="judge-row">
+        <div class="jr-lbl">체질 판정</div>
+        <div class="jr-btns">
+          <button class="j-btn t">태음인</button>
+          <button class="j-btn s">소양인</button>
+          <button class="j-btn">재시험 필요</button>
+        </div>
+      </div>
+      <div class="judge-row">
+        <div class="jr-lbl">한열</div>
+        <div class="jr-btns">
+          <button class="j-btn cold">한증 (寒)</button>
+          <button class="j-btn heat">열증 (熱)</button>
+          <button class="j-btn">한열 협잡</button>
+        </div>
+      </div>
+      <div class="judge-row">
+        <div class="jr-lbl">음양형 (태음만)</div>
+        <div class="jr-btns">
+          <button class="j-btn yang">양형 (양허)</button>
+          <button class="j-btn yin">음형 (음허)</button>
+          <button class="j-btn">해당없음</button>
+        </div>
+      </div>
+      <textarea class="memo" placeholder="처방 메모 · 특이 소견 · 추적 관찰 사항..."></textarea>
+    </div>
+  </div>
+
+  <!-- 푸터 -->
+  <div class="ft">
+    <span>온누리 한의원 · 기능 검사 차트 (맥·복·반응·약물시험)</span>
+    <span>v0.1 mockup · 안준철 사상의학 방법론 기반</span>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>온누리 한의원 — 사상체질 자가설문 (접수실)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#1a1a1a; --sub:#555; --line:#d5d5d5;
+  --gold:#C49A3F; --gold-d:#9a7220; --bg:#faf8f3;
+  --green:#2D7D46; --green-l:#E8F5EC;
+  --serif:'Noto Serif KR',serif; --sans:'Noto Sans KR',sans-serif;
+}
+html,body{height:100%;}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-text-size-adjust:100%;}
+#wrap{height:100%;}
+
+/* ── 중앙 카드 화면 (시작·완료·오류) ── */
+.center{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+.rcard{background:#fff;border:1px solid var(--line);border-radius:16px;
+  box-shadow:0 8px 30px rgba(0,0,0,.07);max-width:540px;width:100%;
+  padding:46px 38px;text-align:center;}
+.clinic{font-family:var(--serif);font-weight:700;font-size:1.1rem;color:var(--gold-d);letter-spacing:.5px;}
+.r-title{font-family:var(--serif);font-weight:700;font-size:2rem;margin:14px 0 6px;line-height:1.3;}
+.r-sub{font-size:1.02rem;color:var(--sub);line-height:1.85;margin:16px 0 30px;}
+.r-sub b{color:var(--ink);}
+.big-btn{font-family:var(--sans);font-weight:700;font-size:1.32rem;
+  background:var(--gold);color:#fff;border:none;border-radius:12px;
+  padding:22px 40px;width:100%;cursor:pointer;box-shadow:0 4px 14px rgba(196,154,63,.35);
+  transition:transform .08s ease;}
+.big-btn:active{transform:scale(.985);}
+.big-btn.green{background:var(--green);box-shadow:0 4px 14px rgba(45,125,70,.3);}
+.line-btn{font-family:var(--sans);font-size:.92rem;background:#fff;color:var(--sub);
+  border:1px solid var(--line);border-radius:9px;padding:11px 20px;cursor:pointer;margin-top:14px;}
+.mark{width:88px;height:88px;border-radius:50%;margin:0 auto 6px;
+  display:flex;align-items:center;justify-content:center;font-size:2.7rem;font-weight:700;color:#fff;}
+.mark.ok{background:var(--green);}
+.mark.warn{background:#C9302C;}
+.note{font-size:.84rem;color:#8a8278;margin-top:22px;line-height:1.7;}
+.steps{text-align:left;background:var(--bg);border-radius:10px;padding:16px 20px;margin:6px 0 4px;}
+.steps li{font-size:.96rem;color:var(--sub);margin:7px 0 7px 18px;line-height:1.6;}
+
+/* ── 설문 진행 화면 ── */
+.survey{height:100vh;display:flex;flex-direction:column;}
+.s-bar{flex:none;height:54px;background:var(--ink);color:#fff;
+  display:flex;align-items:center;padding:0 18px;gap:12px;}
+.s-bar .s-clinic{font-family:var(--serif);font-weight:700;font-size:1rem;}
+.s-bar .s-tag{font-size:.82rem;color:#cfcabf;}
+.s-bar .s-cancel{margin-left:auto;background:transparent;color:#cfcabf;
+  border:1px solid #555;border-radius:7px;padding:7px 13px;font-size:.82rem;cursor:pointer;font-family:var(--sans);}
+.s-frame{flex:1;width:100%;border:0;display:block;}
+
+@media(max-width:560px){
+  .rcard{padding:36px 24px;}
+  .r-title{font-size:1.6rem;}
+}
+</style>
+</head>
+<body>
+<div id="wrap"></div>
+<script>
+/* ═══════════════════════════════════════════════════
+   온누리 사상체질 — 접수실 / 검사실 자가설문 단말
+   · 자가설문(모듈 A)만 수행. 다른 모듈로 가는 길 없음.
+   · 설문 완료 → 서버 대기열(/api/intake)로 전송 → 원장실에서 진료.
+   · 접수실 모드(?intake=1): 서버의 공용 세션을 건드리지 않음.
+   외부 라이브러리 0개 · vanilla JS.
+═══════════════════════════════════════════════════ */
+
+/* 접수실 모드 보장 — ?intake=1 없으면 붙여서 다시 로드(동기화 차단) */
+if (String(location.search).indexOf('intake') < 0){
+  location.replace(location.pathname + '?intake=1');
+}
+
+var SURVEY_FILE = '온누리_사상체질_감별설문지_v24.html?intake=1';
+var screen = 'welcome';        // welcome | survey | done | error
+var surveyStart = 0;
+var pollTimer = null;
+var returnTimer = null;
+var lastPatient = null;
+var lastSession = null;
+
+function esc(s){
+  return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ── 화면 ── */
+function welcomeHtml(){
+  return '<div class="center"><div class="rcard">'
+    + '<div class="clinic">온누리 한의원</div>'
+    + '<div class="r-title">사상체질 자가설문</div>'
+    + '<div class="r-sub">진료 전, 체질 감별을 위한 <b>자가 응답 설문</b>입니다.<br>'
+    +   '아래 버튼을 누르고 화면 안내에 따라 응답해 주세요.</div>'
+    + '<ul class="steps">'
+    +   '<li>문항을 읽고 본인에게 해당하는 답을 고릅니다.</li>'
+    +   '<li>잘 모르겠으면 접수 직원에게 문의하세요.</li>'
+    +   '<li>마지막까지 응답하면 결과가 <b>원장님께 자동 전달</b>됩니다.</li>'
+    + '</ul>'
+    + '<button class="big-btn" onclick="startSurvey()">설문 시작하기</button>'
+    + '<div class="note">접수실 · 검사실 전용 화면입니다.</div>'
+    + '</div></div>';
+}
+function surveyHtml(){
+  return '<div class="survey">'
+    + '<div class="s-bar">'
+    +   '<span class="s-clinic">온누리 한의원</span>'
+    +   '<span class="s-tag">사상체질 자가설문 진행 중</span>'
+    +   '<button class="s-cancel" onclick="cancelSurvey()">처음으로</button>'
+    + '</div>'
+    + '<iframe class="s-frame" id="surveyFrame" src="' + esc(SURVEY_FILE) + '" title="사상체질 자가설문"></iframe>'
+    + '</div>';
+}
+function doneHtml(){
+  var nm = (lastPatient && lastPatient.name) ? esc(lastPatient.name) + '님, ' : '';
+  return '<div class="center"><div class="rcard">'
+    + '<div class="mark ok">✓</div>'
+    + '<div class="r-title">설문이 완료되었습니다</div>'
+    + '<div class="r-sub">' + nm + '응답이 <b>원장님께 전달</b>되었습니다.<br>'
+    +   '잠시 후 진료실에서 뵙겠습니다. 감사합니다.</div>'
+    + '<button class="big-btn green" onclick="backToWelcome()">확인</button>'
+    + '<div class="note">이 화면은 잠시 후 자동으로 처음으로 돌아갑니다.</div>'
+    + '</div></div>';
+}
+function errorHtml(){
+  return '<div class="center"><div class="rcard">'
+    + '<div class="mark warn">!</div>'
+    + '<div class="r-title">전송에 실패했습니다</div>'
+    + '<div class="r-sub">설문 응답을 원장실로 보내지 못했습니다.<br>'
+    +   '<b>다시 시도</b>를 누르거나 접수 직원에게 알려주세요.</div>'
+    + '<button class="big-btn" onclick="retrySubmit()">다시 시도</button>'
+    + '<button class="line-btn" onclick="backToWelcome()">처음 화면으로</button>'
+    + '<div class="note">서버(원장실 PC)가 켜져 있는지 확인이 필요할 수 있습니다.</div>'
+    + '</div></div>';
+}
+function render(){
+  var w = document.getElementById('wrap');
+  if (screen === 'survey')      w.innerHTML = surveyHtml();
+  else if (screen === 'done')   w.innerHTML = doneHtml();
+  else if (screen === 'error')  w.innerHTML = errorHtml();
+  else                          w.innerHTML = welcomeHtml();
+  try { window.scrollTo(0, 0); } catch(e){}
+}
+
+/* ── 흐름 ── */
+function startSurvey(){
+  try { localStorage.removeItem('onnuri_session'); } catch(e){}
+  try { localStorage.removeItem('onnuri_sasang'); } catch(e){}  // 접수실 PC에 이전 환자 기록 누적 방지
+  surveyStart = Date.now();
+  lastSession = null; lastPatient = null;
+  screen = 'survey';
+  render();
+  if (pollTimer) clearInterval(pollTimer);
+  pollTimer = setInterval(pollSurvey, 600);
+}
+function pollSurvey(){
+  var s = null;
+  try { s = JSON.parse(localStorage.getItem('onnuri_session') || '{}'); } catch(e){ s = {}; }
+  var a = s && s.moduleA;
+  // 이번 설문에서 완료된 결과만 인정 (completedAt 으로 과거 데이터와 구분)
+  if (a && a.completedAt && a.completedAt >= surveyStart){
+    if (pollTimer){ clearInterval(pollTimer); pollTimer = null; }
+    lastSession = s;
+    submitIntake();
+  }
+}
+function submitIntake(){
+  if (!lastSession){ screen = 'error'; render(); return; }
+  var payload = JSON.stringify({
+    patient: lastSession.patient || {},
+    moduleA: lastSession.moduleA || null
+  });
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/intake', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function(){
+      if (xhr.readyState !== 4) return;
+      if (xhr.status === 200){
+        lastPatient = lastSession.patient || {};
+        try { localStorage.removeItem('onnuri_session'); } catch(e){}
+        screen = 'done';
+        render();
+        scheduleReturn();
+      } else {
+        screen = 'error'; render();
+      }
+    };
+    xhr.onerror = function(){ screen = 'error'; render(); };
+    xhr.send(payload);
+  } catch(e){
+    screen = 'error'; render();
+  }
+}
+function retrySubmit(){ screen = 'survey'; submitIntake(); }
+function cancelSurvey(){
+  if (!confirm('설문을 중단하고 처음 화면으로 돌아갈까요?')) return;
+  backToWelcome();
+}
+function backToWelcome(){
+  if (pollTimer){ clearInterval(pollTimer); pollTimer = null; }
+  if (returnTimer){ clearTimeout(returnTimer); returnTimer = null; }
+  screen = 'welcome';
+  render();
+}
+function scheduleReturn(){
+  if (returnTimer) clearTimeout(returnTimer);
+  returnTimer = setTimeout(function(){
+    if (screen === 'done') backToWelcome();
+  }, 16000);
+}
+
+/* ── 진입점 ── */
+try { localStorage.removeItem('onnuri_sasang'); } catch(e){}
+render();
+</script>
+</body>
+</html>

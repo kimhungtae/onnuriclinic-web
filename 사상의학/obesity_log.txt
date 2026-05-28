@@ -1,0 +1,68 @@
+﻿=== Obesity collection start 05/20/2026 15:38:53 ===
+Mode: Execute
+PowerShell version: 5.1.26100.8457
+Script path: C:\Users\ADmiN\Downloads\onnuri-site\사상의학
+15:38:53  ===== Obesity Collection Start =====
+15:38:53  [0] Loading config: C:\Users\ADmiN\Downloads\onnuri-site\사상의학\obesity_config.txt
+15:38:53    OK Source: F:\새 폴더
+15:38:53    OK Destination: F:\비만자료_모음
+15:38:53    OK Keywords loaded: 22
+15:38:53  Mode: Execute
+15:38:53  [1] Checking F: drive...
+15:38:53    OK F: drive accessible
+15:38:53  [2] Checking source folder...
+15:38:53    OK Source folder exists
+15:38:53  [3] Preparing destination...
+15:38:53    OK Destination exists: F:\비만자료_모음
+15:38:53  [4] Searching by keywords (may take a minute)...
+15:38:59    Files matching '비만': 395
+15:38:59    Folders matching '비만': 1
+15:39:04    Files matching '다이어트': 47
+15:39:04    Folders matching '다이어트': 1
+15:39:09    Files matching '체중': 26
+15:39:14    Files matching '살빼': 7
+15:39:20    Files matching '살빠': 1
+15:39:25    Files matching '감량': 9
+15:39:31    Files matching '뱃살': 5
+15:39:36    Files matching '복부': 18
+15:39:41    Files matching '비대': 1
+15:39:46    Files matching '저열량': 10
+15:39:52    Files matching '초저열량': 5
+15:39:57    Files matching '식이요법': 8
+15:39:57    Folders matching '식이요법': 1
+15:40:02    Files matching '체감의이인탕': 6
+15:40:13    Files matching '마황': 7
+15:40:18    Files matching '체질량': 1
+15:40:23    Files matching '지방간': 7
+15:40:27    Files matching '칼로리': 12
+15:40:37    Files matching 'diet': 3
+15:40:42    Files matching 'BMI': 51
+15:40:42    Folders matching 'BMI': 2
+15:40:47    Total matched files: 616
+15:40:47  [5] Identifying duplicates by SHA-256...
+15:40:47    Hashing... 100/616
+15:40:48    Hashing... 200/616
+15:40:48    Hashing... 300/616
+15:40:48    Hashing... 400/616
+15:40:49    Hashing... 500/616
+15:40:49    Hashing... 600/616
+15:40:49    Unique: 489 / Duplicates: 71
+15:40:49  [6] Executing Execute...
+15:40:50    Move progress: 50/489
+15:40:51    Move progress: 100/489
+15:40:51    Move progress: 150/489
+15:40:52    Move progress: 200/489
+15:40:52    Move progress: 250/489
+15:40:53    Move progress: 300/489
+15:40:53    Move progress: 350/489
+15:40:54    Move progress: 400/489
+15:40:54    Move progress: 450/489
+15:40:54  [7] Deleting 71 duplicates...
+15:40:55    Deleted 71 duplicates
+15:40:55  
+15:40:55  ===== COMPLETE =====
+15:40:55  Execute: 489 processed, 622.95 MB, 0 failed
+15:40:55  Duplicates deleted: 71
+15:40:55  
+15:40:55  Log file: C:\Users\ADmiN\Downloads\onnuri-site\사상의학\obesity_log.txt
+15:40:55  ============================================

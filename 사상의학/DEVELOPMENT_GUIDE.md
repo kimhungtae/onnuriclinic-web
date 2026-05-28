@@ -1,10 +1,48 @@
-# 사상의학 플랫폼 — Claude Code 개발지침서
+# 사상의학 플랫폼 — Claude Code 개발지침서 (v2)
 
 > **이 문서의 정체**: Claude Code가 새 프로젝트 폴더에서 작업을 시작할 때 가장 먼저 읽는 마스터 가이드. 코딩에 필요한 모든 결정사항·관례·작업 큐가 들어있다.
 >
-> **사용법**: 새 프로젝트 폴더 생성 후, 이 파일을 그 폴더의 `CLAUDE.md` 또는 `DEVELOPMENT_GUIDE.md`로 복사. 그러면 Claude Code 새 세션이 자동으로 읽는다.
->
-> **버전**: v1.0 · **작성일**: 2026-05-18 · **작성자**: Cowork(설계) → Claude Code(구현)
+> **버전**: **v2.0** · **개정일**: 2026-05-18
+
+---
+
+## 🆕 v2 개정 공지 — 진행 중인 Claude Code 작업에 영향 있음
+
+**v1 대비 변경된 핵심 사항** (Claude Code가 작업 중이면 다음을 즉시 확인):
+
+### 변경 1 — 사용자 역할: 5계층 → **3계층**
+| v1 | v2 |
+|---|---|
+| guest / public / student / clinician / admin | **shared (게이트만, 비로그인 가능)** / **manager (카운터·원장실 통합)** / **admin (운영자)** |
+
+### 변경 2 — 실시간 동기화 요건 추가
+- 환자가 **공유사이트(키오스크)** 에서 설문 제출 → **카운터·원장실의 매니저 화면이 동시에 결과 노출**
+- 구현: 폴링(3초 간격) 기반 라이브 큐. 향후 Pusher/SSE로 업그레이드 가능
+
+### 변경 3 — 데이터 영구 보관
+- 환자 설문 응답·결과를 **영구 저장** (개인정보 동의 후)
+- 환자 식별: 이름·성별·연령(+선택 전화번호)으로 동일인 누적 이력 추적
+- 자동 삭제 로직 **제거**. PIPA 권리에 따른 명시적 요청 시에만 삭제.
+
+### 변경 4 — 네트워크 접근 제어
+- **공유사이트**: 한의원 내부 IP만 접근 (Cloudflare IP allowlist 또는 미들웨어 검증)
+- **매니저·어드민**: 어디서든 로그인 후 접근 (재택·외출 시 차트 조회 가능)
+
+### 이미 작업된 항목에 대한 영향
+| v1 작업 단계 | v2 영향 | 조치 |
+|---|---|---|
+| T1 부트스트랩 | 영향 없음 | 그대로 사용 |
+| T2 DB 스키마 | **테이블 추가·수정 필요** | §5.2 신규 스키마 적용 |
+| T3 설문 ETL | 영향 없음 | 그대로 사용 |
+| T4 자가진단 UI | **환자 정보 입력·동의 화면 추가** | §8 T4 수정사항 참조 |
+| T5 결과 API | **DB 영구 저장으로 변경 + broadcast 호출 추가** | §8 T5 수정사항 참조 |
+| T6 섭생 가이드 | 영향 없음 | 그대로 사용 |
+| T7 인증 | **역할 5종 → 2종(manager·admin)** | §8 T7 수정사항 참조 |
+| T8 처방 ETL | 영향 없음 | 그대로 사용 |
+| T9 처방 검색 | **`(clinician)` 라우트 → `(manager)`로 이름 변경** | §5 폴더 구조 참조 |
+| T10~T12 | 부분 수정 | 각 항목 참조 |
+
+**Claude Code 진행 중인 작업자에게**: 이 v2 문서를 그대로 읽고, 위 영향표에 따라 코드 수정 후 진행. 의문점은 §19 변경 이력 + §16~§18 새 섹션 참조.
 
 ---
 
@@ -12,44 +50,70 @@
 
 | 항목 | 값 |
 |---|---|
-| 프로젝트명 | **sasang-platform** (사상의학 디지털 플랫폼) |
+| 프로젝트명 | **sasang-platform** (사상의학 + 한의원 진료 보조 플랫폼) |
 | 운영자 | kim (epaphrokim@gmail.com, GitHub: kimhungtae) |
+| 한의원 | 온누리한의원 (경기 수원시 권선구) |
 | 새 프로젝트 폴더 | `C:\Users\ADmiN\Downloads\sasang-platform\` |
-| GitHub | `kimhungtae/sasang-platform` (새 저장소, 생성 필요) |
-| 초기 배포 대상 | **내부용** (로컬/사내 네트워크) — 인증 간소화, 면책은 결과지만 |
-| 기술 스택 | Next.js 14 + TypeScript + SQLite(Drizzle) + MeiliSearch + Tailwind/shadcn |
-| 마스터 설계 | `C:\Users\ADmiN\Downloads\onnuri-site\사상의학\PLATFORM_DESIGN.md` |
-| 원자료 (HWP/PDF/XLSX) | `C:\Users\ADmiN\Downloads\onnuri-site\사상의학\` 폴더 |
-| 기존 정적 사이트와 관계 | **완전 별개 프로젝트**. onnuri-site는 그대로, sasang-platform은 신규 |
-| 첫 세션 진입점 | 본 문서 §13 "첫 세션 체크리스트" → §8 Phase 1 작업 큐 |
+| GitHub | `kimhungtae/sasang-platform` |
+| 호스팅 | Vercel + Turso libSQL + Resend (모두 무료 티어) |
+| 도메인 | `sasang.onnuriclinic.com` |
+| **사용자 3계층** | **shared(키오스크) · manager(카운터+원장실) · admin(운영자)** |
+| **실시간 동기화** | 폴링 3초 간격 (Phase 1) → Pusher 옵션 (Phase 3) |
+| **데이터 보관** | 영구 (환자 동의 후, PIPA 권리 요청 시만 삭제) |
+| **공유사이트 접근** | 한의원 내부 IP만 |
+| **매니저·어드민 접근** | 로그인 후 어디서든 |
+| 기술 스택 | Next.js 14 + TypeScript + Drizzle(libSQL) + Tailwind/shadcn + Auth.js |
+| 마스터 설계 | `사상의학\PLATFORM_DESIGN.md` (참고, 일부 v2와 차이) |
+| 배포 준비 | `사상의학\deployment-prep\` 폴더 일체 |
+| 첫 세션 진입점 | §13 → §8 작업 큐 |
 
 ---
 
-## 1. 프로젝트 정체성
+## 1. 프로젝트 정체성 (v2 개정)
 
-### 1.1 무엇을 만드는가
-사상의학(동무 이제마)의 디지털화. 핵심 4 모듈:
-1. **체질 감별** — 28문항 설문 + 소아 문진 + 시각 감별
-2. **처방·본초 검색 DB** — 류주열 처방 352+ · 본초 사전
-3. **장부변증 가이드** — 폐·비·간·신·심 × 4체질 매트릭스
-4. **강의록·자료 라이브러리** — 김주·안준철·권재식 자료 전문검색
+### 1.1 실제 사용 시나리오 — 한의원 진료 워크플로
 
-### 1.2 사용자 (4계층)
-- **운영자(원장)**: 본인 임상 진료 도구. 모든 권한.
-- **한의사**: 처방·본초·변증 참조. 처방 구성 열람.
-- **학생/연구자**: 강의록·원전 학습. 노트.
-- **일반인**: 자가진단 + 섭생법만 (처방 비공개).
+```
+[1] 환자 도착 → 카운터에서 태블릿/PC(키오스크) 안내
+[2] 환자가 공유사이트에서 자가진단 시작
+    └─ 동의 화면 → 인적 정보(이름·성별·나이) → 28문항 응답
+[3] 환자가 제출하는 순간:
+    ├─ 환자 화면: 결과 + 면책 + 섭생 가이드 안내
+    ├─ 카운터 매니저 화면: 라이브 큐에 환자 추가 (실시간)
+    └─ 원장실 매니저 화면: 동일 큐에 환자 추가 (실시간)
+[4] 원장이 진료 시작 → 매니저 화면에서 해당 환자 클릭
+    └─ 자가진단 결과 + 한의사용 부가 정보(처방 후보·변증 가이드) 표시
+[5] 진료 종료 후 원장이 진료 메모 입력 → 환자 이력에 누적 저장
+[6] 같은 환자 재방문 시:
+    └─ 매니저가 이름·생년월일 등으로 검색 → 과거 자가진단·진료 이력 확인
+```
 
-### 1.3 운영 가정 (이번 단계)
-- **내부용**: 로컬 또는 사내 네트워크. 일반 트래픽 없음.
-- 인증은 단순 이메일+승인. 한의사 면허 검증은 v2.
-- 면책 고지는 **결과 페이지**에 명시. 일반 공개 정책은 v2 이후.
+### 1.2 사용자 3계층
+- **shared (공유사이트, 비로그인)**:
+  - 한의원 키오스크 또는 환자 본인 휴대폰
+  - 자가진단·결과 보기·섭생 안내까지 가능
+  - 처방·본초·진료 메모 접근 불가
+  - 한의원 내부 IP 또는 일회용 환자 토큰으로만 접근 (외부 무단 접근 차단)
+- **manager (매니저, 로그인 필수)**:
+  - 카운터 직원·원장 모두 같은 역할
+  - 라이브 큐 보기, 환자 이력 조회, 처방·본초·변증 가이드 접근
+  - 진료 메모 작성·환자 정보 수정
+  - 한의사 자격은 manager 안의 sub-permission으로 (v2.1에서 분리 검토)
+- **admin (어드민, 로그인 필수)**:
+  - 모든 manager 권한 +
+  - 사용자(매니저) 추가·삭제·권한 변경
+  - 콘텐츠(처방·본초·변증·강의록) 편집
+  - 시스템 설정·환경변수 관리
+  - 데이터 백업·내보내기
+  - 운영자(kim) 본인이 admin
+
+### 1.3 학생·일반인은?
+- **v1의 student / public 역할은 v2에서 제외**. 사상의학 학습용 외부 사이트는 별도 프로젝트로 분리하거나 v2.1 이후 다시 검토.
+- 현재 목표는 **한의원 진료 보조 도구**로 좁힘.
 
 ### 1.4 기존 onnuri-site와의 관계
-- **별개 프로젝트**다. 같은 도메인·코드베이스 공유 없음.
-- onnuri-site는 정적 사이트(Cloudflare Pages)로 그대로 운영.
-- sasang-platform은 풀스택. 향후 서브도메인(`sasang.onnuriclinic.com`) 연결할 수 있으나 지금은 로컬.
-- onnuri-site/`사상의학` 폴더의 v23.html은 **참고 자료**일 뿐, 본 프로젝트의 모태는 아님. 단, 채점 알고리즘·UX 패턴은 참고 가치 있음.
+- 별개 프로젝트. 같은 도메인의 서브(`sasang.onnuriclinic.com`)지만 다른 코드베이스.
+- onnuri-site의 v23.html은 참고 자료(채점 알고리즘·UX 패턴).
 
 ---
 
@@ -57,607 +121,834 @@
 
 | 문서 | 위치 | 용도 |
 |---|---|---|
-| **PLATFORM_DESIGN.md** | `onnuri-site\사상의학\PLATFORM_DESIGN.md` | 마스터 설계 (정보 아키텍처·데이터 모델·로드맵). **반드시 읽기.** |
-| **DEVELOPMENT_GUIDE.md** | (본 문서) | 실행 지침. 작업 시작점. |
+| **PLATFORM_DESIGN.md** | `onnuri-site\사상의학\PLATFORM_DESIGN.md` | 마스터 설계 (단, 역할 모델은 v2와 차이 — 본 문서가 우선) |
+| **DEVELOPMENT_GUIDE.md** | **본 문서 v2** | 실행 지침. 작업 시작점. |
+| 배포 가이드 | `onnuri-site\사상의학\deployment-prep\` | Vercel/Turso/도메인 설정 |
 | 체질설문지 원본 | `onnuri-site\사상의학\체질설문지.txt` (CP949) | 28문항 시드 |
-| 류주열 처방 | `onnuri-site\사상의학\류주열사상처방개정판.xlsx` | 처방 DB 시드 (352개) |
+| 류주열 처방 | `onnuri-site\사상의학\류주열사상처방개정판.xlsx` | 처방 DB 시드 |
 | 장부변증 5종 | `onnuri-site\사상의학\새로 쓴 사상의학 장부변증 [폐비간신심]병.hwp` | 변증 트리 시드 |
-| 본초 자료 | `onnuri-site\사상의학\체질약물재정리...hwp`, `안준철 원장님 자료.zip\사상본초...` | 본초 사전 시드 |
-| 섭생법 4종 | `onnuri-site\사상의학\[태양/태음/소양/소음]인 섭생법.hwp` | 일반인 영역 콘텐츠 |
-| 강의록 PDF | `onnuri-site\사상의학\*.pdf`, `안준철 원장님 자료.zip\*.pdf` | 강의록 라이브러리 시드 |
-| v23.html 참고 | `onnuri-site\온누리_사상체질_감별설문지_v23.html` | UX·알고리즘 참고 (필수 아님) |
+| 본초 자료 | `onnuri-site\사상의학\안준철 원장님 자료.zip\사상본초...` | 본초 사전 시드 |
+| 섭생법 4종 | `onnuri-site\사상의학\[태양/태음/소양/소음]인 섭생법.hwp` | 결과 페이지 섭생 안내 |
+| v23.html 참고 | `onnuri-site\온누리_사상체질_감별설문지_v23.html` | 채점·UX 참조 |
 
 ---
 
-## 3. 기술 스택 (정확한 버전)
+## 3. 기술 스택
+
+### 3.1 핵심 의존성 (v2 그대로 + 실시간 추가)
 
 ```json
 {
   "node": ">=20.10",
-  "npm": ">=10",
   "packages": {
     "next": "14.2.x",
     "react": "18.3.x",
     "typescript": "5.4.x",
     "tailwindcss": "3.4.x",
     "drizzle-orm": "latest",
-    "better-sqlite3": "latest",
+    "@libsql/client": "latest",
     "next-auth": "5.x (Auth.js)",
+    "@auth/drizzle-adapter": "latest",
     "zod": "latest",
     "recharts": "latest",
-    "meilisearch": "latest (서버) / meilisearch-js (클라이언트)"
+    "resend": "latest",
+    "swr": "latest (v2: 라이브 큐 폴링용)"
   },
   "devTools": {
     "drizzle-kit": "latest",
     "vitest": "latest",
-    "playwright": "latest (E2E)",
+    "@playwright/test": "latest",
     "eslint": "latest",
     "prettier": "latest"
   }
 }
 ```
 
-### 3.1 외부 서비스
-- **MeiliSearch**: 로컬 Docker (`getmeili/meilisearch:latest`). 1.0+
-- **LibreOffice (Headless)**: HWP → TXT 변환 — Windows 설치 후 `soffice.exe --headless`
-- **(선택) Tesseract OCR**: 스캔 PDF 대비. v2에서
+### 3.2 변경점 (v1 대비)
+- ❌ `better-sqlite3` → **`@libsql/client`** (Turso 호환)
+- ✅ `swr` 추가 (라이브 큐 폴링)
+- ⏳ `meilisearch` 의존성은 Phase 3에서 추가 (지금 설치할 필요 없음)
+- ⏳ `pusher-js` 등 실시간 라이브러리는 Phase 3 옵션
 
-### 3.2 왜 이 스택인가
-- Next.js 14 App Router: SSR/SSG 혼용, 단일 코드베이스로 4계층 처리
-- SQLite + Drizzle: 파일 단일·이식·백업 쉬움. 100k 레코드까지 충분
-- MeiliSearch: 한국어 토크나이저 양호, 자체 호스팅 무료, typo tolerance
-- Auth.js: 이메일/OAuth, RBAC 직접 구현 가능
-- shadcn/ui: 코드 소유권 = 우리 것. 의존성 락인 없음
+### 3.3 실시간 동기화 전략 (Phase 1: 폴링)
+
+```
+┌─── 환자 키오스크 ───┐         ┌─── 매니저 화면(카운터+원장실) ───┐
+│ POST /api/quiz/score │ ─────▶ │ GET /api/manager/queue (3초마다)  │
+│   (응답 저장+broadcast│        │   ← 최근 N분 내 신규 응답 반환    │
+└─────────────────────┘         └───────────────────────────────────┘
+                                          ↑
+                          SWR 자동 갱신 (refreshInterval: 3000)
+```
+
+- 첫 단계는 **단순 폴링**. Vercel Hobby의 함수 호출 한도(100k/일) 내에서 충분.
+- 매니저 화면 3대 × 3초 폴링 × 8시간 영업 = 28,800 req/일 → 한도의 28%
+- 한 명이 5명 이상 동시 폴링하면 Pusher 등으로 이전 고려 (Phase 3)
 
 ---
 
 ## 4. 초기 셋업 (One-Time Bootstrap)
 
 ### 4.1 첫 실행 명령 시퀀스
-Claude Code가 **첫 세션 첫 5분**에 실행할 것:
 
 ```powershell
-# 1. 폴더 이동 (없으면 만들기)
 cd C:\Users\ADmiN\Downloads
 mkdir sasang-platform
 cd sasang-platform
 
-# 2. Next.js 스캐폴드
+# 1. Next.js 스캐폴드
 npx create-next-app@latest . --typescript --tailwind --app --eslint --src-dir=false --import-alias "@/*" --no-turbo
 
-# 3. shadcn/ui 초기화
+# 2. shadcn/ui
 npx shadcn-ui@latest init -y
-# (스타일: Default · 컬러: Stone · CSS 변수: yes)
 
-# 4. 핵심 의존성
-npm i drizzle-orm better-sqlite3 zod recharts meilisearch next-auth@beta openpyxl-js
-npm i -D drizzle-kit @types/better-sqlite3 vitest @playwright/test prettier
+# 3. 핵심 의존성 (v2)
+npm i drizzle-orm @libsql/client zod recharts next-auth@beta @auth/drizzle-adapter resend swr
+npm i -D drizzle-kit vitest @playwright/test prettier
 
-# 5. shadcn 컴포넌트 (자주 쓸 것 일괄)
-npx shadcn-ui@latest add button card input label select tabs dialog alert form badge progress
+# 4. shadcn 컴포넌트
+npx shadcn-ui@latest add button card input label select tabs dialog alert form badge progress table avatar
 
-# 6. Git 초기화 + 첫 커밋
+# 5. Git
 git init
 git add -A
-git commit -m "chore: bootstrap Next.js + shadcn + drizzle"
-
-# 7. GitHub 저장소 연결 (사용자가 미리 빈 저장소 생성해둘 것)
+git commit -m "chore: bootstrap Next.js + shadcn + drizzle (v2)"
 git remote add origin https://github.com/kimhungtae/sasang-platform.git
 git branch -M main
 git push -u origin main
 ```
 
 ### 4.2 환경 변수 (`.env.local`)
-```
-# DB
-DATABASE_URL=file:./db/sasang.db
+
+```env
+# DB (Turso) — 운영자가 turso CLI로 발급한 값
+TURSO_DATABASE_URL=libsql://sasang-prod-kimhungtae.turso.io
+TURSO_AUTH_TOKEN=eyJ...
+
+# 로컬 개발 시: file:./db/sasang.db 도 사용 가능 (Drizzle libSQL이 둘 다 지원)
 
 # Auth.js
-AUTH_SECRET=<openssl rand -base64 32 결과>
+AUTH_SECRET=<openssl rand -base64 32>
 AUTH_URL=http://localhost:3000
+AUTH_TRUST_HOST=true
 
-# MeiliSearch
-MEILI_HOST=http://localhost:7700
-MEILI_MASTER_KEY=<로컬 개발용 임의 문자열>
+# Resend (이메일 magic link)
+RESEND_API_KEY=re_xxx
+RESEND_FROM="사상온누리 <noreply@onnuriclinic.com>"
 
-# 메일 (운영자 승인 알림)
-SMTP_HOST=
-SMTP_USER=
-SMTP_PASS=
-```
+# 사이트 게이트 (공유사이트 IP 제한 보조)
+SITE_PASSWORD=optional-extra-gate-password
+SITE_GATE_DAYS=30
 
-### 4.3 `package.json` 스크립트 추가
-```jsonc
-{
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "format": "prettier --write .",
-    "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio",
-    "db:seed": "tsx scripts/seed.ts",
-    "etl:prescriptions": "tsx scripts/xlsx-to-prescriptions.ts",
-    "etl:questionnaire": "tsx scripts/txt-to-questionnaire.ts",
-    "etl:lectures": "tsx scripts/pdf-to-chunks.ts",
-    "search:reindex": "tsx scripts/build-search-index.ts",
-    "test": "vitest",
-    "test:e2e": "playwright test",
-    "meili:dev": "docker run -p 7700:7700 -v $(pwd)/meili_data:/meili_data getmeili/meilisearch:latest"
-  }
-}
+# 한의원 IP 화이트리스트 (콤마 구분, 공유사이트 보호용)
+# 운영자가 한의원 공인 IP 확인 후 입력 (예: whatismyip.com 에서 확인)
+CLINIC_ALLOWED_IPS=
+
+# 운영자
+ADMIN_EMAIL=epaphrokim@gmail.com
+
+# 운영 모드
+SITE_MODE=internal
 ```
 
 ---
 
-## 5. 폴더 구조 (생성할 것)
+## 5. 폴더 구조 (v2)
 
 ```
 sasang-platform/
-├── CLAUDE.md                       ← 본 문서를 이리로 복사 (또는 그대로 두기)
+├── CLAUDE.md                          ← 본 문서 v2 사본
 ├── app/
-│   ├── (public)/
-│   │   ├── page.tsx                # 홈
+│   ├── (shared)/                      🆕 키오스크·공개 영역 (역할: shared)
+│   │   ├── page.tsx                   # 키오스크 홈
+│   │   ├── consent/page.tsx           # 개인정보 동의
+│   │   ├── intake/page.tsx            # 환자 정보 입력
 │   │   ├── quiz/
-│   │   │   ├── page.tsx            # 자가진단 시작
-│   │   │   └── [step]/page.tsx     # 문항 진행
-│   │   ├── result/[id]/page.tsx    # 결과
-│   │   └── guide/[constitution]/page.tsx  # 섭생
-│   ├── (student)/
-│   │   ├── layout.tsx              # 학생 인증 가드
-│   │   ├── courses/page.tsx
-│   │   ├── library/page.tsx
-│   │   └── notes/page.tsx
-│   ├── (clinician)/
-│   │   ├── layout.tsx              # 한의사 인증 가드
-│   │   ├── prescriptions/page.tsx
-│   │   ├── herbs/page.tsx
-│   │   ├── organ-syndromes/page.tsx
-│   │   └── symptoms/page.tsx
-│   ├── (admin)/
-│   │   ├── layout.tsx              # 관리자 가드
-│   │   └── dashboard/page.tsx
+│   │   │   ├── page.tsx               # 자가진단 안내
+│   │   │   └── [step]/page.tsx        # 문항 진행
+│   │   ├── result/[sessionId]/page.tsx  # 환자 본인 결과
+│   │   └── guide/[constitution]/page.tsx # 섭생 안내
+│   │
+│   ├── (manager)/                     🆕 카운터·원장실 통합 대시보드
+│   │   ├── layout.tsx                 # 인증 가드 (role=manager 이상)
+│   │   ├── page.tsx                   # 대시보드 홈 (라이브 큐)
+│   │   ├── queue/page.tsx             # 라이브 큐 전체
+│   │   ├── patients/
+│   │   │   ├── page.tsx               # 환자 검색·목록
+│   │   │   └── [patientId]/
+│   │   │       ├── page.tsx           # 환자 상세 (이력)
+│   │   │       └── session/[sessionId]/page.tsx  # 특정 진료 세션
+│   │   ├── prescriptions/page.tsx     # 처방 검색
+│   │   ├── herbs/page.tsx             # 본초 사전
+│   │   ├── organ-syndromes/page.tsx   # 장부변증 가이드
+│   │   └── notes/[sessionId]/page.tsx # 진료 메모 작성
+│   │
+│   ├── (admin)/                       어드민 전용
+│   │   ├── layout.tsx                 # 인증 가드 (role=admin)
+│   │   ├── page.tsx                   # 어드민 홈
+│   │   ├── users/page.tsx             # 매니저 계정 관리
+│   │   ├── content/
+│   │   │   ├── prescriptions/page.tsx
+│   │   │   ├── herbs/page.tsx
+│   │   │   └── syndromes/page.tsx
+│   │   ├── settings/page.tsx          # 시스템 설정
+│   │   └── backup/page.tsx            # DB 백업·내보내기
+│   │
+│   ├── _gate/page.tsx                 # 사이트 비밀번호 (선택, 추가 보호)
+│   ├── auth/
+│   │   ├── signin/page.tsx            # 매니저·어드민 로그인
+│   │   └── error/page.tsx
+│   ├── legal/
+│   │   ├── privacy/page.tsx
+│   │   ├── terms/page.tsx
+│   │   └── disclaimer/page.tsx
 │   ├── api/
-│   │   ├── quiz/score/route.ts
+│   │   ├── auth/[...nextauth]/route.ts
+│   │   ├── quiz/
+│   │   │   ├── score/route.ts         # 채점·저장 + 라이브 큐 broadcast
+│   │   │   └── consent/route.ts
+│   │   ├── manager/
+│   │   │   ├── queue/route.ts         # 🆕 라이브 큐 폴링 엔드포인트
+│   │   │   ├── patients/route.ts
+│   │   │   └── notes/route.ts
+│   │   ├── admin/
+│   │   │   └── users/route.ts
 │   │   ├── prescriptions/route.ts
 │   │   ├── herbs/route.ts
-│   │   ├── search/route.ts
-│   │   └── auth/[...nextauth]/route.ts
+│   │   └── gate/route.ts
 │   ├── layout.tsx
 │   └── globals.css
+│
 ├── components/
-│   ├── ui/                         # shadcn 컴포넌트
+│   ├── ui/                            # shadcn
 │   ├── quiz/
 │   │   ├── question-card.tsx
 │   │   ├── progress-bar.tsx
-│   │   └── result-chart.tsx
+│   │   ├── result-chart.tsx
+│   │   └── consent-form.tsx           🆕
+│   ├── manager/
+│   │   ├── live-queue.tsx             🆕 SWR 폴링 큐
+│   │   ├── patient-card.tsx
+│   │   └── session-detail.tsx
 │   ├── prescription/
-│   │   ├── prescription-card.tsx
-│   │   └── ingredient-list.tsx
-│   ├── disclaimer.tsx              # 면책 고지 (재사용)
-│   └── role-gate.tsx               # RBAC 컴포넌트
+│   ├── disclaimer.tsx
+│   └── role-gate.tsx
+│
 ├── db/
-│   ├── schema.ts                   # Drizzle 스키마 (PLATFORM_DESIGN §5 참조)
-│   ├── client.ts                   # better-sqlite3 + drizzle 인스턴스
-│   ├── migrations/                 # drizzle-kit 산출물
-│   └── sasang.db                   # SQLite 파일 (.gitignore)
+│   ├── schema.ts                      🆕 v2 스키마 (§5.2)
+│   ├── client.ts                      # libSQL + drizzle
+│   ├── migrations/
+│   └── sasang.db                      # 로컬 개발용 (.gitignore)
+│
 ├── lib/
-│   ├── auth.ts                     # Auth.js 설정
-│   ├── rbac.ts                     # 권한 헬퍼
-│   ├── scoring.ts                  # 자가진단 채점
-│   ├── search.ts                   # MeiliSearch 클라이언트
-│   └── encoding.ts                 # CP949·UTF-8 변환
-├── data/
-│   ├── questionnaires/
-│   │   ├── adult28.json            # ETL 산출물
-│   │   ├── adult28_weights.json
-│   │   └── pediatric.json
-│   ├── prescriptions.json          # ETL 산출물
-│   ├── herbs.json                  # ETL 산출물 (수동 보강)
-│   ├── lifestyle/
-│   │   ├── ty.md
-│   │   ├── te.md
-│   │   ├── sy.md
-│   │   └── se.md
-│   └── syndromes/                  # 5장부 변증
-├── scripts/
-│   ├── txt-to-questionnaire.ts     # 체질설문지.txt → JSON
-│   ├── xlsx-to-prescriptions.ts    # 류주열 XLSX → JSON
-│   ├── parse-composition.ts        # 구성 문자열 → 약재 토큰
-│   ├── hwp-to-text.ts              # LibreOffice 래퍼
-│   ├── pdf-to-chunks.ts            # PDF → 단락
-│   ├── seed.ts                     # JSON → SQLite
-│   └── build-search-index.ts       # SQLite → MeiliSearch
+│   ├── auth.ts
+│   ├── rbac.ts                        # requireRole('manager'|'admin')
+│   ├── scoring.ts
+│   ├── network.ts                     🆕 한의원 IP 검증
+│   ├── broadcast.ts                   🆕 라이브 큐 푸시
+│   └── encoding.ts
+│
+├── data/                              # ETL 산출물
+├── scripts/                           # ETL 스크립트
 ├── public/
-│   └── sources/                    # 원본 PDF/HWP (gitignore 또는 LFS)
 ├── tests/
-│   ├── scoring.test.ts
-│   ├── composition.test.ts
-│   └── e2e/
-│       └── quiz.spec.ts
 ├── docs/
-│   ├── PLATFORM_DESIGN.md          # 원본 설계서 사본
-│   ├── decisions/                  # ADR (Architecture Decision Record)
-│   └── data-sources.md             # 자료 출처·저작권 추적
-├── .env.local                      # gitignore
-├── .env.example                    # 템플릿 (Git 트래킹)
+├── middleware.ts                      🆕 IP allowlist + 게이트
 ├── drizzle.config.ts
 ├── tsconfig.json
 ├── tailwind.config.ts
 ├── next.config.mjs
-├── package.json
-└── README.md
+└── package.json
 ```
 
-### 5.1 .gitignore 추가 항목
-```
-.env.local
-db/sasang.db
-db/sasang.db-journal
-meili_data/
-public/sources/*.pdf
-public/sources/*.hwp
-*.local
-```
+### 5.1 라우트 그룹 컨벤션
+- `(shared)` — 비로그인. 미들웨어가 IP 검증.
+- `(manager)` — Auth.js 세션 + `role >= manager` 필수.
+- `(admin)` — Auth.js 세션 + `role === admin` 필수.
+- 셋 모두 같은 도메인(`sasang.onnuriclinic.com`)에서 라우트로만 분리.
 
----
-
-## 6. 코딩 컨벤션
-
-### 6.1 언어·스타일
-- **TypeScript strict mode** (`tsconfig: "strict": true`)
-- ESLint + Prettier (Next.js 기본 + 사용자 정의 prettier)
-- 파일명: `kebab-case.tsx`. React 컴포넌트 이름은 `PascalCase`
-- 함수형 컴포넌트 + Hooks. 클래스 컴포넌트 금지.
-- Server Component 기본, 인터랙션 필요할 때만 `"use client"`
-
-### 6.2 네이밍
-- 체질 코드: `ty`(태양)·`te`(태음)·`sy`(소양)·`se`(소음). UI 표시는 `태양인` 등 한글. (v23.html과 일치)
-- 처방 ID: `L###`·`H###`·`P###`·`R###` (XLSX의 No. 컬럼 그대로)
-- 본초 ID: `HB-###`
-- 변증 ID: `[장부코드]-[체질코드]-##` (예: `LU-H-01`)
-
-### 6.3 API 규약
-- Route Handler는 `app/api/<resource>/route.ts`
-- 응답 형식 통일: `{ ok: true, data } | { ok: false, error }`
-- 검증: 모든 입력은 `zod`로 schema 검증
-- 에러: 4xx는 사용자 입력 오류, 5xx는 서버 오류. 로그는 `console.error` + 추후 Sentry
-
-### 6.4 의료 콘텐츠 작성 (UI 텍스트)
-- **금지**: "100% 낫습니다", "확실한 진단" 등 단정적 표현
-- **공개 영역**에선 처방명 직접 노출 금지 (`/`(public)/* 라우트 전체)
-- **임상가 영역**에선 처방명 OK
-- 결과 페이지 상·하단에 면책 고지 컴포넌트 `<Disclaimer />` 필수
-
-### 6.5 i18n
-- v1: 한국어 단일. 폰트: Pretendard 또는 Noto Sans KR
-- v2 영문 요약 시 `next-intl` 도입
-
-### 6.6 커밋 메시지
-[Conventional Commits](https://www.conventionalcommits.org):
-- `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `data:`
-- 예: `feat(quiz): add 28-question scoring algorithm`
-
----
-
-## 7. 데이터 마이그레이션 가이드 (ETL)
-
-> **원칙**: 원본 파일은 절대 수정하지 않는다. ETL 스크립트가 JSON으로 변환하고, seed가 그 JSON을 DB로 넣는다.
-
-### 7.1 체질설문지.txt → adult28.json
-```typescript
-// scripts/txt-to-questionnaire.ts
-// 1. CP949 → UTF-8 디코딩 (iconv-lite)
-// 2. 정규식으로 문항·선지 추출 (현재 28문항, 28번은 음식 체크리스트로 별도 처리)
-// 3. 매핑: 선지 1→ty, 2→te, 3→se, 4→sy (체질설문지.txt 분석란)
-// 4. 출력: data/questionnaires/adult28.json
-```
-**중요**: 매핑은 `1=태양, 2=태음, 3=소음, 4=소양` (체질설문지.txt 분석란 그대로).
-
-### 7.2 류주열사상처방개정판.xlsx → prescriptions.json
-```typescript
-// scripts/xlsx-to-prescriptions.ts
-// 1. exceljs 또는 xlsx로 4시트 읽기 (태양/태음/소양/소음)
-// 2. 시트별 No. prefix 확인 (L/H/P/R)
-// 3. 컬럼: No. · 처방명 · 구성(개정) · 구성(예전)
-// 4. parse-composition.ts로 구성 문자열 토큰화 → ingredient 배열
-```
+### 5.2 데이터베이스 스키마 (v2, Drizzle)
 
 ```typescript
-// scripts/parse-composition.ts
-// 입력: "갈근8 맥문동6 황금6 길경4 행인4"
-// 출력: [{ herb: "갈근", dose: 8 }, { herb: "맥문동", dose: 6 }, ...]
-// 정규식: /([가-힣]+)(\d+(?:\.\d+)?)/g
-// 이체자 매핑: 모당귀↔당귀, 토창출↔창출 등 (data/herb-aliases.json)
-```
+// db/schema.ts
+import { sqliteTable, text, integer, real, blob } from "drizzle-orm/sqlite-core";
 
-### 7.3 HWP → 텍스트
-```typescript
-// scripts/hwp-to-text.ts
-// 1. LibreOffice headless로 변환: soffice --headless --convert-to txt input.hwp
-// 2. 변환 실패 시 hwp5proc XML 추출 후 직접 파싱
-// 3. 출력: data/raw/{filename}.txt
-// 운영자가 LibreOffice 설치되어 있어야 함 (Windows: winget install --id LibreOffice.LibreOffice)
-```
+export type Constitution = "ty" | "te" | "sy" | "se";
+export type Role = "manager" | "admin";  // shared는 비로그인이라 role 없음
 
-### 7.4 PDF → 단락
-```typescript
-// scripts/pdf-to-chunks.ts
-// 1. pdf-parse 또는 pdfjs로 텍스트 추출
-// 2. 단락 분리: 빈 줄(\n\n) 또는 heading 패턴
-// 3. 각 단락에 메타 부여: { documentId, page, order, text }
-// 4. 출력: data/raw/chunks/{documentId}.json
-```
+// --- 사용자 (매니저·어드민만, 환자 X) ---
+export const users = sqliteTable("users", {
+  id: text("id").primaryKey(),
+  email: text("email").unique().notNull(),
+  name: text("name"),
+  role: text("role").$type<Role>().notNull().default("manager"),
+  emailVerified: integer("email_verified", { mode: "timestamp" }),
+  image: text("image"),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+});
 
-### 7.5 seed: JSON → SQLite
-```typescript
-// scripts/seed.ts
-// 1. data/*.json 읽어서 Drizzle insert
-// 2. 처방 ↔ 약재 관계 테이블 채우기
-// 3. 멱등성 보장: ON CONFLICT DO UPDATE
-```
+// Auth.js 표준 테이블 (accounts, sessions, verification_tokens)
+// → @auth/drizzle-adapter 기본 스키마 사용
 
-### 7.6 검색 인덱스 빌드
-```typescript
-// scripts/build-search-index.ts
-// 1. SQLite에서 documents·chunks·prescriptions·herbs 읽기
-// 2. MeiliSearch 인덱스 3개 생성: documents, prescriptions, herbs
-// 3. 한국어 stop words 설정, ranking rules: typo > words > proximity > attribute
-```
+// --- 환자 (지속 보관) 🆕 ---
+export const patients = sqliteTable("patients", {
+  id: text("id").primaryKey(),           // cuid()
+  name: text("name").notNull(),
+  gender: text("gender").$type<"M" | "F">(),
+  birthYear: integer("birth_year"),       // 1985
+  phoneLast4: text("phone_last4"),         // 식별 보조 (선택)
+  notes: text("notes"),                    // 자유 메모
+  consentVersion: text("consent_version").notNull(), // 동의서 버전
+  consentedAt: integer("consented_at", { mode: "timestamp" }).notNull(),
+  firstVisitAt: integer("first_visit_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  lastVisitAt: integer("last_visit_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+});
 
----
+// --- 설문지·문항 (변경 없음) ---
+export const questionnaires = sqliteTable("questionnaires", {
+  id: text("id").primaryKey(),
+  type: text("type").notNull(),  // 'adult28' | 'pediatric'
+  version: text("version").notNull(),
+  weightsJson: text("weights_json"),
+});
 
-## 8. Phase 1 작업 큐 (MVP, 4~6주)
+export const questions = sqliteTable("questions", {
+  id: text("id").primaryKey(),
+  questionnaireId: text("questionnaire_id").notNull(),
+  order: integer("order").notNull(),
+  text: text("text").notNull(),
+  isCore: integer("is_core", { mode: "boolean" }).notNull().default(false),
+});
 
-각 작업은 **단일 PR 단위**. 작업 시작 시 `TaskCreate`로 등록, 완료 시 `TaskUpdate completed`.
+export const choices = sqliteTable("choices", {
+  id: text("id").primaryKey(),
+  questionId: text("question_id").notNull(),
+  order: integer("order").notNull(),
+  label: text("label").notNull(),
+  constitutionKey: text("constitution_key").$type<Constitution>().notNull(),
+});
 
-### T1 — 프로젝트 부트스트랩 ✅ acceptance
-- [ ] §4.1 명령 시퀀스 모두 실행
-- [ ] `npm run dev` 시 기본 페이지 노출
-- [ ] git 초기 커밋 + GitHub push 완료
-- [ ] `.env.example` 작성
+// --- 세션 (환자 1회 방문 = 1 세션) 🆕 ---
+export const clinicSessions = sqliteTable("clinic_sessions", {
+  id: text("id").primaryKey(),           // cuid()
+  patientId: text("patient_id").notNull().references(() => patients.id),
+  questionnaireId: text("questionnaire_id").notNull(),
+  startedAt: integer("started_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  submittedAt: integer("submitted_at", { mode: "timestamp" }),
+  // 라이브 큐 상태
+  status: text("status").$type<"in_progress" | "submitted" | "reviewed" | "closed">().notNull().default("in_progress"),
+  // 채점 결과 (제출 후 채워짐)
+  resultTop: text("result_top").$type<Constitution>(),
+  resultScoresJson: text("result_scores_json"),
+  resultConfidence: real("result_confidence"),
+  // 진료 메모 (매니저가 입력)
+  reviewedBy: text("reviewed_by").references(() => users.id),
+  clinicNote: text("clinic_note"),
+  reviewedAt: integer("reviewed_at", { mode: "timestamp" }),
+  // 메타
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+});
 
-### T2 — DB 스키마 & 마이그레이션
-- [ ] `db/schema.ts`에 PLATFORM_DESIGN §5 스키마 입력
-- [ ] `drizzle.config.ts` 설정
-- [ ] `npm run db:generate` → `db:migrate`로 빈 DB 생성
-- [ ] `npm run db:studio`에서 테이블 11+ 확인
+// --- 응답 (개별 문항 답) ---
+export const answers = sqliteTable("answers", {
+  id: text("id").primaryKey(),
+  sessionId: text("session_id").notNull().references(() => clinicSessions.id),
+  questionId: text("question_id").notNull(),
+  choiceId: text("choice_id").notNull(),
+  answeredAt: integer("answered_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+});
 
-### T3 — 체질설문지 ETL
-- [ ] `scripts/txt-to-questionnaire.ts` 작성
-- [ ] `data/questionnaires/adult28.json` 생성 — 28문항 모두 매핑 검수
-- [ ] 28번 음식 체크리스트는 별도 구조(`type: "multiselect-food"`)로 분리
-- [ ] 가중치 파일 `adult28_weights.json` (기본 1, 핵심 문항 2)
-- [ ] unit test: 문항 수 28, 선지 매핑 1=ty/2=te/3=se/4=sy
+// --- 처방 (변경 없음) ---
+export const prescriptions = sqliteTable("prescriptions", {
+  id: text("id").primaryKey(),              // L001, H001, ...
+  constitution: text("constitution").$type<Constitution>().notNull(),
+  name: text("name").notNull(),
+  compositionCurrent: text("composition_current"),
+  compositionLegacy: text("composition_legacy"),
+  source: text("source"),
+  indications: text("indications"),          // JSON 배열 문자열
+  notes: text("notes"),
+});
 
-### T4 — 자가진단 UI (`/quiz`)
-- [ ] `/quiz` 진입 페이지: 안내 + 시작 버튼
-- [ ] `/quiz/[step]` 동적 라우트, 1문항/페이지
-- [ ] 이전/다음 버튼, 진행률 바
-- [ ] 응답은 session storage (DB 저장은 결과 페이지 진입 시)
-- [ ] 모바일 반응형 (Tailwind sm/md breakpoint)
-- [ ] 면책 고지는 시작 페이지에 1회
+export const herbs = sqliteTable("herbs", {
+  id: text("id").primaryKey(),              // HB-001
+  name: text("name").notNull(),
+  aliases: text("aliases"),                  // JSON
+  constitutions: text("constitutions"),
+  strengthClass: text("strength_class"),
+  meridians: text("meridians"),
+  natureFlavor: text("nature_flavor"),
+  effects: text("effects"),
+  commentary: text("commentary"),
+});
 
-### T5 — 채점 API & 결과 페이지
-- [ ] `lib/scoring.ts`: 가중 카운팅 + 70% 임계 + 1·2차 후보
-- [ ] `POST /api/quiz/score` Route Handler
-- [ ] `/result/[id]` 페이지: Recharts 막대그래프 + 신뢰도 표시
-- [ ] 결과 카드 클릭 → `/guide/[constitution]` 이동
-- [ ] **면책 고지 상·하단 필수**
-- [ ] unit test: 동일 응답 → 동일 결과 (멱등)
+export const prescriptionIngredients = sqliteTable("prescription_ingredients", {
+  id: text("id").primaryKey(),
+  prescriptionId: text("prescription_id").notNull().references(() => prescriptions.id),
+  herbId: text("herb_id").references(() => herbs.id),
+  herbNameRaw: text("herb_name_raw").notNull(), // 정규화 전 원본
+  doseDon: real("dose_don"),
+  version: text("version").$type<"current" | "legacy">().notNull().default("current"),
+  order: integer("order").notNull(),
+});
 
-### T6 — 4체질 섭생 가이드 페이지
-- [ ] `data/lifestyle/{ty,te,sy,se}.md` 4파일 작성 — 사상의학 폴더의 섭생법 HWP 4종에서 변환·정리
-- [ ] `/guide/[constitution]` 페이지: 음식·운동·정서·주의 4섹션
-- [ ] 한의사 상담 CTA (선택적 — 내부용이라 v2에서 활성화)
+// --- 장부변증 (변경 없음, 추후 구현) ---
+export const organs = sqliteTable("organs", { /* ... */ } as any);
+export const syndromes = sqliteTable("syndromes", { /* ... */ } as any);
 
-### T7 — 인증 시스템 (Auth.js, 최소화)
-- [ ] Email magic link or credential auth
-- [ ] users 테이블 role: `public`(기본) · `student` · `clinician` · `admin`
-- [ ] 운영자(kim.epaphrokim@gmail.com) 자동 `admin`
-- [ ] 한의사 가입 요청 → 운영자 승인(관리자 페이지에서)
-- [ ] `lib/rbac.ts`: `requireRole(role: Role)` 헬퍼
+// --- 동의서 버전 (PIPA 준수) 🆕 ---
+export const consentVersions = sqliteTable("consent_versions", {
+  version: text("version").primaryKey(),    // 'v1-2026-05'
+  text: text("text").notNull(),
+  effectiveFrom: integer("effective_from", { mode: "timestamp" }).notNull(),
+});
 
-### T8 — 류주열 처방 ETL
-- [ ] `scripts/xlsx-to-prescriptions.ts` 작성
-- [ ] `scripts/parse-composition.ts` 작성
-- [ ] `data/prescriptions.json` 생성 — **352±α** 항목
-- [ ] 약재 마스터 자동 추출 → `data/herbs.json` (중복 제거)
-- [ ] unit test: L001 = 류씨오가피장척탕, 8개 약재, 첫 약재=목적8
-
-### T9 — seed + 처방 검색 페이지
-- [ ] `scripts/seed.ts`: JSON → SQLite insert
-- [ ] `/clinician/prescriptions` 페이지: 필터(체질·약재·증상)
-- [ ] `GET /api/prescriptions?constitution=&herb=&q=`
-- [ ] 결과 카드 + 상세 모달 (구성표 개정/예전 대조)
-- [ ] 한의사 이상만 접근 (`(clinician)/layout.tsx`에서 가드)
-
-### T10 — 면책·법적 페이지
-- [ ] `/legal/disclaimer` · `/legal/privacy` 페이지
-- [ ] `<Disclaimer />` 컴포넌트 (결과 페이지·공개 영역에서 재사용)
-- [ ] 푸터 컴포넌트에 법적 페이지 링크
-
-### T11 — README + 운영 문서
-- [ ] `README.md`: 프로젝트 개요·셋업·실행 방법
-- [ ] `docs/data-sources.md`: 어떤 자료를 어떻게 가져왔는지 명세
-- [ ] `docs/decisions/0001-tech-stack.md`: ADR 작성
-
-### T12 — Phase 1 검증
-- [ ] `npm run dev`로 전체 흐름 수동 검증
-- [ ] Playwright E2E: 자가진단 28문항 → 결과 페이지까지
-- [ ] Lighthouse 모바일 점수 > 90
-- [ ] 일반인이 처방 페이지 접근 시 403 확인
-
-**Phase 1 완료 기준**: 일반인이 자가진단·섭생 안내까지 사용 가능. 한의사 로그인 시 처방 검색 가능. localhost에서 모두 동작.
-
----
-
-## 9. Phase 2~4 개요 (참고)
-
-PLATFORM_DESIGN §9 로드맵 그대로:
-- **Phase 2**: 본초 사전 + 본초 ↔ 처방 양방향 링크 + 처방 검색 고도화
-- **Phase 3**: 장부변증 트리 + 증상 카탈로그 + 강의록 라이브러리 + MeiliSearch
-- **Phase 4**: 진료 도구(환자 설문→처방 후보), 소아 문진, 시각 감별, Tauri 데스크톱
-
-각 Phase 시작 시 동일한 형식으로 작업 큐 분해.
-
----
-
-## 10. 테스트 전략
-
-### 10.1 Vitest (unit)
-- `lib/scoring.ts`, `parse-composition.ts` 같은 순수 함수 우선
-- DB 의존 함수는 in-memory SQLite로 격리
-
-### 10.2 Playwright (E2E)
-- 핵심 사용자 흐름만 (자가진단 → 결과, 한의사 로그인 → 처방 검색)
-- 시각 회귀 테스트는 v2
-
-### 10.3 데이터 검증 테스트
-ETL 산출물의 무결성:
-```typescript
-test("처방 시드 무결성", () => {
-  const data = JSON.parse(readFileSync("data/prescriptions.json"));
-  expect(data.length).toBeGreaterThan(340);
-  expect(data.length).toBeLessThan(370);
-  expect(data.filter(p => p.id.startsWith("L"))).toHaveLength(72);
-  // ...
+// --- 감사 로그 🆕 ---
+export const auditLogs = sqliteTable("audit_logs", {
+  id: text("id").primaryKey(),
+  userId: text("user_id"),
+  action: text("action").notNull(),         // 'patient.view' | 'session.review' | ...
+  targetType: text("target_type"),
+  targetId: text("target_id"),
+  ipAddress: text("ip_address"),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
 });
 ```
 
 ---
 
-## 11. Git 워크플로
+## 6. 코딩 컨벤션 (변경 없음, 일부 추가)
 
-### 11.1 브랜치
-- `main`: 안정. 직접 push 가능 (1인 개발이지만 PR 권장)
-- `feat/<topic>`: 작업 브랜치. 예: `feat/quiz-scoring`
+### 6.1 RBAC 헬퍼 패턴 (v2)
+```typescript
+// lib/rbac.ts
+export type Role = "manager" | "admin";
 
-### 11.2 PR 체크리스트 (자체)
-- [ ] `npm run lint` 통과
-- [ ] `npm run test` 통과
-- [ ] `npm run build` 성공
-- [ ] 관련 문서 업데이트
+export async function requireRole(min: Role) {
+  const session = await auth();
+  if (!session?.user) throw new Error("UNAUTHORIZED");
+  const roleOrder = { manager: 1, admin: 2 };
+  if (roleOrder[session.user.role] < roleOrder[min]) {
+    throw new Error("FORBIDDEN");
+  }
+  return session;
+}
+```
 
-### 11.3 자동화 스크립트 (선택)
-onnuri-site의 `push.bat`처럼 단순화한 `push.bat`은 v2에서. v1은 수동 git.
+### 6.2 환자 식별 정책 🆕
+- 같은 이름의 다른 환자 구분: 이름 + 생년 + (선택) 전화 뒷 4자리
+- 매니저가 새 환자 등록 시 중복 검색 강제
+- 환자 ID는 cuid() (UUID v4보다 짧고 정렬 가능)
+
+### 6.3 라이브 큐 정책 🆕
+- `clinicSessions.status === "submitted"` 인 항목만 큐에 노출
+- `status === "reviewed"` 또는 24시간 이상 지난 항목은 큐에서 제거 (필터)
+- 매니저가 클릭하여 진료 시작 시 → `status="reviewed"`, `reviewedBy=user.id`
 
 ---
 
-## 12. 의료·법적 가이드라인
+## 7. 데이터 마이그레이션 가이드 (변경 없음, §7 v1 그대로 사용)
 
-### 12.1 면책 고지 표준 텍스트
-```
-※ 본 결과는 자가진단을 위한 참고 자료이며, 의학적 진단이 아닙니다.
-   정확한 체질 감별과 처방은 한의사의 진료를 통해 받으시기 바랍니다.
-```
-이 문구는 `<Disclaimer />` 컴포넌트로 통일.
+[ETL 절은 v1과 동일. xlsx-to-prescriptions·txt-to-questionnaire 등.]
 
-### 12.2 접근 통제
-- 공개 영역: 자가진단·섭생법·사상의학 입문
-- 처방·본초 구성: 한의사 이상
-- 강의록 원문: 학생 이상
-- 강의록 검색 결과 요약(미리보기 100자): public 허용 (v2 결정 사항)
+---
 
-### 12.3 저작권
-- 류주열·안준철·김주·권재식 자료는 **권리자 확인 전까지 비공개**
-- 동의수세보원 원문(고전)은 공유 가능, 국역본은 번역자 확인 필요
-- `docs/data-sources.md`에 자료별 출처·승인 상태 기록 의무
+## 8. Phase 1 작업 큐 (v2 개정)
+
+### T1 — 프로젝트 부트스트랩 ✅ (v1과 동일)
+- §4.1 명령 시퀀스 실행
+- 빈 Next.js 페이지 노출 확인
+
+### T2 — DB 스키마 & 마이그레이션 ⚠️ v2 수정
+- [ ] `db/schema.ts` → **§5.2 v2 스키마** 그대로 입력
+- [ ] `db/client.ts` → libSQL 클라이언트 (not better-sqlite3):
+  ```typescript
+  import { drizzle } from "drizzle-orm/libsql";
+  import { createClient } from "@libsql/client";
+  const client = createClient({
+    url: process.env.TURSO_DATABASE_URL!,
+    authToken: process.env.TURSO_AUTH_TOKEN,
+  });
+  export const db = drizzle(client);
+  ```
+- [ ] `drizzle.config.ts` 설정 (dialect: "turso")
+- [ ] `npm run db:generate` → `db:migrate`
+- [ ] 신규 테이블 확인: users, patients, clinicSessions, answers, prescriptions, ...
+
+### T3 — 체질설문지 ETL (v1과 동일)
+
+### T4 — 자가진단 UI ⚠️ v2 수정 (공유사이트)
+- [ ] 모든 라우트를 `app/(shared)/` 그룹에 배치
+- [ ] **🆕 동의 화면 (`/consent`)**: 개인정보 수집·이용 동의 체크박스, 동의서 버전 표시
+- [ ] **🆕 환자 정보 입력 (`/intake`)**: 이름·성별·연령·(선택)전화 뒷 4자리
+  - 중복 환자 검색 (이름+생년) → 있으면 "이전 기록이 있습니다" 안내
+  - 없으면 신규 patient row 생성
+- [ ] 자가진단 라우트 (`/quiz/[step]`): 1문항/페이지, 진행률, 이전·다음
+- [ ] 응답을 클라이언트 상태에 보관 (마지막에 일괄 전송)
+- [ ] 모바일 반응형 (키오스크 태블릿 우선)
+
+### T5 — 채점 API & 결과 페이지 ⚠️ v2 수정
+- [ ] `POST /api/quiz/score`:
+  - 입력: patientId, answers[], questionnaireId, consentVersion
+  - 처리:
+    1. clinicSession 생성 (status=submitted, submittedAt=now)
+    2. answers 개별 저장
+    3. 채점 → resultTop, resultScoresJson, resultConfidence 업데이트
+    4. **broadcast** 호출 (lib/broadcast.ts) — Phase 1엔 단순히 DB 업데이트만, 매니저 화면은 풀로 폴링
+- [ ] `/result/[sessionId]` 페이지 (shared 영역):
+  - 환자 본인이 보는 결과 화면
+  - Recharts 막대그래프 + 신뢰도 + 면책 고지
+  - "원장님께 진료받으세요" 안내 (큐에 들어갔음을 확인)
+- [ ] 면책 고지 컴포넌트 결과 페이지 상·하단 필수
+
+### T6 — 4체질 섭생 가이드 페이지 (v1과 동일, shared 그룹에 배치)
+
+### T7 — 인증 시스템 ⚠️ v2 수정 (역할 단순화)
+- [ ] Auth.js v5 + Drizzle Adapter + Resend Magic Link
+- [ ] 역할: `manager` | `admin` 두 종류만
+- [ ] `ADMIN_EMAIL` 환경변수와 일치하는 가입자는 자동 admin
+- [ ] 처음 가입한 매니저는 admin이 승인 (`users.role` 직접 변경)
+- [ ] `(manager)/layout.tsx`: `requireRole("manager")`
+- [ ] `(admin)/layout.tsx`: `requireRole("admin")`
+- [ ] `/auth/signin` 페이지: 이메일 입력 → magic link → 인증
+
+### T7.5 — 🆕 매니저 대시보드 (라이브 큐)
+- [ ] `(manager)/page.tsx` = 대시보드 홈
+- [ ] `components/manager/live-queue.tsx`:
+  - SWR로 `/api/manager/queue` 3초마다 폴링
+  - 최근 24시간 내 `status='submitted'` 세션 목록
+  - 환자 이름, 시간, 추정 체질, 신뢰도, 액션 버튼
+- [ ] `GET /api/manager/queue`:
+  - 인증된 매니저만
+  - 최근 N시간 내 미진료 세션 반환 (JOIN patients)
+  - 응답 크기 작게 (id, name, time, top, confidence)
+- [ ] 큐 항목 클릭 → `/patients/[patientId]/session/[sessionId]` 이동
+
+### T8 — 류주열 처방 ETL (v1과 동일)
+
+### T9 — seed + 처방 검색 페이지 ⚠️ v2 수정 (라우트만 변경)
+- [ ] seed 스크립트는 동일
+- [ ] **`(manager)/prescriptions/page.tsx`** (v1에선 (clinician)였음)
+- [ ] 검색 API는 동일
+
+### T10 — 환자 이력 & 진료 메모 🆕
+- [ ] `(manager)/patients/page.tsx`: 환자 검색 (이름·생년·전화 뒷 4자리)
+- [ ] `(manager)/patients/[patientId]/page.tsx`: 환자 카드 + 과거 세션 리스트
+- [ ] `(manager)/patients/[patientId]/session/[sessionId]/page.tsx`:
+  - 자가진단 결과 (시각화)
+  - 28문항 응답 전체 (펼치기)
+  - 처방·변증 가이드 추천 (체질 기반)
+  - 진료 메모 입력란 (textarea)
+  - 메모 저장 시 `clinicSessions.clinicNote` 업데이트 + `status='reviewed'`
+- [ ] `POST /api/manager/notes`: 메모 저장 API
+
+### T11 — 면책·법적 페이지 ⚠️ v2 수정
+- [ ] `legal/disclaimer/page.tsx` — 의료 면책 (deployment-prep/legal/disclaimer.md 사용)
+- [ ] `legal/privacy/page.tsx` — 개인정보 (영구 보관·환자 권리 명시 포함, deployment-prep/legal/privacy.md 사용, **다만 보유기간을 "환자 요청 시까지 영구 보관"으로 수정 필요**)
+- [ ] `legal/terms/page.tsx`
+- [ ] 동의 페이지(`/consent`)에서 privacy/terms 링크 노출
+
+### T12 — 🆕 네트워크 접근 제어
+- [ ] `middleware.ts`:
+  - `(shared)` 그룹 라우트: `CLINIC_ALLOWED_IPS`에 포함된 IP만 통과
+  - 한의원 외부에서 접근 시 안내 페이지로 리다이렉트
+  - 운영자(admin role)는 어디서든 우회 가능 (테스트 목적)
+- [ ] `lib/network.ts`: IP 추출 헬퍼 (Vercel의 x-forwarded-for 사용)
+- [ ] 운영자가 환경변수에 한의원 공인 IP 입력 (whatismyip.com 확인)
+- [ ] 환경변수 미설정 시: 경고만 표시 + 모두 허용 (개발 편의)
+
+### T13 — 어드민 화면 🆕 (최소)
+- [ ] `(admin)/users/page.tsx`: 매니저 목록 + 역할 변경·삭제
+- [ ] `(admin)/settings/page.tsx`: CLINIC_ALLOWED_IPS 확인, 사이트 모드 표시
+- [ ] `(admin)/backup/page.tsx`: DB 백업 다운로드 (CSV 또는 SQLite dump)
+
+### T14 — Phase 1 검증
+- [ ] E2E: 동의 → 환자 정보 → 28문항 → 결과 → 매니저 큐에 등장
+- [ ] 매니저가 큐에서 클릭 → 환자 세션 상세 → 메모 저장 → 큐에서 사라짐
+- [ ] 같은 환자 재방문 → 중복 검색에서 발견 → 과거 세션 노출
+- [ ] 한의원 외부 IP에서 `(shared)` 접근 시 차단
+- [ ] 매니저는 외부 IP에서도 정상 로그인·접근
+- [ ] 어드민 계정 1개 생성, 매니저 계정 2개 생성·승인
+
+**Phase 1 v2 완료 기준**:
+- 환자가 키오스크에서 자가진단 → 결과 즉시 화면에 노출
+- 카운터·원장실 매니저 화면에 라이브 큐로 환자 추가됨 (3초 이내)
+- 원장이 메모 작성 → 환자 이력에 영구 저장
+- 재방문 환자 검색 가능
+- 공유사이트는 한의원 IP만 접근
+
+---
+
+## 9~10. Phase 2~4 개요 / 테스트 전략 (v1과 동일)
+
+---
+
+## 11. Git 워크플로 (v1과 동일)
+
+---
+
+## 12. 의료·법적 가이드라인 ⚠️ v2 추가
+
+### 12.1 면책 고지 (v1과 동일)
+
+### 12.2 개인정보 — 영구 보관 추가 고지 🆕
+환자 동의 화면(`/consent`)에 명시:
+> 입력하신 개인정보(이름·성별·연령·자가진단 응답·진료 메모)는
+> 진료 이력 보관을 목적으로 **삭제 요청 시까지 영구 보관**됩니다.
+> 언제든 운영자에게 요청하여 본인 정보의 열람·정정·삭제를 요구할 수 있습니다.
+
+### 12.3 PIPA 준수
+- 동의 버전 트래킹 (`consentVersions` 테이블)
+- 환자 데이터 열람 요청 → admin의 환자 상세 페이지에서 "내보내기" 버튼
+- 삭제 요청 → `patients` row + 관련 `clinicSessions`·`answers` 모두 cascade 삭제
+- 감사 로그 (`auditLogs`) — 누가 언제 어떤 환자 데이터를 보았는지
 
 ---
 
 ## 13. 첫 세션 Claude Code 체크리스트
 
-새 Cowork·Claude Code 세션이 `sasang-platform/` 폴더를 처음 열 때 따라할 순서:
+### 13.1 새 세션이 따라할 순서
+1. **본 v2 문서 정독** (특히 🆕 표시 섹션)
+2. **현재 작업 상태 확인**:
+   - `git log --oneline -20` — 어디까지 작업됐는지
+   - `ls -la app/` — 라우트 그룹 확인 (구 (public)인지 신 (shared)인지)
+   - `cat db/schema.ts` — 스키마 v1인지 v2인지
+3. **v1→v2 마이그레이션 필요 여부 판단**:
+   - 라우트 그룹 이름 변경: `(public)→(shared)`, `(clinician)→(manager)`
+   - 스키마 추가: `patients`, `clinicSessions`, `consentVersions`, `auditLogs`
+   - 라이브 큐 로직 추가
+4. **사용자에게 보고**:
+   > "v2 개정사항을 확인했습니다. 현재 T<N>까지 작업되어 있으며, v2 적용을 위해
+   > [필요한 변경 목록]을 진행하겠습니다. 우선순위는: ①스키마 마이그레이션 → ②라우트 이름 변경 → ③라이브 큐 추가."
+5. **사용자 승인 후 변경 시작**
 
-1. **본 문서를 처음부터 끝까지 읽는다.** (특히 §0 TL;DR, §8 작업 큐)
-2. **PLATFORM_DESIGN.md를 읽는다.** (`docs/PLATFORM_DESIGN.md` 또는 원본 경로)
-3. **현재 상태 파악**:
-   - `git log --oneline | head` — 어디까지 작업됐는지
-   - `ls -la` — 파일 구조 확인
-   - `cat package.json` — 의존성 현황
-4. **사용자에게 보고 + 다음 작업 제안**:
-   - "현재 T<N>까지 완료된 것으로 보입니다. T<N+1> 진행할까요?"
-5. **TaskCreate**로 작업 등록 → 진행 → `TaskUpdate completed`
-6. **Phase 1 단계**라면 §8의 작업 순서(T1→T12)를 엄수
-7. **모르겠으면 본 문서를 다시 읽거나 사용자에게 질문**
-
-### 13.1 불필요한 질문 금지 (이미 결정된 사항)
-- "기술 스택은?" → §3 그대로
-- "폴더 위치는?" → `C:\Users\ADmiN\Downloads\sasang-platform\`
-- "GitHub는?" → `kimhungtae/sasang-platform`
-- "배포는?" → 내부용, 로컬 호스팅
-- "체질 코드 약어는?" → `ty/te/sy/se`
-- "처방 ID는?" → `L/H/P/R + 3자리`
-
----
-
-## 14. 자주 발생하는 함정 (Pitfalls)
-
-### 14.1 한국어 인코딩
-- 체질설문지.txt는 **CP949(EUC-KR)**. 직접 `readFileSync(path, "utf-8")` 하면 깨짐.
-- 반드시 `iconv-lite`로 decode 후 작업.
-- 모든 산출물은 UTF-8.
-
-### 14.2 HWP 파일
-- HWP는 한컴 독점. LibreOffice가 부분 지원만 함.
-- 표(table)가 많은 HWP는 깨지기 쉬움 → 변환 결과를 반드시 사람이 검수.
-- 안 되면: HWP → PDF 변환 후 PDF 파이프라인 적용.
-
-### 14.3 Windows 경로
-- Node.js에서 `path.join`, `path.resolve` 사용. 직접 `\\` 작성 금지.
-- 한글 폴더명 OK이나, `sasang-platform`은 영문 유지.
-
-### 14.4 처방명 노출
-- 임상가용 페이지에서만. 공개 영역에 처방명 직접 출력하면 약사법·의료법 분쟁 소지.
-- `<PrescriptionName />` 컴포넌트에 RBAC 가드 내장.
-
-### 14.5 SQLite + Windows
-- `better-sqlite3`는 native 모듈 → Windows에선 빌드 도구 필요할 수 있음 (`npm i windows-build-tools` 또는 Visual Studio Build Tools).
-- 안 되면 대안: `libsql` (TypeScript 네이티브).
-
-### 14.6 다중 세션 / 동시 편집
-- v1은 단일 사용자 가정 → SQLite 단일 파일 OK
-- 다중 한의사가 동시 노트 작성하면 락 발생 가능 → Postgres 이전 시점에 해결
+### 13.2 묻지 말 것 (이미 결정됨)
+- "역할은 몇 개?" → **3계층: shared / manager / admin**
+- "실시간은 어떻게?" → **폴링 3초**
+- "데이터는 얼마나 보관?" → **영구 (PIPA 권리 요청 시까지)**
+- "공유사이트는 어디서?" → **한의원 내부 IP만**
+- "환자는 누구?" → **로그인하지 않는다. patients 테이블로만 식별**
 
 ---
 
-## 15. 관련 정보 (Quick Reference)
+## 14. 자주 발생하는 함정 (v2 추가)
 
-### 15.1 데이터 매핑 치트시트
-| 체질 | 약어 | 한글 | 한자 | 처방 prefix | 설문지 응답 |
+### 14.1~14.5 (v1과 동일)
+
+### 14.6 🆕 라이브 큐 폴링 함정
+- SWR `refreshInterval`이 백그라운드 탭에서 멈추는 경우 → `refreshWhenHidden: true` 설정
+- 폴링 데이터가 매번 다를 때만 리렌더링되도록 응답 캐시 키 잘 설계
+- 큐 비어있을 때 빈 배열 응답 (`{ items: [] }`) — null/undefined 반환 X
+
+### 14.7 🆕 환자 중복 등록 방지
+- "홍길동" 동명이인 매우 흔함 → 이름만으로 매칭 X
+- 표준 키: `이름 + 생년` (예: "홍길동-1985")
+- 이마저 중복 시 전화 뒷 4자리 보조
+
+### 14.8 🆕 IP allowlist 함정
+- Vercel은 `x-forwarded-for` 사용 (실제 클라이언트 IP는 첫 항목)
+- 한의원 인터넷이 동적 IP면 매번 바뀜 → KT/SKT 기업회선 권장 또는 VPN
+- 모바일 데이터로 키오스크 접근 시 차단됨 — Wi-Fi 강제 안내
+
+### 14.9 🆕 영구 보관 데이터 백업
+- Turso 자동 백업 7일 → 더 길게 보관하려면 admin 화면에서 주기적 dump
+- 권장: 월 1회 admin이 `backup/page.tsx`에서 .sqlite 파일 다운로드 → 안전한 곳 보관
+
+---
+
+## 15. 데이터 매핑 치트시트
+
+| 체질 | 약어 | 한글 | 한자 | 처방 prefix | 설문 응답 매핑 |
 |---|---|---|---|---|---|
-| 태양인 | `ty` | 태양인 | 太陽人 | L | 1 |
-| 태음인 | `te` | 태음인 | 太陰人 | H | 2 |
-| 소음인 | `se` | 소음인 | 少陰人 | R | 3 |
-| 소양인 | `sy` | 소양인 | 少陽人 | P | 4 |
+| 태양인 | `ty` | 태양인 | 太陽人 | L | 선지 1 |
+| 태음인 | `te` | 태음인 | 太陰人 | H | 선지 2 |
+| 소음인 | `se` | 소음인 | 少陰人 | R | 선지 3 |
+| 소양인 | `sy` | 소양인 | 少陽人 | P | 선지 4 |
 
-> **주의**: 일부 자료에서 약어가 다를 수 있음. 본 프로젝트는 v23.html과 일치하게 `ty/te/sy/se` 사용.
-
-### 15.2 외부 링크
-- Next.js 14 App Router: https://nextjs.org/docs
-- Drizzle ORM: https://orm.drizzle.team
-- shadcn/ui: https://ui.shadcn.com
-- MeiliSearch Korean: https://docs.meilisearch.com/learn/configuration/korean.html
-- Auth.js: https://authjs.dev
-
-### 15.3 운영자 연락처
-- 이름: kim
-- 이메일: epaphrokim@gmail.com
-- GitHub: kimhungtae
-- 한의원: 경기 수원시 권선구 덕영대로1201번길 8, 남수원메드빌 3층
+| 역할 | 약어 | 권한 |
+|---|---|---|
+| shared | (비로그인) | 공유사이트 영역만 (IP 제한 안에서) |
+| manager | M | 라이브 큐·환자·처방·본초·변증·메모 |
+| admin | A | manager 권한 전체 + 사용자·콘텐츠·설정·백업 |
 
 ---
 
-## 16. 이 문서 자체의 업데이트 규칙
+## 16. 🆕 한의원 진료 워크플로 (시퀀스)
 
-- Phase 완료 시마다 §8 작업 큐를 다음 Phase로 교체
-- 결정사항 변경 시 본 문서를 **먼저** 업데이트하고 코드 변경
-- ADR (`docs/decisions/`)에는 "왜" 변경했는지 기록
-- 사용자가 채팅에서 결정한 사항은 본 문서로 옮겨야 영구화됨
+```
+[환자 도착]
+    ↓
+[카운터 매니저] 환자에게 키오스크 안내
+    ↓
+[환자] /consent → 동의 → /intake → 정보 입력
+    ↓
+   ── 신규?
+   ├── YES: patients row 신규 생성, consentedAt 기록
+   └── NO: 이전 patient 매칭, 새 clinicSession만 추가
+    ↓
+[환자] /quiz/[1..28] 응답
+    ↓
+[환자] POST /api/quiz/score
+   → DB: clinicSession.status='submitted', answers·result 저장
+    ↓
+[환자] /result/[sessionId] — 결과 + 면책 + 섭생 안내
+    ↓
+       [라이브 큐 갱신 — 3초 내]
+       ↓
+       [카운터·원장실 매니저 화면] 큐에 신규 항목 알림 (애니메이션·뱃지)
+            ↓
+            [매니저] 클릭 → /patients/[id]/session/[sid]
+                ↓
+                [화면] 결과 + 환자 이력 + 처방·변증 추천
+                ↓
+                [매니저] 진료 메모 입력 → 저장
+                    ↓
+                    DB: clinicSession.status='reviewed', clinicNote 기록
+                        ↓
+                        [라이브 큐] 항목 제거 (또는 'reviewed' 탭으로 이동)
+```
 
 ---
 
-**문서 끝**. 첫 액션: §13.1을 따른 후 §4.1 명령 실행 → T1 시작.
+## 17. 🆕 실시간 동기화 구현 패턴
+
+### 17.1 폴링 (Phase 1)
+```typescript
+// components/manager/live-queue.tsx
+"use client";
+import useSWR from "swr";
+
+export function LiveQueue() {
+  const { data, error } = useSWR("/api/manager/queue", fetcher, {
+    refreshInterval: 3000,
+    refreshWhenHidden: false,
+    revalidateOnFocus: true,
+  });
+  return (
+    <div>
+      {data?.items.map(item => <QueueItem key={item.sessionId} {...item} />)}
+    </div>
+  );
+}
+```
+
+```typescript
+// app/api/manager/queue/route.ts
+import { requireRole } from "@/lib/rbac";
+import { db } from "@/db/client";
+import { clinicSessions, patients } from "@/db/schema";
+import { eq, and, gte, sql } from "drizzle-orm";
+
+export async function GET(req: Request) {
+  await requireRole("manager");
+  const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  const items = await db
+    .select({
+      sessionId: clinicSessions.id,
+      patientName: patients.name,
+      submittedAt: clinicSessions.submittedAt,
+      resultTop: clinicSessions.resultTop,
+      resultConfidence: clinicSessions.resultConfidence,
+    })
+    .from(clinicSessions)
+    .innerJoin(patients, eq(clinicSessions.patientId, patients.id))
+    .where(
+      and(
+        eq(clinicSessions.status, "submitted"),
+        gte(clinicSessions.submittedAt, since)
+      )
+    )
+    .orderBy(sql`${clinicSessions.submittedAt} DESC`)
+    .limit(50);
+  return Response.json({ items });
+}
+```
+
+### 17.2 Pusher 업그레이드 경로 (Phase 3, 선택)
+- Pusher Channels 무료 (200k msg/일, 100 concurrent)
+- `POST /api/quiz/score` 마지막에 `pusher.trigger("queue", "new", payload)` 호출
+- 매니저 화면은 폴링 대신 Pusher 구독
+- 전환 시점: 폴링이 함수 호출 한도 임박할 때
+
+---
+
+## 18. 🆕 네트워크 접근 제어 (IP allowlist)
+
+### 18.1 미들웨어 로직
+```typescript
+// middleware.ts (요약)
+import { NextRequest, NextResponse } from "next/server";
+
+const SHARED_PATH = ["/", "/consent", "/intake", "/quiz", "/result", "/guide"];
+const ALLOWED_IPS = (process.env.CLINIC_ALLOWED_IPS ?? "")
+  .split(",")
+  .map(s => s.trim())
+  .filter(Boolean);
+
+function isSharedPath(pathname: string) {
+  return SHARED_PATH.some(p => pathname === p || pathname.startsWith(p + "/"));
+}
+
+function getClientIp(req: NextRequest): string {
+  const fwd = req.headers.get("x-forwarded-for");
+  return fwd ? fwd.split(",")[0].trim() : "unknown";
+}
+
+export async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+
+  // shared 영역만 IP 검증
+  if (isSharedPath(pathname)) {
+    if (ALLOWED_IPS.length === 0) {
+      // 환경변수 미설정 시 경고만 + 통과 (개발 편의)
+      return NextResponse.next();
+    }
+    const ip = getClientIp(req);
+    if (!ALLOWED_IPS.includes(ip)) {
+      const url = req.nextUrl.clone();
+      url.pathname = "/access-restricted";
+      return NextResponse.redirect(url);
+    }
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ["/((?!_next|api|favicon.ico).*)"],
+};
+```
+
+### 18.2 한의원 공인 IP 확인 방법
+1. 한의원 인터넷 회선에서 `https://api.ipify.org` 접속 → IP 확인
+2. `CLINIC_ALLOWED_IPS=`에 콤마로 추가 (IPv4·IPv6 가능)
+3. 동적 IP면 변경 시마다 환경변수 업데이트 → 정적 IP 회선 권장
+4. 대체안: Cloudflare Zero Trust로 더 세련된 access policy
+
+### 18.3 우회 (테스트)
+- admin role 로그인 시 IP 검증 우회 — 개발자가 외부에서 점검 가능
+- 단, 환자 데이터 입력은 우회해도 새 patient 생성됨 — 테스트 시 주의
+
+---
+
+## 19. 🆕 변경 이력 (Change Log)
+
+### v2.0 — 2026-05-18
+- 사용자 역할 재구성: 5계층(guest/public/student/clinician/admin) → 3계층(shared/manager/admin)
+- 한의원 진료 워크플로 중심으로 정체성 재정의
+- 환자(patients) 엔티티 추가, 영구 보관 정책
+- 라이브 큐 (clinicSessions·답+폴링 3초)
+- 동의(consentVersions)·감사 로그(auditLogs) 추가
+- 라우트 그룹 이름 변경: (public)→(shared), (clinician)→(manager), (student) 제거
+- DB 클라이언트 better-sqlite3 → @libsql/client (Turso)
+- 네트워크 접근 제어: 공유사이트 IP allowlist
+- 학생·일반인 영역 제거 (별도 프로젝트로 분리 가능성)
+- 동시 작업자(Claude Code)를 위한 v2 REVISION NOTICE 추가
+
+### v1.0 — 2026-05-18
+- 초기 발행
+
+---
+
+**문서 끝**. Claude Code 작업자: §13.1 따라 현재 상태 점검 후 사용자에게 보고. v2 적용 후 §8의 새 T-task 진행.
