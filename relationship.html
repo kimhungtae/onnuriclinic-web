@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="새가족 사역팀 9월 워크샵 사전 자가체크">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="관계 돌아보기 — 새가족 사역팀 9월 워크샵">
+<meta property="og:description" content="워크샵 전에 미리 하는 관계 자가체크. 3분이면 됩니다.">
+<style>
+  html{color-scheme:light dark}
+  body{margin:0;font-family:system-ui,sans-serif}
+  img{max-width:100%}
+  [hidden]{display:none!important}
+</style>
+<title>관계 돌아보기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
+<style>
+  :root{
+    --paper:#F3F5EF;
+    --card:#FFFFFF;
+    --card-2:#E9ECE3;
+    --ink:#1C2620;
+    --ink-2:#3D4A41;
+    --muted:#6B7668;
+    --line:#D3DACB;
+    --amber:#A85F13;
+    --amber-soft:#F2E3CD;
+    --kiwi:#4A6B33;
+    --kiwi-soft:#DDE7D3;
+    --display:"Gowun Batang","Nanum Myeongjo",serif;
+    --body:"Noto Sans KR","Malgun Gothic",sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#141A16; --card:#1D2520; --card-2:#26302A;
+      --ink:#EDF1E8; --ink-2:#C6CFC1; --muted:#8D998A; --line:#36443A;
+      --amber:#E0A05A; --amber-soft:#3A2C1B;
+      --kiwi:#95BC74; --kiwi-soft:#243020;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#141A16; --card:#1D2520; --card-2:#26302A;
+    --ink:#EDF1E8; --ink-2:#C6CFC1; --muted:#8D998A; --line:#36443A;
+    --amber:#E0A05A; --amber-soft:#3A2C1B;
+    --kiwi:#95BC74; --kiwi-soft:#243020;
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);font-weight:300;-webkit-font-smoothing:antialiased;padding-bottom:96px}
+  .wrap{max-width:620px;margin:0 auto;padding:26px 18px 0}
+
+  header .kicker{font-size:11.5px;letter-spacing:.16em;color:var(--muted);margin-bottom:8px}
+  header h1{font-family:var(--display);font-weight:700;font-size:34px;line-height:1.2;margin:0 0 10px;letter-spacing:-.02em}
+  header .sub{font-size:14px;color:var(--ink-2);line-height:1.75;margin:0}
+  .note{
+    margin:18px 0 0;padding:14px 16px;background:var(--kiwi-soft);
+    font-size:12.5px;line-height:1.75;color:var(--ink-2);border-radius:3px;
+  }
+  .note b{color:var(--kiwi);font-weight:700}
+
+  .namefield{display:flex;align-items:center;gap:10px;margin:20px 0 4px}
+  .namefield label{font-size:12.5px;color:var(--muted);white-space:nowrap}
+  .namefield input{
+    flex:1;min-width:0;font-family:var(--body);font-size:15px;color:var(--ink);
+    background:var(--card);border:1px solid var(--line);border-radius:3px;
+    padding:10px 12px;
+  }
+  .namefield input:focus{outline:2px solid var(--amber);outline-offset:1px}
+
+  section.area{margin-top:30px}
+  .area h2{
+    font-family:var(--display);font-weight:700;font-size:19px;margin:0 0 3px;
+    display:flex;align-items:baseline;gap:9px;
+  }
+  .area h2 .cnt{font-family:var(--body);font-size:12.5px;font-weight:500;color:var(--muted);letter-spacing:.02em}
+  .area .when{font-size:11.5px;color:var(--muted);margin:0 0 11px;letter-spacing:.02em}
+  .area.next h2{color:var(--muted)}
+  .area.root h2{color:var(--kiwi)}
+
+  .item{
+    display:flex;gap:13px;align-items:flex-start;width:100%;text-align:left;
+    background:var(--card);border:1px solid var(--line);border-radius:3px;
+    padding:15px 16px;margin-bottom:8px;cursor:pointer;
+    font-family:var(--body);font-size:14.5px;line-height:1.65;color:var(--ink-2);
+    transition:border-color .12s, background .12s;
+  }
+  .item:hover{border-color:var(--kiwi)}
+  .item:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+  .item .box{
+    flex:0 0 auto;width:21px;height:21px;border:1.5px solid var(--line);border-radius:3px;
+    display:grid;place-items:center;margin-top:1px;
+    font-size:13px;color:transparent;line-height:1;
+  }
+  .item[aria-pressed="true"]{background:var(--kiwi-soft);border-color:var(--kiwi);color:var(--ink)}
+  .item[aria-pressed="true"] .box{background:var(--kiwi);border-color:var(--kiwi);color:#fff}
+
+  .bar{
+    position:fixed;left:0;right:0;bottom:0;z-index:20;
+    background:var(--paper);border-top:1px solid var(--line);
+    padding:12px 18px calc(12px + env(safe-area-inset-bottom));
+  }
+  .bar .inner{max-width:620px;margin:0 auto;display:flex;align-items:center;gap:14px}
+  .bar .prog{flex:1;min-width:0}
+  .bar .prog .t{font-size:12px;color:var(--muted);margin-bottom:6px;font-variant-numeric:tabular-nums}
+  .bar .prog .track{height:4px;background:var(--card-2);border-radius:2px;overflow:hidden}
+  .bar .prog .fill{height:100%;background:var(--kiwi);width:0%;transition:width .18s}
+  button.primary{
+    flex:0 0 auto;font-family:var(--body);font-size:14.5px;font-weight:700;
+    background:var(--amber);color:#fff;border:0;border-radius:3px;padding:13px 22px;cursor:pointer;
+  }
+  button.primary:disabled{background:var(--card-2);color:var(--muted);cursor:default}
+  button.primary:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+  /* hexagon */
+  .hexcard{
+    background:var(--card);border:1px solid var(--line);border-radius:3px;
+    padding:18px 12px 10px;margin-top:20px;
+  }
+  .hexcard .cap{
+    font-size:11.5px;letter-spacing:.14em;color:var(--muted);
+    text-align:center;margin-bottom:4px;
+  }
+  .hexcard svg{display:block;width:100%;height:auto;max-width:420px;margin:0 auto;overflow:visible}
+  .hex-grid{fill:none;stroke:var(--line);stroke-width:1}
+  .hex-axis{stroke:var(--line);stroke-width:1}
+  .hex-area{fill:var(--kiwi);fill-opacity:.20;stroke:var(--kiwi);stroke-width:2;stroke-linejoin:round}
+  .hex-dot{fill:var(--kiwi)}
+  .hex-dot.weak{fill:var(--amber)}
+  .hex-lbl{font-family:var(--body);font-size:12.5px;font-weight:500;fill:var(--ink)}
+  .hex-lbl.sep{fill:var(--amber);font-weight:700}
+  .hex-lbl.root{fill:var(--kiwi);font-weight:700}
+  .hex-val{font-family:var(--body);font-size:11px;font-weight:700;fill:var(--muted);font-variant-numeric:tabular-nums}
+  .hex-legend{
+    display:flex;justify-content:center;gap:16px;flex-wrap:wrap;
+    font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.7;
+  }
+  .hex-legend span{display:inline-flex;align-items:center;gap:6px}
+  .hex-legend i{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+  /* result */
+  .rescard{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:22px 20px;margin-top:20px}
+  .resrow{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+  .resrow:last-child{border-bottom:0}
+  .resrow .nm{flex:0 0 126px;font-size:13px;color:var(--ink);font-weight:500}
+  .resrow .dots{flex:1;display:flex;gap:5px}
+  .resrow .d{width:13px;height:13px;border-radius:50%;background:var(--card-2)}
+  .resrow .d.on{background:var(--kiwi)}
+  .resrow .n{flex:0 0 42px;text-align:right;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .resrow.dim .nm{color:var(--muted)}
+  .resrow.sep .nm{color:var(--amber);font-weight:700}
+
+  .copybox{
+    margin-top:18px;background:var(--card-2);border-radius:3px;padding:15px 16px;
+    display:flex;flex-direction:column;gap:11px;
+  }
+  .copybox .code{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+    color:var(--ink);word-break:break-all;line-height:1.6;
+  }
+  .copybox button{
+    align-self:flex-start;font-family:var(--body);font-size:13px;font-weight:700;
+    background:var(--kiwi);color:#fff;border:0;border-radius:3px;padding:10px 18px;cursor:pointer;
+  }
+  .copybox button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+
+  .backlink{
+    display:inline-block;margin-top:22px;font-size:13px;color:var(--muted);
+    background:none;border:0;padding:0;cursor:pointer;font-family:var(--body);
+    border-bottom:1px solid var(--line);
+  }
+  .backlink:hover{color:var(--amber);border-color:var(--amber)}
+
+  /* tally */
+  textarea{
+    width:100%;min-height:170px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:13px;line-height:1.7;color:var(--ink);background:var(--card);
+    border:1px solid var(--line);border-radius:3px;padding:13px;resize:vertical;
+  }
+  textarea:focus{outline:2px solid var(--amber);outline-offset:1px}
+  .avgrow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+  .avgbox{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:16px 16px}
+  .avgbox .k{font-size:12.5px;color:var(--muted);font-weight:500;margin-bottom:6px}
+  .avgbox .n{font-family:var(--display);font-weight:700;font-size:31px;color:var(--kiwi);line-height:1.1;font-variant-numeric:tabular-nums}
+  .avgbox .n small{font-family:var(--body);font-size:13px;font-weight:400;color:var(--muted)}
+  .avgbox .s{font-size:11px;color:var(--muted);margin-top:6px}
+  .avgbox.low .n{color:var(--amber)}
+  .tallyrow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+  .tallyrow .q{font-size:13.5px;line-height:1.6;color:var(--ink-2)}
+  .tallyrow .v{font-size:13px;color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .tallyrow.low .q{color:var(--ink)}
+  .tallyrow.low .v{color:var(--amber)}
+  .meter{height:4px;background:var(--card-2);border-radius:2px;margin-top:6px;overflow:hidden}
+  .meter i{display:block;height:100%;background:var(--kiwi)}
+  .tallyrow.low .meter i{background:var(--amber)}
+  .grouplbl{font-family:var(--display);font-weight:700;font-size:16px;color:var(--kiwi);margin:24px 0 6px}
+  .headline{
+    background:var(--amber-soft);border-radius:3px;padding:18px 18px;margin-top:20px;
+  }
+  .headline .big{font-family:var(--display);font-weight:700;font-size:26px;color:var(--amber);line-height:1.3}
+  .headline .q{font-size:14px;color:var(--ink);line-height:1.7;margin-top:8px}
+  .hidden{display:none}
+  footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted);line-height:1.8}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ 참가자 화면 ============ -->
+  <div id="view-form">
+    <header>
+      <div class="kicker">2026 하반기 새가족 사역팀 워크샵 · 9월</div>
+      <h1>관계 돌아보기</h1>
+      <p class="sub">워크샵 전에 미리 체크해 주세요. 2분이면 됩니다.<br>맞고 틀리는 문항이 아닙니다. 최근 나의 모습에 <b>해당되면 체크</b>하시면 됩니다.</p>
+    </header>
+
+    <div class="note">
+      체크가 적다고 관계가 나쁜 것이 아닙니다. 지금 내 마음이 어디에 가 있는지를 보는 것뿐입니다.
+      <b>이름은 적지 않으셔도 됩니다.</b>
+    </div>
+
+    <div class="namefield">
+      <label for="nm">이름 (선택)</label>
+      <input id="nm" type="text" autocomplete="off" placeholder="비워두셔도 됩니다">
+    </div>
+
+    <div id="areas"></div>
+
+    <footer>
+      체크한 내용은 이 기기에만 남고 어디로도 전송되지 않습니다.<br>
+      결과 한 줄만 복사해서 단톡방에 올려 주시면 됩니다.
+    </footer>
+    <button class="backlink" id="to-tally" type="button">인도자용 집계 화면</button>
+  </div>
+
+  <!-- ============ 결과 화면 ============ -->
+  <div id="view-result" class="hidden">
+    <header>
+      <div class="kicker">체크 완료</div>
+      <h1>오늘의 나</h1>
+      <p class="sub">여덟 영역이 지금 어떤 모습인지입니다. 좋고 나쁨이 아니라, 마음이 가 있는 자리입니다.</p>
+    </header>
+
+    <div class="hexcard">
+      <div class="cap">관계 팔각형</div>
+      <div id="hex-me"></div>
+      <div class="hex-legend">
+        <span><i style="background:var(--kiwi)"></i>바깥으로 갈수록 3에 가깝습니다</span>
+        <span><i style="background:var(--amber)"></i>0 또는 1인 영역</span>
+      </div>
+    </div>
+
+    <div class="rescard" id="res-rows"></div>
+
+    <div class="copybox">
+      <div style="font-size:12.5px;color:var(--muted);line-height:1.7">
+        아래 한 줄을 복사해 <b style="color:var(--kiwi)">인도자에게 개인 메시지로</b> 보내 주세요.<br>
+        여기 담기는 것은 <b style="color:var(--kiwi)">새가족 · 영적 동역자 6문항뿐</b>입니다.
+        하나님 · 나 · 부부 · 자녀 · 가문 · 친구 체크는 이 기기 밖으로 나가지 않습니다.
+      </div>
+      <div class="code" id="res-code"></div>
+      <button type="button" id="copy">한 줄 복사하기</button>
+    </div>
+
+    <div class="note" style="margin-top:20px">
+      9월 워크샵에서는 <b>새가족 · 영적 동역자</b> 두 영역을 함께 이야기합니다.<br>
+      맨 위 <b>하나님 · 나</b> 두 영역은 그 뿌리이니 각자 눈여겨봐 주세요.<br>
+      부부 · 자녀 · 가문 · 친구는 10월 워크샵에서 다룹니다.
+    </div>
+
+    <button class="backlink" id="back-form" type="button">다시 체크하기</button>
+    <span style="color:var(--line);margin:0 8px">·</span>
+    <button class="backlink" id="to-tally-2" type="button">인도자용 집계 화면</button>
+  </div>
+
+  <!-- ============ 집계 화면 ============ -->
+  <div id="view-tally" class="hidden">
+    <header>
+      <div class="kicker">인도자용</div>
+      <h1>집계</h1>
+      <p class="sub">받으신 결과 줄들을 통째로 복사해 아래에 붙여넣으세요. 순서나 줄바꿈, 섞인 대화는 상관없습니다.<br>집계되는 것은 <b>새가족 · 영적 동역자 6문항</b>입니다.</p>
+    </header>
+
+    <div style="margin-top:18px">
+      <textarea id="paste" placeholder="관계체크 김OO 110100&#10;관계체크 익명 101110&#10;…"></textarea>
+    </div>
+
+    <div id="tally-out" style="margin-top:8px"></div>
+
+    <button class="backlink" id="back-form-2" type="button">참가자 화면으로</button>
+  </div>
+
+</div>
+
+<div class="bar hidden" id="bar">
+  <div class="inner">
+    <div class="prog">
+      <div class="t" id="prog-t">0 / 24 문항</div>
+      <div class="track"><i class="fill" id="prog-f"></i></div>
+    </div>
+    <button class="primary" id="submit" type="button">결과 보기</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var AREAS = [
+    { key:'하나님', full:'하나님과의 관계', when:'root', items:[
+      '최근 한 주 안에, 정해진 시간 밖에서 하나님께 마음을 아뢴 적이 있다',
+      '요즘 내 삶에서 하나님이 하고 계신 일 한 가지를 말할 수 있다',
+      '잘 안 될 때도 하나님께 있는 그대로 말하는 편이다'
+    ]},
+    { key:'나', full:'나와의 관계', when:'root', items:[
+      '최근 한 주 안에, 나를 위해 쓴 시간이 한 번은 있다',
+      '실수했을 때 나를 몰아세우기보다 넘어갈 수 있는 편이다',
+      '요즘 내가 무엇 때문에 지쳐 있는지 스스로 알고 있다'
+    ]},
+    { key:'새가족', full:'새가족과의 관계', when:'sep', items:[
+      '지금 섬기는 새가족의 이름과 함께, 그분의 형편이 한 가지는 떠오른다',
+      '최근 2주 안에, 정해진 순서 밖에서 새가족에게 먼저 연락한 적이 있다',
+      '보내드린 분들 중, 지금도 소식을 아는 분이 있다'
+    ]},
+    { key:'영적 동역자', full:'교회 영적 동역자', when:'sep', items:[
+      '힘든 일이 생겼을 때, 교회 안에서 먼저 떠오르는 얼굴이 있다',
+      '최근 한 달 안에, 사역 이야기가 아닌 내 이야기를 교회 안 누군가와 나눈 적이 있다',
+      '나의 부족한 부분까지 알고 있는 사람이 교회 안에 있다'
+    ]},
+    { key:'부부', full:'부부', when:'oct', items:[
+      '최근 한 주 안에, 용건이 아닌 이야기를 배우자와 나눈 적이 있다',
+      '배우자가 요즘 무엇 때문에 힘들어하는지 한 가지는 안다',
+      '최근 한 달 안에, 배우자에게 고맙다는 말을 한 적이 있다'
+    ]},
+    { key:'자녀', full:'자녀', when:'oct', items:[
+      '자녀가 요즘 무엇에 관심이 있는지 한 가지는 말할 수 있다',
+      '최근 한 달 안에, 자녀가 먼저 나에게 말을 걸어온 적이 있다',
+      '조언 대신 그냥 들어준 적이 최근에 있다'
+    ]},
+    { key:'가문', full:'가문 · 친척', when:'oct', items:[
+      '부모님이나 형제의 요즘 형편을 한 가지는 알고 있다',
+      '최근 한 달 안에, 안부만을 위해 먼저 연락한 친척이 있다',
+      '경조사 밖에서 만난 친척이 최근 1년 안에 있다'
+    ]},
+    { key:'친구 · 직장', full:'오랜 친구 · 직장', when:'oct', items:[
+      '교회 밖에 마음을 털어놓을 수 있는 사람이 한 명은 있다',
+      '최근 세 달 안에, 오랜 친구와 따로 만나거나 통화한 적이 있다',
+      '일터에서 나에게 사적인 이야기를 하는 사람이 있다'
+    ]}
+  ];
+  var NA = AREAS.length, NQ = NA * 3;
+  var SEND = [2, 3];                       // 전송·집계 대상: 새가족 · 영적 동역자
+  var SENDITEMS = AREAS[SEND[0]].items.concat(AREAS[SEND[1]].items);
+  var WHENTEXT = {
+    root: '오늘 이야기의 뿌리입니다',
+    sep:  '이번 워크샵에서 함께 이야기합니다',
+    oct:  '10월 워크샵에서 다룹니다'
+  };
+
+  /* 정팔각형 레이더 — 값 0~3, 하나님을 꼭대기에 두고 시계방향 */
+  function octSVG(vals, opts){
+    opts = opts || {};
+    var W = 440, H = 344, cx = 220, cy = 162, R = 94, n = NA, TAU = Math.PI * 2;
+    function pt(i, r){
+      var a = -Math.PI/2 + TAU * i / n;
+      return [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
+    }
+    function poly(r){
+      var s = [];
+      for (var i = 0; i < n; i++){ var p = pt(i, r); s.push(p[0].toFixed(1) + ',' + p[1].toFixed(1)); }
+      return s.join(' ');
+    }
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="여덟 영역 관계 팔각형">';
+    for (var g = 1; g <= 3; g++){
+      svg += '<polygon class="hex-grid" points="' + poly(R * g / 3) + '"' + (g === 3 ? ' stroke-width="1.4"' : '') + '/>';
+    }
+    for (var i = 0; i < n; i++){
+      var e = pt(i, R);
+      svg += '<line class="hex-axis" x1="' + cx + '" y1="' + cy + '" x2="' + e[0].toFixed(1) + '" y2="' + e[1].toFixed(1) + '"/>';
+    }
+    var dp = [];
+    for (var i = 0; i < n; i++){
+      var v = Math.max(0, Math.min(3, Number(vals[i]) || 0));
+      var p = pt(i, R * v / 3);
+      dp.push(p[0].toFixed(1) + ',' + p[1].toFixed(1));
+    }
+    svg += '<polygon class="hex-area" points="' + dp.join(' ') + '"/>';
+    for (var i = 0; i < n; i++){
+      var v = Math.max(0, Math.min(3, Number(vals[i]) || 0));
+      var p = pt(i, R * v / 3);
+      svg += '<circle class="hex-dot' + (v <= 1.0001 ? ' weak' : '') + '" cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="4.5"/>';
+    }
+    var anchors = ['middle','start','start','start','middle','end','end','end'];
+    var ddx =     [0,       12,     15,     12,     0,       -12,  -15,  -12];
+    var ddy =     [-20,     -6,     4,      17,     27,      17,   4,    -6];
+    for (var i = 0; i < n; i++){
+      var e = pt(i, R);
+      var v = Math.max(0, Math.min(3, Number(vals[i]) || 0));
+      var tx = (e[0] + ddx[i]).toFixed(1), ty = (e[1] + ddy[i]).toFixed(1);
+      var cls = 'hex-lbl' + (AREAS[i].when === 'sep' ? ' sep' : (AREAS[i].when === 'root' ? ' root' : ''));
+      svg += '<text class="' + cls + '" x="' + tx + '" y="' + ty + '" text-anchor="' + anchors[i] + '">' + AREAS[i].key + '</text>';
+      svg += '<text class="hex-val" x="' + tx + '" y="' + (Number(ty) + 15).toFixed(1) + '" text-anchor="' + anchors[i] + '">' +
+             (opts.decimals ? v.toFixed(1) : String(Math.round(v))) + ' / 3</text>';
+    }
+    return svg + '</svg>';
+  }
+
+  var state = new Array(NQ).fill(false);
+  var KEY = 'relcheck-v2';
+
+  function load(){
+    try{
+      var raw = localStorage.getItem(KEY);
+      if(!raw) return;
+      var o = JSON.parse(raw);
+      if(o && Array.isArray(o.s) && o.s.length === NQ) state = o.s.map(Boolean);
+      if(o && typeof o.n === 'string') document.getElementById('nm').value = o.n;
+    }catch(e){}
+  }
+  function save(){
+    try{ localStorage.setItem(KEY, JSON.stringify({ s: state, n: document.getElementById('nm').value })); }catch(e){}
+  }
+
+  var areasEl = document.getElementById('areas');
+  var idx = 0;
+  AREAS.forEach(function(a){
+    var sec = document.createElement('section');
+    sec.className = 'area' + (a.when === 'oct' ? ' next' : '') + (a.when === 'root' ? ' root' : '');
+    var h = document.createElement('h2');
+    h.innerHTML = '<span>' + a.full + '</span><span class="cnt" data-cnt="' + a.key + '">0 / 3</span>';
+    var w = document.createElement('p');
+    w.className = 'when';
+    w.textContent = WHENTEXT[a.when];
+    sec.appendChild(h); sec.appendChild(w);
+    a.items.forEach(function(t){
+      var i = idx++;
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'item';
+      b.setAttribute('aria-pressed','false');
+      b.dataset.i = String(i);
+      b.innerHTML = '<span class="box">✓</span><span>' + t + '</span>';
+      b.addEventListener('click', function(){ state[i] = !state[i]; sync(); save(); });
+      sec.appendChild(b);
+    });
+    areasEl.appendChild(sec);
+  });
+
+  function areaCounts(){
+    var out = [];
+    for (var ai = 0; ai < NA; ai++){
+      var c = 0;
+      for (var k = 0; k < 3; k++) if (state[ai*3+k]) c++;
+      out.push(c);
+    }
+    return out;
+  }
+
+  function sync(){
+    document.querySelectorAll('.item').forEach(function(b){
+      b.setAttribute('aria-pressed', state[Number(b.dataset.i)] ? 'true' : 'false');
+    });
+    var ac = areaCounts(), n = 0;
+    AREAS.forEach(function(a, ai){
+      var el = document.querySelector('[data-cnt="' + a.key + '"]');
+      if (el) el.textContent = ac[ai] + ' / 3';
+    });
+    state.forEach(function(v){ if(v) n++; });
+    document.getElementById('prog-t').textContent = n + ' / ' + NQ + ' 문항';
+    document.getElementById('prog-f').style.width = (n/NQ*100) + '%';
+  }
+
+  var VF = document.getElementById('view-form'),
+      VR = document.getElementById('view-result'),
+      VT = document.getElementById('view-tally'),
+      BAR = document.getElementById('bar');
+
+  function show(which){
+    [VF,VR,VT].forEach(function(v){ v.classList.add('hidden'); });
+    which.classList.remove('hidden');
+    BAR.classList.toggle('hidden', which !== VF);
+    window.scrollTo(0,0);
+  }
+
+  function sendCode(){
+    var s = '';
+    SEND.forEach(function(ai){
+      for (var k = 0; k < 3; k++) s += state[ai*3+k] ? '1' : '0';
+    });
+    return s;
+  }
+
+  function buildResult(){
+    document.getElementById('hex-me').innerHTML = octSVG(areaCounts());
+    var rows = document.getElementById('res-rows');
+    rows.innerHTML = '';
+    var ac = areaCounts();
+    AREAS.forEach(function(a, ai){
+      var r = document.createElement('div');
+      r.className = 'resrow' + (a.when === 'oct' ? ' dim' : '') + (a.when === 'sep' ? ' sep' : '');
+      var dots = '';
+      for (var k = 0; k < 3; k++) dots += '<span class="d' + (state[ai*3+k] ? ' on' : '') + '"></span>';
+      r.innerHTML = '<span class="nm">' + a.full + '</span><span class="dots">' + dots + '</span><span class="n">' + ac[ai] + ' / 3</span>';
+      rows.appendChild(r);
+    });
+    var nm = (document.getElementById('nm').value || '').trim() || '익명';
+    document.getElementById('res-code').textContent = '관계체크 ' + nm.replace(/\s+/g,'') + ' ' + sendCode();
+  }
+
+  document.getElementById('submit').addEventListener('click', function(){ buildResult(); show(VR); });
+  document.getElementById('back-form').addEventListener('click', function(){ show(VF); });
+  document.getElementById('to-tally').addEventListener('click', function(){ show(VT); tally(); });
+  document.getElementById('to-tally-2').addEventListener('click', function(){ show(VT); tally(); });
+  document.getElementById('back-form-2').addEventListener('click', function(){ show(VF); });
+  document.getElementById('nm').addEventListener('input', save);
+
+  document.getElementById('copy').addEventListener('click', function(){
+    var t = document.getElementById('res-code').textContent, btn = this;
+    function done(ok){
+      btn.textContent = ok ? '복사했습니다' : '아래 줄을 직접 복사해 주세요';
+      setTimeout(function(){ btn.textContent = '한 줄 복사하기'; }, 2200);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(function(){ done(true); }, function(){ done(false); });
+    } else { done(false); }
+  });
+
+  function tally(){
+    var raw = document.getElementById('paste').value || '';
+    var out = document.getElementById('tally-out');
+    var runs = [];
+    raw.split(/\r?\n/).forEach(function(line){
+      if (line.indexOf('관계체크') === -1) return;
+      var m = line.match(/(?:^|[^01])([01]{6})(?![01])/);
+      if (m) runs.push(m[1]);
+    });
+    if (!runs.length) runs = raw.match(/[01]{6}(?![01])/g) || [];
+
+    if (!runs.length){
+      out.innerHTML = '<p style="font-size:13px;color:var(--muted);line-height:1.8;margin-top:16px">아직 붙여넣은 결과가 없습니다.<br>“관계체크 …” 로 시작하는 줄들을 붙여넣으면 바로 집계됩니다.</p>';
+      return;
+    }
+    var N = runs.length, counts = [0,0,0,0,0,0];
+    runs.forEach(function(r){ for (var i = 0; i < 6; i++) if (r[i] === '1') counts[i]++; });
+    var lowest = counts.map(function(c,i){ return {i:i, c:c}; }).sort(function(a,b){ return a.c - b.c; })[0];
+
+    var avg = [];
+    for (var g = 0; g < 2; g++){
+      var s = 0;
+      for (var k = 0; k < 3; k++) s += counts[g*3+k];
+      avg.push(s / N);
+    }
+
+    var html = '';
+    html += '<div class="headline">';
+    html += '<div class="big">' + N + '명 중 ' + (N - lowest.c) + '명</div>';
+    html += '<div class="q">이 문항에 체크하지 못했습니다 —<br>“' + SENDITEMS[lowest.i] + '”</div>';
+    html += '</div>';
+    html += '<p style="font-size:12px;color:var(--muted);margin-top:12px;line-height:1.7">위 카드가 워크샵에서 띄우기 좋은 한 장입니다.</p>';
+
+    html += '<div class="avgrow">';
+    for (var g = 0; g < 2; g++){
+      html += '<div class="avgbox' + (avg[g] <= 1.0001 ? ' low' : '') + '">';
+      html += '<div class="k">' + AREAS[SEND[g]].full + '</div>';
+      html += '<div class="n">' + avg[g].toFixed(1) + '<small> / 3</small></div>';
+      html += '<div class="s">한 사람당 평균 체크 수</div>';
+      html += '</div>';
+    }
+    html += '</div>';
+
+    for (var g = 0; g < 2; g++){
+      html += '<div class="grouplbl">' + AREAS[SEND[g]].full + '</div>';
+      for (var k = 0; k < 3; k++){
+        var i = g*3+k, c = counts[i];
+        var pct = N ? Math.round(c/N*100) : 0;
+        var low = N ? (c/N < 0.5) : false;
+        html += '<div class="tallyrow' + (low ? ' low' : '') + '">';
+        html += '<div><div class="q">' + SENDITEMS[i] + '</div><div class="meter"><i style="width:' + pct + '%"></i></div></div>';
+        html += '<div class="v">' + c + ' / ' + N + '</div>';
+        html += '</div>';
+      }
+    }
+    html += '<p style="font-size:12px;color:var(--muted);margin-top:24px;line-height:1.8">' +
+            '하나님 · 나 · 부부 · 자녀 · 가문 · 친구 여섯 영역은 전송되지 않으므로 집계되지 않습니다. 각자의 팔각형에만 남습니다.</p>';
+    out.innerHTML = html;
+  }
+  document.getElementById('paste').addEventListener('input', tally);
+
+  load();
+  sync();
+  show(VF);
+})();
+</script>
+
+</body>
+</html>
